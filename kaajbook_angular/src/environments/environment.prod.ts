@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://chetsapp.de:8899'
+    apiUrl: 'http://127.0.0.1:8000'
+    // apiUrl: 'http://kaajbook.com/kaajbook_laravel/public'
 };
