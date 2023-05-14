@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/knowledgebasearticle",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\KnowledgeBaseArticle\\Providers\\KnowledgeBaseArticleServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\KnowledgeBaseArticle\\": ""
+        }
+    }
+}

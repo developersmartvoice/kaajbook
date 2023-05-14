@@ -1,0 +1,14 @@
+{
+    "name": "DefectAttachment",
+    "alias": "defectattachment",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\DefectAttachment\\Providers\\DefectAttachmentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

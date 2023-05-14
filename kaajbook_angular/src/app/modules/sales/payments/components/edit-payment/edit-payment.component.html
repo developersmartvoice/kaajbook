@@ -1,0 +1,54 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;{{'payments.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form class="form" [formGroup]="paymentForm" (ngSubmit)="onSubmit()" *ngIf="isFormLoaded">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="name">{{'payments.create.fields.amount' | translate}} ({{loginUser.currency.symbol}})<span class="text-danger">&nbsp;*</span></label>
+						<input type="number" placeholder="00.00" class="form-control" formControlName="amount" [ngClass]="{ 'is-invalid': isFormSubmitted && paymentControl.amount.errors }" id="amount" />
+						<div *ngIf="isFormSubmitted && paymentControl.amount.errors" class="invalid-feedback">
+							<div *ngIf="paymentControl.amount.errors.required">{{'payments.create.error_messages.message1' | translate }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && paymentControl.payment_method.errors }">
+						<label for="payment_method">{{'payments.create.fields.payment_mode' | translate}}&nbsp;<span class="text-danger">*</span></label>
+						<ng-select [searchable]="true"
+							[items]="paymentMethods"
+							[selectOnTab]="true"
+							bindLabel="method_name"
+							bindValue="method_name"
+							labelForId="payment_method"
+							formControlName="payment_method"
+							placeholder="{{'payments.create.placeholders.placeholder2' | translate }}">
+						</ng-select>
+						<div *ngIf="isFormSubmitted && paymentControl.payment_method.errors" class="invalid-feedback">
+							<div *ngIf="paymentControl.payment_method.errors.required">{{'payments.create.error_messages.message3' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="name">{{'payments.create.fields.transaction_id' | translate}}</label>
+						<input type="text" class="form-control" formControlName="transaction_id" id="transaction_id" placeholder="{{'payments.create.placeholders.placeholder4' | translate}}" />
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="notes">{{'payments.create.fields.notes' | translate}}</label>
+						<textarea placeholder="{{'payments.create.placeholders.placeholder3' | translate }}" class="form-control" id="notes" formControlName="notes"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.update' | translate}}</button>
+	</div>
+</form>

@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/defectattachment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\DefectAttachment\\Providers\\DefectAttachmentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\DefectAttachment\\": ""
+        }
+    }
+}

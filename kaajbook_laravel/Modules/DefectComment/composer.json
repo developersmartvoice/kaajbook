@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/defectcomment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\DefectComment\\Providers\\DefectCommentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\DefectComment\\": ""
+        }
+    }
+}

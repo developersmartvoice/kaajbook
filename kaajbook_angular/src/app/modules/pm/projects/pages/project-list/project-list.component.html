@@ -1,0 +1,168 @@
+<section class="hide_empty_message">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card pl-2 pr-2 pb-2">
+                <!-- Card header -->
+                <div class="card-header pl-0 pr-0 border-bottom">
+                    <h4 class="main-title mt-2"><span>{{'projects.title' | translate}}</span></h4>
+                    <div class="card-buttons">
+                        <a *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" href="{{ apiUrl }}/csv/import_project.csv" download="import_project.csv" class="btn btn-create mb-0" placement="top" tooltip="{{'common.tooltip.project_csv_sample' | translate}}"><i class="fa fa-files-o"></i></a>
+                        <button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" (click)="openProjectImportModal()" placement="top" tooltip="{{'common.import' | translate}}"><i class="fa fa-upload"></i></button>
+                        <a class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" [routerLink]="['/projects/create']" placement="top" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <!-- Card content -->
+                <div class="card-content pt-3">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <!-- Filter buttons -->
+                        <div class="row btn-filters mb-3" *ngIf="isPageLoaded">
+                            <div class="col-sm-12">
+                                <button class="btn btn-raised open" type="button" [ngClass]="{ 'active': statusfilterId == 1 }" (click)="filterByStatus(1)">
+                                    <p>{{'common.status.open' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.open}}</span>
+                                </button>
+                                <button class="btn btn-raised in_progress" type="button" [ngClass]="{ 'active': statusfilterId ==2  }" (click)="filterByStatus(2)">
+                                    <p>{{'common.status.in_progress' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.inProgress}}</span>
+                                </button>
+                                <button class="btn btn-raised on_hold" type="button" [ngClass]="{ 'active': statusfilterId == 3 }" (click)="filterByStatus(3)">
+                                    <p>{{'common.status.on_hold' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.onHold}}</span>
+                                </button>
+                                <button class="btn btn-raised cancel" type="button" [ngClass]="{ 'active': statusfilterId == 4 }" (click)="filterByStatus(4)">
+                                    <p>{{'common.status.cancel' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.cancel}}</span>
+                                </button>
+                                <button class="btn btn-raised completed" type="button" [ngClass]="{ 'active': statusfilterId == 5 }" (click)="filterByStatus(5)">
+                                    <p>{{'common.status.completed' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.completed}}</span>
+                                </button>
+                                <button class="btn btn-raised overdue" type="button" [ngClass]="{ 'active': statusfilterId == 6 }" (click)="filterByStatus(6)">
+                                    <p>{{'common.status.overdue' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.overdue}}</span>
+                                </button>
+                                <!-- <button class="btn btn-raised btn-secondary" type="button" [ngClass]="{ 'active': statusfilterId == 0 }" [routerLink]="['/projects']">
+                                    <p>{{'common.status.total' | translate}}</p>
+                                    <span class="badge badge-light">{{countStatus.all}}</span>
+                                </button> -->
+                            </div>
+                        </div>
+                        <!-- Project list datatable -->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl overflow-x-auto">
+                                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" width="100%" id="projects_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="25px">{{'projects.columns.logo' | translate}}</th>
+                                                <th>{{'projects.columns.id' | translate}}</th>
+                                                <th>{{'projects.columns.project_name' | translate}}</th>
+                                                <th>{{'projects.columns.duration' | translate}}</th>
+                                                <th>{{'projects.columns.progress' | translate}}</th>
+                                                <th>{{'projects.columns.creator' | translate}}</th>
+                                                <th>{{'projects.columns.assigned_To' | translate}}</th>
+                                                <th>{{'projects.columns.status' | translate}}</th>
+                                                <th>{{'projects.columns.actions' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="projects?.length != 0">
+                                            <tr *ngFor="let project of projects; index as i">
+                                                <td class="text-center">
+                                                    <img src="assets/img/logos/project-logo.png" class="img-sm rounded-circle" alt="Logo" *ngIf="!project.project_logo" />
+                                                    <img src="{{apiUrl}}/uploads/project/{{project.project_logo}}" class="img-sm rounded-circle" alt="Logo" *ngIf="project.project_logo" />
+                                                </td>
+                                                <td>
+                                                    <a [routerLink]="['/projects/detail', project.id]" tooltip="{{'common.view' | translate}}">{{project.generated_id}}</a>
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock2;">
+                                                        <inline-edit-input [name]="'project_name'" [type]="'text'" [elementFor]="'projects.inline_edit.project_name' | translate" [fieldValue]="project.project_name" [isRequired]="'true'" (updateValue)="saveProjectDetail(i, 'project_name', $event);"></inline-edit-input>
+                                                    </ng-container>
+                                                    <ng-template #elseBlock2>{{project.project_name}}</ng-template>
+                                                </td>
+                                                <td class="duration">
+                                                    <p class="m-0">{{'projects.columns.start' | translate}}: <strong>{{ project.start_date | dateTimeFormatFilter: this.loginUser.settings.date_format}}</strong></p>
+                                                    <p class="m-0">{{'projects.columns.end' | translate}}: <strong>{{ project.end_date | dateTimeFormatFilter: this.loginUser.settings.date_format}}</strong></p>
+                                                </td>
+                                                <td class="completion">
+                                                    <small>{{'projects.create.fields.progress' | translate}}:&nbsp;<strong>{{project.progress}}%</strong></small>
+                                                    <progressbar max="100" [value]="project.progress" [animate]="true"></progressbar>
+                                                </td>
+                                                <td class="people-lists">
+                                                    <a [routerLink]="['/users/profile', project.user_id]" class="btn btn-profile-info rounded-circle" placement="top" tooltip="{{project.created_firstname}} {{project.created_lastname}}">
+                                                        <img *ngIf="project.created_avatar" src="{{apiUrl}}/uploads/profile/{{project.created_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                                        <img *ngIf="!project.created_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                                    </a>
+                                                </td>
+                                                <td class="people-lists">
+                                                    <ng-container *ngIf="project.assign_members == 'Unassign' || project.assign_members == '' || project.assign_members == null; else elseBlock">
+                                                        <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle popover-item text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+                                                            <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                                        </a>
+                                                    </ng-container>
+                                                    <ng-template #elseBlock>
+                                                        <ng-container *ngFor="let user_id of project.assign_members | stringToArrayFilter index as i; odd as isOdd; even as isEven">
+                                                            <a *ngIf="userLists[user_id]" [routerLink]="['/users/profile', user_id]" tooltip="{{userLists[user_id].firstname}} {{userLists[user_id].lastname}}" class="btn rounded-circle popover-item text-dark" [ngClass]="{'btn-profile-info': isOdd, 'btn-profile-danger': isEven}">
+                                                                <img *ngIf="userLists[user_id].avatar" src="{{apiUrl}}/uploads/profile/{{userLists[user_id].avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                                                <img *ngIf="!userLists[user_id].avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                                            </a>
+                                                        </ng-container>
+                                                    </ng-template>
+                                                </td>
+                                                <td class="status-dropdown">
+                                                    <div class="overdue-td">
+                                                        <div>
+                                                            <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock3;">
+                                                                <div class="btn-group" dropdown>
+                                                                    <button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(project.status) | translate}}&nbsp;<span class="caret"></span></button>
+                                                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+                                                                        <li role="menuitem" *ngFor="let status of ('projects.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': project.status == status.id}" (click)="changeProjectStatus([project.id], status);project.status = status.id">{{status.label}}</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                        <div>
+                                                            <ng-template #elseBlock3>
+                                                                <ng-container *ngFor="let status of ('projects.status' | translate)">
+                                                                    <div class="budges-status">
+                                                                        <span class="{{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </ng-template>
+                                                            <ng-container *ngIf="project.is_overdue">
+                                                                <i class="fa fa-clock-o overdue-icon" aria-hidden="true" tooltip="{{'common.overdue' | translate}} : {{project.is_overdue}} {{'common.days' | translate}}"></i>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="actions-dropdown">
+                                                    <div class="btn-group" dropdown *ngIf="getCheckPermission(project, 'edit') || getCheckPermission(project, 'delete')">
+                                                        <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+                                                        <ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+                                                            <li role="menuitem" *ngIf="getCheckPermission(project, 'edit')">
+                                                                <a [routerLink]="['/projects/edit', project.id]" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+                                                            </li>
+                                                            <li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_delete']">
+                                                                <a (click)="deleteProject(project.id)" class="dropdown-item btn btn-danger btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot *ngIf="projects?.length == 0" class="tfoot_dt">
+                                            <tr>
+                                                <td colspan="9" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

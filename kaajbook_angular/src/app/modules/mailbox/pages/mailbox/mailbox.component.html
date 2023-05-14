@@ -1,0 +1,297 @@
+<section class="mailbox-page">
+	<div class="card pl-2 pr-2">
+		<div class="row">
+			<!-- Sidebar -->
+			<div class="col-lg-3">
+				<div class="sidebar-content">
+					<div class="card-header pl-0">
+						<h4 class="card-title">{{'mailbox.title' | translate}} {{tableData.length}}</h4>
+					</div>
+					<button class="btn btn-create" (click)="composeMail()" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_create']"><i class="fa fa-plus"></i><span>{{'mailbox.title2' | translate}}</span></button>
+					<div class="list-group-mail" [perfectScrollbar]="scrollConfig">
+						<h5>{{'mailbox.title19' | translate}}</h5>
+						<div class="list-group list-group-messages no-border">
+							<a class="list-group-item no-border" (click)="getMail('inbox', 'inbox')" [ngClass]="{'active': tableParams.trashType == 'inbox'}"><i class="ft-inbox mr-1"></i> {{'mailbox.title4' | translate}}<span class="badge badge-dark badge-pill float-right">{{tableData.countUnRead}}</span></a>
+							<a class="list-group-item list-group-item-action no-border" (click)="getMail('sent', 'sent')" [ngClass]="{'active': tableParams.trashType == 'sent'}"><i class="fa fa-paper-plane-o mr-1"></i> {{'mailbox.title5' | translate}}</a>
+							<a class="list-group-item list-group-item-action no-border" (click)="getMail('draft', 'draft')" [ngClass]="{'active': tableParams.trashType == 'draft'}"><i class="ft-file mr-1"></i> {{'mailbox.title6' | translate}}</a>
+							<a class="list-group-item list-group-item-action no-border" (click)="getMail('favourite', 'favourite')" [ngClass]="{'active': tableParams.trashType == 'favourite'}"><i class="ft-star mr-1"></i> {{'mailbox.title7' | translate}}<span class="badge badge-danger badge-pill float-right">{{tableData.countDraft}}</span></a>
+							<a class="list-group-item list-group-item-action no-border" (click)="getMail('trash', 'inbox')" [ngClass]="{'active': tableParams.trashType == 'trash'}"><i class="ft-trash-2 mr-1"></i> {{'mailbox.title8' | translate}}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Inbox -->
+			<div class="col-lg-9 pr-4 pl-sm-3 pl-3 border-left" *ngIf="mailboxViewable">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="card-title mt-3" *ngIf="tableParams.emailType == 'inbox'">{{tableParams.emailType | titlecase }} ({{tableData.countUnRead}})</h4>
+					<h4 class="card-title mt-3" *ngIf="tableParams.emailType != 'inbox'">{{tableParams.emailType | titlecase }} ({{tableData.totalData}})</h4>
+					<!-- Search -->
+					<div class="card-buttons d-flex" *ngIf="tableData.totalData != 0">
+						<div class="btn-round-search mr-1">
+							<form>
+								<div class="input-group mb-0">
+									<input type="text" class="form-control" placeholder="{{'mailbox.title1' | translate}}" aria-describedby="button-addon2" name="txtSearch" [(ngModel)]='txtSearch'>
+									<button class="btn btn-raised btn-round" type="button" type="submit" (click)="search()"><i class="fa fa-search"></i></button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="mail-box-header" *ngIf="tableData.totalData != 0">
+					<div class="mail-tools d-flex justify-content-between">
+						<div class="btn-group">
+							<button class="btn" tooltip="{{'mailbox.title12' | translate}}" (click)="referesh()"><i class="fa fa-refresh"></i></button>
+							<!-- Trash -->
+							<ng-container *ngIf="tableParams.emailType == 'trash'">
+								<button class="btn" tooltip="{{'mailbox.title4' | translate}}" (click)="getMail('trash', 'inbox')" [ngClass]="{'active': tableParams.trashType == 'inbox'}"><i class="ft-inbox"></i></button>
+								<button class="btn" tooltip="{{'mailbox.title5' | translate}}" (click)="getMail('trash', 'sent')" [ngClass]="{'active': tableParams.trashType == 'sent'}"><i class="fa fa-paper-plane-o"></i></button>
+								<button class="btn" tooltip="{{'mailbox.title6' | translate}}" (click)="getMail('trash', 'draft')" [ngClass]="{'active': tableParams.trashType == 'draft'}"><i class="ft-star"></i></button>
+							</ng-container>
+							<!-- Inbox -->
+							<ng-container *ngIf="tableParams.emailType == 'inbox'">
+								<button class="btn" tooltip="{{'mailbox.title13' | translate}}" (click)="markAsRead()" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_edit']"><i class="fa fa-eye"></i></button>
+								<button class="btn" tooltip="{{'mailbox.title14' | translate}}" (click)="markAsFavourite()" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_edit']"><i class="fa fa-exclamation"></i></button>
+								<button class="btn" tooltip="{{'mailbox.title15' | translate}}" (click)="moveToTrash()" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_delete']"><i class="fa fa-trash-o"></i></button>
+							</ng-container>
+						</div>
+						<!-- Pagination -->
+						<div class="btn-group">
+							<button class="btn" [ngClass]="{disabled:tableParams.currentPage === 1 || tableData.totalPage === 0}" (click)="setPage(tableParams.currentPage - 1)"><i class="fa fa-arrow-left"></i></button>
+							<button class="btn" [ngClass]="{disabled:tableParams.currentPage === tableData.totalPage ||  tableData.totalPage === 0}" (click)="setPage(tableParams.currentPage + 1)"><i class="fa fa-arrow-right"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Email list -->
+				<div class="mail-box">
+					<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+						<table class="table table-hover table-mail">
+							<tbody *ngIf="tableData.totalData != 0">
+								<tr class="unread" class="{{ ( mail.view_status == 1 ) ? 'read' : 'unread' }}" *ngFor="let mail of tableData.listData; index as i">
+									<td *ngIf="tableParams.emailType == 'inbox'" class="check-mail">
+										<label class="checkbox-container">
+											<input type="checkbox" class="form-control" [(checklist)]="mail_checked" [checklistValue]="mail.id" name="mail_check_{{i}}" />
+											<span class="checkbox-checkmark"></span>
+										</label>
+									</td>
+									<td>
+										<span *ngIf="mail.favourites == 1 && tableParams.emailType != 'trash'">
+											<a (click)="setUnFavouriteMail(mail.id)" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_edit']">
+												<i class="fa fa-star fa-lg text-warning"></i>
+											</a>
+										</span>
+									</td>
+									<td class="mail-contact">
+										<div *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_view']; else elseBlock1; then thenBlock1"></div>
+										<ng-template #elseBlock1></ng-template>
+										<ng-template #thenBlock1>
+											<ng-container *ngIf="tableParams.emailType == 'inbox' || tableParams.emailType == 'favourite'">
+												<a (click)="mailView(mail.id, 'inbox')" tooltip="{{ getSentUser(mail.from) | titlecase }}" placement="bottom" [tooltipAnimation]="true">{{ getSentUser(mail.from) | titlecase }}</a>	
+											</ng-container>
+											<ng-container *ngIf="tableParams.emailType == 'sent'">
+												<a (click)="mailView(mail.id, 'sent')" tooltip="{{ getSentUser(mail.to) | titlecase }}" placement="bottom" [tooltipAnimation]="true">{{ getSentUser(mail.to) | titlecase }}</a>	
+											</ng-container>
+											<ng-template *ngIf="tableParams.emailType == 'draft' || tableParams.emailType == 'trash'">
+												<a (click)="mailView(mail.id, 'draft')" tooltip="{{ getSentUser(mail.user.email) | titlecase }}" placement="bottom" [tooltipAnimation]="true">{{ getSentUser(mail.user.email) | titlecase }}</a>
+											</ng-template>
+										</ng-template>
+									</td>
+									<td class="mail-subject">
+										<span *ngIf="tableParams.emailType == 'trash'" tooltip="{{ mail.subject }}" placement="bottom" [tooltipAnimation]="true">
+											{{mail.subject}}
+										</span>
+										<span *ngIf="tableParams.emailType != 'trash'">
+											<a (click)="mailView(mail.id)" tooltip="{{ mail.subject }}" placement="bottom" [tooltipAnimation]="true">{{mail.subject}}</a>
+										</span>
+									</td>
+									<td>
+										<span *ngIf="tableParams.emailType != 'trash'">
+											<i *ngIf="mail.attachments?.length" class="fa fa-paperclip" (click)="mailView(mail.id)"></i>
+										</span>
+									</td>
+									<td class="text-right mail-date" >
+										<span *ngIf="tableParams.emailType == 'trash'">
+											{{ mail.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }}
+										</span>
+										<span *ngIf="tableParams.emailType != 'trash'">
+											<a (click)="mailView(mail.id)">{{ mail.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }}</a>
+										</span>
+									</td>
+								</tr>
+							</tbody>
+							<tbody *ngIf="tableData.totalData == 0" class="tfoot_dt">
+								<tr>
+									<td colspan="6" class="text-center">
+										<img src="assets/img/norecord-img.png" width="50">
+										<p class="mt-1">{{'common.empty_message.mails' | translate}}</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- Compose mail -->
+			<div class="col-lg-9 pr-4 pl-sm-3 pl-3 border-left" *ngIf="composeViewable">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="card-title mt-2">{{'mailbox.title3' | translate}}</h4>
+					<div class="card-buttons">
+						<button class="btn btn-cancel btn-sm mb-0" (click)="onSubmit('draft')" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_create']" tooltip="{{'mailbox.title16' | translate}}"><i class="fa fa-pencil"></i> {{'mailbox.title6' | translate}}</button>
+						<button class="btn btn-submit btn-sm mb-0" (click)="getMail('inbox')" tooltip="{{'mailbox.title17' | translate}}"><i class="fa fa-times"></i> {{'mailbox.title9' | translate}}</button>
+					</div>
+				</div>
+				<div class="compose-box pt-3">
+					<form [formGroup]="composeMailForm" (ngSubmit)="onSubmit('inbox')">
+						<div class="mail-body">
+							<div class="form-group row" [ngClass]="{ 'is-invalid': submitted && mailForm.to.errors }">
+								<label class="col-sm-2">{{'mailbox.compose.fields.to' | translate}}:</label>
+								<div class="col-sm-10">
+									<ng-select [searchable]="true"
+										[items]="mailboxUsers"
+										[multiple]="true"
+										[closeOnSelect]="true"
+										[selectOnTab]="true"
+										bindValue="value"
+										labelForId="to"
+										placeholder="{{'mailbox.compose.placeholders.placeholder1' | translate}}"
+										formControlName="to">
+									</ng-select>
+									<div *ngIf="submitted && mailForm.to.errors" class="invalid-feedback">
+										<div *ngIf="mailForm.to.errors.required">{{'mailbox.compose.error_messages.message1' | translate}}</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2">{{'mailbox.compose.fields.subject' | translate}}:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" formControlName="subject" id="subject" placeholder="{{'mailbox.compose.placeholders.placeholder2' | translate}}" [ngClass]="{ 'is-invalid': submitted && mailForm.subject.errors }">
+									<div *ngIf="submitted && mailForm.subject.errors" class="invalid-feedback">
+										<div *ngIf="mailForm.subject.errors.required">{{'mailbox.compose.error_messages.message2' | translate}}</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-12">
+									<app-ngx-editor [config]="editorConfig" formControlName="message_body" id="message_body"></app-ngx-editor>
+								</div>
+							</div>
+							<div class="form-group row">
+								<!-- Attachements -->
+								<div class="col-sm-12">
+									<label class="btn btn-raised btn-info round btn-file">
+										<input type="file" ng2FileSelect [uploader]="uploader" multiple class="d-none" />
+										<span class="fa fa-paperclip">&nbsp;{{'mailbox.title11' | translate}}</span>
+									</label>
+									<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" *ngIf="uploader.queue.length != 0">
+										<table class="table table-bordered table-hover b4-datatable">
+											<thead>
+												<tr>
+													<th width="50%">{{'mailbox.compose.columns.name' | translate}}</th>
+													<th>{{'mailbox.compose.columns.size' | translate}}</th>
+													<th>{{'mailbox.compose.columns.progress' | translate}}</th>
+													<th>{{'mailbox.compose.columns.status' | translate}}</th>
+													<th>{{'mailbox.compose.columns.actions' | translate}}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let item of uploader.queue; index as i">
+													<td><strong>{{ item?.file?.name }}</strong></td>
+													<td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+													<td *ngIf="uploader.options.isHTML5">
+														<progressbar max="100" [value]="item.progress" [animate]="true" [striped]="true"></progressbar>
+													</td>
+													<td class="budges-status">
+														<span *ngIf="item.isSuccess" class="completed">{{'common.status.success' | translate}}</span>
+														<span *ngIf="item.isCancel" class="cancel">{{'common.status.cancel' | translate}}</span>
+														<span *ngIf="item.isError" class="closed">{{'common.status.error' | translate}}</span>
+													</td>
+													<td class="actions-dropdown">
+							                            <div class="btn-group" dropdown>
+							                                <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+							                                <ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+							                                    <li role="menuitem">
+							                                        <a (click)="item.remove();uploaderRemove(attachmentsArr[i])" class="dropdown-item btn btn-danger btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+							                                    </li>
+							                                </ul>
+							                            </div>
+							                        </td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mail-foote text-right">
+							<button class="btn btn-submit btn-sm" tooltip="{{'mailbox.title10' | translate}}"><i class="fa fa-reply"></i> {{'mailbox.title10' | translate}}</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- Mail view -->
+			<div class="col-lg-9 pr-4 pl-sm-3 pl-3 border-left" *ngIf="mailviewViewable && isMailLoaded">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="card-title mt-2">{{'mailbox.title18' | translate}}</h4>
+					<div class="card-buttons">
+						<button class="btn btn-submit btn-action-icon mb-0 btn-round" *ngxPermissionsOnly="['admin', 'super_admin', 'mailbox_delete']" (click)='deleteMail(mailDetails.id)' tooltip="{{'mailbox.title17' | translate}}"><i class="fa fa-trash-o"></i></button>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="mail-tools-head d-flex justify-content-between pt-3">
+						<div class="mail-head-sub">
+							<h2><span>{{'mailbox.compose.fields.subject' | translate}}: </span>{{ mailDetails.subject }}</h2>
+							<ng-container *ngIf="mailboxType == 'inbox'">
+								<h6><span>{{'mailbox.compose.fields.from' | translate}}: </span>{{ getSentUser(mailDetails.from) }}</h6>
+							</ng-container>
+							<ng-container *ngIf="mailboxType == 'sent'">
+								<h6><span>{{'mailbox.compose.fields.from' | translate}}: </span>{{ getSentUser(mailDetails.to) }}</h6>
+							</ng-container>
+							<ng-container *ngIf="mailboxType == 'draft'">
+								<h6><span>{{'mailbox.compose.fields.from' | translate}}: </span>{{ getSentUser(mailDetails.user.email) }}</h6>
+							</ng-container>
+						</div>
+						<div class="mail-head-time">
+							<span>{{ mailDetails.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }}</span>
+						</div>
+					</div>
+					<div class="mail-message">
+						<div [innerHTML]="mailDetails.message_body"></div>
+					</div>
+					<div class="mail-attachment">
+						<p class="mail-attachment-child">
+							<span><i class="fa fa-paperclip"></i> {{ mailDetails.attachments?.length || '0' }} {{'mailbox.title11' | translate}}</span>
+						</p>
+						<div class="row">
+							<div class="col-xl-4 col-md-6" *ngFor="let mail of mailDetails.attachments; index as i">
+								<div class="file-browser">
+									<div class="file-box">
+										<div class="files">
+											<a href="{{ apiUrl }}/uploads/mailbox/{{mail.file_hash}}" download="{{mail.file_name}}" target="_blank">
+												<div *ngIf="mail.file_extension == 'jpg' || mail.file_extension == 'png'; else elseBlock" class="image">
+													<img alt="image" class="img-fluid height-100" src="{{ apiUrl }}/uploads/mailbox/{{mail.file_hash}}" />
+												</div>
+												<ng-template #elseBlock>
+													<div class="icon docx">
+														<i class="fa fa-file"></i>
+													</div>
+												</ng-template>
+												<div class="file-name">
+													<h4>{{ mail.file_name }}</h4>
+													<p>Added: {{ mail.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }}</p>
+												</div>
+												<span class="corner"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

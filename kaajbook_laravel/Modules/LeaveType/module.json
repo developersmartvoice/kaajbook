@@ -1,0 +1,14 @@
+{
+    "name": "LeaveType",
+    "alias": "leavetype",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\LeaveType\\Providers\\LeaveTypeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

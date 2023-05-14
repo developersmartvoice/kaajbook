@@ -1,0 +1,81 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;{{'providers.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsCreateProviderModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form class="form" [formGroup]="createProviderForm" (ngSubmit)="onSubmit()">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="firstname">{{'providers.create.fields.first_name' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<input type="text" placeholder="{{'providers.create.placeholders.placeholder1' | translate}}" class="form-control" formControlName="firstname" [ngClass]="{ 'is-invalid': isSubmitted && providerControl.firstname.errors }" id="firstname" />
+							<div class="form-control-position">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</div>
+							<div *ngIf="isSubmitted && providerControl.firstname.errors" class="invalid-feedback">
+								<div *ngIf="providerControl.firstname.errors.required">{{'providers.create.error_messages.message1' | translate}}</div>
+								<div *ngIf="providerControl.firstname.errors.maxlength">{{'providers.create.error_messages.message2' | translate}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="lastname">{{'providers.create.fields.last_name' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<input type="text" placeholder="{{'providers.create.placeholders.placeholder2' | translate}}" class="form-control" formControlName="lastname" [ngClass]="{ 'is-invalid': isSubmitted && providerControl.lastname.errors }" id="lastname" />
+							<div class="form-control-position">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</div>
+							<div *ngIf="isSubmitted && providerControl.lastname.errors" class="invalid-feedback">
+								<div *ngIf="providerControl.lastname.errors.required">{{'providers.create.error_messages.message3' | translate}}</div>
+								<div *ngIf="providerControl.lastname.errors.maxlength">{{'providers.create.error_messages.message4' | translate}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="lastname">{{'providers.create.fields.email' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<input type="email" class="form-control" formControlName="email" id="email" placeholder="{{'providers.create.placeholders.placeholder3' | translate}}" [ngClass]="{ 'is-invalid': isSubmitted && providerControl.email.errors }" />
+							<div class="form-control-position">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</div>
+							<div *ngIf="isSubmitted && providerControl.email.errors" class="invalid-feedback">
+								<div *ngIf="providerControl.email.errors.required">{{'providers.create.error_messages.message5' | translate}}</div>
+								<div *ngIf="providerControl.email.errors.email">{{'providers.create.error_messages.message6' | translate}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isSubmitted && providerControl.color.errors }">
+						<label for="color">{{'providers.create.fields.color' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<input [colorPicker]="createProviderForm.get('color').value"
+								[value]="createProviderForm.get('color').value"
+								(colorPickerChange)="createProviderForm.get('color').setValue($event)"
+								[style.background]="createProviderForm.get('color').value"
+								[cpCancelButton]="true"
+								[cpOKButton]="true"
+								class="form-control"
+								id="color"
+								formControlName="color">
+							<div class="form-control-position"><i class="ft-droplet"></i></div>
+						</div>
+						<div *ngIf="isSubmitted && providerControl.color.errors" class="invalid-feedback">
+							<div *ngIf="providerControl.color.errors.required">{{'providers.create.error_messages.message7' | translate}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.create' | translate}}</button>
+	</div>
+</form>

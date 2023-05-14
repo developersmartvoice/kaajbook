@@ -1,0 +1,131 @@
+<section class="hide_empty_message">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card pl-2 pr-2">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="main-title mt-2"><span>{{'meetings.title' | translate}}</span></h4>
+					<button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_create']" (click)="openMeetingCreateModal()" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></button>
+				</div>
+				<div class="card-content pt-3 pb-3">
+					<div class="card-body">
+						<!-- Filter buttons -->
+						<div class="row btn-filters mb-3" *ngIf="isPageLoaded">
+							<div class="col-sm-12">
+								<button class="btn btn-raised open" type="button" [ngClass]="{ 'active': statusfilterId == 1 }" (click)="filterByStatus(1)">
+									<p>{{'common.status.open' | translate}}</p>
+									<span class="badge badge-light">{{countStatus.open}}</span>
+								</button>
+								<button class="btn btn-raised in_progress" type="button" [ngClass]="{ 'active': statusfilterId ==2  }" (click)="filterByStatus(2)">
+									<p>{{'common.status.in_progress' | translate}}</p>
+									<span class="badge badge-light">{{countStatus.in_progress}}</span>
+								</button>
+								<button class="btn btn-raised cancel" type="button" [ngClass]="{ 'active': statusfilterId == 3 }" (click)="filterByStatus(3)">
+									<p>{{'common.status.cancel' | translate}}</p>
+									<span class="badge badge-light">{{countStatus.cancel}}</span>
+								</button>
+								<button class="btn btn-raised completed" type="button" [ngClass]="{ 'active': statusfilterId == 4 }" (click)="filterByStatus(4)">
+									<p>{{'common.status.completed' | translate}}</p>
+									<span class="badge badge-light">{{countStatus.completed}}</span>
+								</button>
+								<button class="btn btn-raised btn-secondary" type="button" [ngClass]="{ 'active': statusfilterId == 0 }" [routerLink]="['/meetings']">
+									<p>{{'common.status.total' | translate}}</p>
+									<span class="badge badge-light">{{countStatus.all}}</span>
+								</button>
+							</div>
+						</div>
+						<!-- Meeting list datatable -->
+						<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+							<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="meeting_table" width="100%">
+								<thead>
+									<tr>
+										<th>{{'meetings.columns.id' | translate}}</th>
+										<th>{{'meetings.columns.title' | translate}}</th>
+										<th>{{'meetings.columns.organizer' | translate}}</th>
+										<th>{{'meetings.columns.peoples' | translate}}</th>
+										<th>{{'meetings.columns.start' | translate}}</th>
+										<th>{{'meetings.columns.end' | translate}}</th>
+										<th>{{'meetings.columns.hours' | translate}}</th>
+										<th>{{'meetings.columns.status' | translate}}</th>
+										<th>{{'meetings.columns.actions' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="meetings?.length != 0">
+									<tr *ngFor="let meeting of meetings; index as i">
+										<td>
+                                        	<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_view'] else elseBlock1;">
+												<a [routerLink]="['/meetings/detail', meeting.id]" tooltip="{{'common.view' | translate}}">{{meeting.generated_id}}</a>
+											</ng-container>
+											<ng-template #elseBlock1>{{meeting.generated_id}}</ng-template>
+                                        </td>
+										<td>
+											<div *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_edit']; else elseBlock2; then thenBlock"></div>
+											<ng-template #elseBlock2>
+												{{meeting.title}}
+											</ng-template>
+											<ng-template #thenBlock>
+												<inline-edit-input [name]="'title'" [type]="'text'" [elementFor]="'meetings.inline_edit.title' | translate" [fieldValue]="meeting.title" [isRequired]="'true'" (updateValue)="saveMeetingDetail(i, 'title', $event);"></inline-edit-input>
+											</ng-template>
+										</td>
+										<td class="people-lists">
+											<a [routerLink]="['/users/profile', meeting.organizer_id]" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="{{meeting.firstname}} {{meeting.lastname}}">
+												<img *ngIf="meeting.avatar" src="{{apiUrl}}/uploads/profile/{{meeting.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+												<img *ngIf="!meeting.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+											</a>
+										</td>
+										<td class="people-lists">
+											<ng-container *ngFor="let member of meeting.members index as i; odd as isOdd; even as isEven" >
+												<a *ngIf="member.member_id != meeting.organizer_id" [routerLink]="['/users/profile', member.member_id]" tooltip="{{member.firstname}} {{member.lastname}}" class="btn rounded-circle popover-item text-dark btn-profile-info" placement="top">
+													<img *ngIf="member.avatar" src="{{apiUrl}}/uploads/profile/{{member.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+													<img *ngIf="!member.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+												</a>
+											</ng-container>
+										</td>
+										<td>{{meeting.start_date | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
+										<td>{{meeting.end_date | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
+										<td>{{meeting.hour_time}} </td>
+										<td class="status-dropdown">
+											<div *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_edit']; else elseBlock1; then thenBlock1"></div>
+											<ng-template #thenBlock1>
+												<div class="btn-group" dropdown>
+													<button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(meeting.status) | translate}}&nbsp;<span class="caret"></span></button>
+													<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+														<li role="menuitem" *ngFor="let status of ('meetings.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': meeting.status == status.id}" (click)="changeMeetingStatus([meeting.id], status);meeting.status = status.id">{{status.label}}</a></li>
+													</ul>
+												</div>
+											</ng-template>
+											<ng-template #elseBlock1>
+												<ng-container *ngFor="let status of ('meetings.status' | translate)">
+													<div class="budges-status">
+														<span class="{{status.class}}" *ngIf="status.id == meeting.status">{{status.label}}</span>
+													</div>
+												</ng-container>
+											</ng-template>
+										</td>
+										<td class="actions-dropdown">
+											<div class="btn-group" dropdown>
+												<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+												<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+													<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_edit']">
+														<a (click)="openMeetingEditModal(meeting)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+													</li>
+													<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_delete']">
+														<a (click)="removeMeeting(meeting.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot *ngIf="meetings?.length == 0" class="tfoot_dt">
+									<tr>
+										<td colspan="9" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,14 @@
+{
+    "name": "Helper",
+    "alias": "helper",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Helper\\Providers\\HelperServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

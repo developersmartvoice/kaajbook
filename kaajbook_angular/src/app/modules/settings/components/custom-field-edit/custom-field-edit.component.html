@@ -1,0 +1,131 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;{{'settings.custom_fields.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form [formGroup]="editCustomFieldForm" (ngSubmit)="onSubmit()" class="bs4-forms">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.form_id.errors }">
+						<label for="form_id">{{'settings.custom_fields.create.fields.custom_field_for' | translate}}</label>&nbsp;<span class="text-danger">*</span>
+						<ng-select [searchable]="true"
+							[items]="formTables"
+							[selectOnTab]="true"
+							bindValue="id"
+							bindLabel="name"
+							placeholder="{{'settings.custom_fields.create.placeholders.placeholder1' | translate}}"
+							formControlName="form_id">
+						</ng-select> 
+						<div *ngIf="isFormSubmitted && customFieldControl.form_id.errors" class="invalid-feedback">
+							<div *ngIf="customFieldControl.form_id.errors.required">{{'settings.custom_fields.create.error_messages.message1' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="field_label">{{'settings.custom_fields.create.fields.field_label' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<input type="text" placeholder="{{'settings.custom_fields.create.placeholders.placeholder2' | translate}}" class="form-control" id="field_label" formControlName="field_label" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.field_label.errors }" />
+						<div *ngIf="isFormSubmitted && customFieldControl.field_label.errors" class="invalid-feedback">
+							<div *ngIf="customFieldControl.field_label.errors.required">{{'settings.custom_fields.create.error_messages.message2' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="help_text">{{'settings.custom_fields.create.fields.help_text' | translate}}</label>
+						<input type="text" placeholder="{{'settings.custom_fields.create.placeholders.placeholder3' | translate}}" class="form-control" id="help_text" formControlName="help_text" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.help_text.errors }" />
+						<div *ngIf="isFormSubmitted && customFieldControl.help_text.errors" class="invalid-feedback">
+							<div *ngIf="customFieldControl.help_text.errors.required">{{'settings.custom_fields.create.error_messages.message3' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6" *ngIf="editCustomFieldForm.get('field_type').value != 'checkbox'">
+					<div class="form-group">
+						<label for="is_required">{{'settings.custom_fields.create.fields.is_required_field' | translate}}</label>
+						<div>
+							<label class="checkbox-container col-form-label">
+								<input type="checkbox" class="form-control" formControlName="is_required" id="is_required" />
+								<span class="checkbox-checkmark"></span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-md-6">
+					<div class="form-group">
+						<label for="show_on_details">{{'settings.custom_fields.create.fields.show_on_detail' | translate}}</label>
+						<div>
+							<label class="checkbox-container col-form-label">
+								<input type="checkbox" class="form-control" formControlName="show_on_details" id="show_on_details" />
+								<span class="checkbox-checkmark"></span>
+							</label>
+						</div>
+					</div>
+				</div> -->
+				<div class="col-md-12">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.field_type.errors }">
+						<label for="field_type">{{'settings.custom_fields.create.fields.field_type' | translate}}</label>&nbsp;<span class="text-danger">*</span>
+						<ng-select [searchable]="true"
+							[items]="('customFieldsType' | translate)"
+							[selectOnTab]="true"
+							bindValue="value"
+							bindLabel="label"
+							placeholder="{{'settings.custom_fields.create.placeholders.placeholder4' | translate}}"
+							formControlName="field_type"
+							(change)="onChange($event)">
+						</ng-select>
+						<div *ngIf="isFormSubmitted && customFieldControl.field_type.errors" class="invalid-feedback">
+							<div *ngIf="customFieldControl.field_type.errors.required">{{'settings.custom_fields.create.error_messages.message4' | translate}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" *ngIf="editCustomFieldForm.get('field_type').value == 'dropdown'">
+				<div class="col-md-12">
+					<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+						<ng-container formArrayName="select_options">
+							<table class="table table-bordered table-hover b4-datatable" cellspacing="0" cellpadding="0" width="100%">
+								<thead>
+									<tr>
+										<th colspan="3" text-align="center">{{'settings.custom_fields.headings.head1' | translate}}</th>
+									</tr>
+									<tr>
+										<th class="width-200">{{'settings.custom_fields.columns.label' | translate}}</th>
+										<th class="width-200">{{'settings.custom_fields.columns.value' | translate}}</th>
+										<th><button type="button" class="btn btn-raised mint-gradient white mb-0" (click)="addOption()"><i class="fa fa-plus"></i></button></th>
+									</tr>
+								</thead>
+								<tbody *ngIf="editCustomFieldForm.get('select_options').controls?.length != 0">
+									<tr *ngFor="let option of editCustomFieldForm.get('select_options').controls; let j = index">
+										<ng-container [formGroupName]="j">
+											<td>
+												<input type="text" formControlName="label" class="form-control" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.select_options.controls[j].controls.label.errors }" />
+												<div *ngIf="isFormSubmitted &&  customFieldControl.select_options.controls[j].controls.label.errors" class="invalid-feedback">
+													<div *ngIf="customFieldControl.select_options.controls[j].controls.label.errors.required">{{'settings.custom_fields.create.error_messages.message5' | translate}}</div>
+												</div>
+											</td>
+											<td>
+												<input type="text" formControlName="value" class="form-control" [ngClass]="{ 'is-invalid': isFormSubmitted && customFieldControl.select_options.controls[j].controls.value.errors }" />
+												<div *ngIf="isFormSubmitted &&  customFieldControl.select_options.controls[j].controls.value.errors" class="invalid-feedback">
+													<div *ngIf="customFieldControl.select_options.controls[j].controls.value.errors.required">{{'settings.custom_fields.create.error_messages.message6' | translate}}</div>
+												</div>
+											</td>
+											<td>
+												<a class="btn btn-raised mint-gradient white" (click)="deleteOption(j)"><i class="fa fa-close"></i></a>
+											</td>
+										</ng-container>
+									</tr>
+								</tbody>
+							</table>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0"><span>{{'common.update' | translate}}</span></button>
+	</div>
+</form>

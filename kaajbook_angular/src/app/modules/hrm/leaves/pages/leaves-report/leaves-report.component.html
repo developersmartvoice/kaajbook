@@ -1,0 +1,92 @@
+<section class="hide_empty_message">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="card pl-2 pr-2">
+				<div class="card-content pt-3 pb-3">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xs-12 col-12 form-group">
+								<label for="daterangepicker">{{'leave_report.filter.fields.date_range' | translate}}</label>
+								<input type="text"
+									class="form-control"
+									placeholder="{{'leave_report.filter.placeholders.placeholder1' | translate}}"
+									bsDaterangepicker
+									[(ngModel)]="period_from_to"/>
+							</div>
+							<div class="col-xs-12 col-12 form-group">
+								<label for="user_id">{{'leave_report.filter.fields.employee_name' | translate}}</label>
+								<ng-select [items]="users"
+									bindLabel="firstname"
+									bindValue="id"
+									[multiple]="false"
+									[(ngModel)]="user_id"
+									placeholder="{{'leave_report.filter.placeholders.placeholder2' | translate}}"
+									[searchable]="true">
+									<ng-template ng-option-tmp let-item="item">
+										{{item.firstname}} {{item.lastname}}
+									</ng-template>
+								</ng-select>
+							</div>
+							<div class="col-xs-12 col-12 form-group">
+								<button type="button" class="btn btn-submit mb-0" (click)="submitFilter()">{{'common.apply' | translate}}</button>
+								<button type="button" class="btn btn-cancel mb-0" (click)="resetForm()">{{'common.reset' | translate}}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="card pl-2 pr-2">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="main-title mt-2"><span>{{'leave_report.title' | translate}}</span></h4>
+					<div class="card-buttons">
+						<a [routerLink]="['/leaves']" class="btn btn-create mb-0" tooltip="{{'leaves.title3' | translate}}"><i class="fa fa-list"></i></a>
+						<a [routerLink]="['/leaves/request']" class="btn btn-create mb-0" tooltip="{{'leaves.title2' | translate}}"><i class="fa fa-trello"></i></a>
+						<a [routerLink]="['/leaves/calendar']" class="btn btn-create mb-0" tooltip="{{'common.calendar_view' | translate}}"><i class="fa fa-calendar"></i></a>
+					</div>
+				</div>
+				<div class="card-content pt-3 pb-3">
+					<div class="card-body">
+						<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+							<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" width="100%" id="leaves_table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>{{'leave_report.columns.user' | translate}}</th>
+										<th>{{'leave_report.columns.pending_leave' | translate}}</th>
+										<th>{{'leave_report.columns.approved_leave' | translate}}</th>
+										<th>{{'leave_report.columns.taken_leave' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="leaves?.length != 0">
+									<tr *ngFor="let leave of leaves; index as i">
+										<td class="text-center">{{ i + 1 }}</td>
+										<td>{{leave.firstname}} {{leave.lastname}}</td>
+										<td class="budges-status">
+											<span class="open">{{leave.pending_leaves}}</span>
+											<a (click)="openLeaveDetail(1, leave.id)">&nbsp;{{'common.view' | translate}}</a>
+										</td>
+										<td class="budges-status">
+											<span class="in_progress">{{leave.approved_leaves}}</span>
+											<a (click)="openLeaveDetail(2, leave.id)">&nbsp;{{'common.view' | translate}}</a>
+										</td>
+										<td class="budges-status">
+											<span class="completed">{{leave.taken_leaves}}</span>
+											<a (click)="openLeaveDetail(5, leave.id)">&nbsp;{{'common.view' | translate}}</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot *ngIf="leaves?.length == 0" class="tfoot_dt">
+									<tr>
+										<td colspan="5" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

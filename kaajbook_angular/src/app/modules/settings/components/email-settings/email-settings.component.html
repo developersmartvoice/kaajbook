@@ -1,0 +1,116 @@
+<!-- Card header -->
+<div class="card-header pl-0 pr-0 mb-3 border-bottom">
+    <h4 class="sub-title mt-2"><span>{{'settings.email_settings.title' | translate}}</span></h4>
+</div>
+<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="form">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="company_from_email">{{'settings.email_settings.create.fields.company_email' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <input type="email" class="form-control" formControlName="company_from_email" id="company_from_email" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.company_from_email.errors }" placeholder="{{'settings.email_settings.create.placeholders.placeholder1' | translate}}" />
+                    <div *ngIf="isSubmitted && emailSettings.company_from_email.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.company_from_email.errors.required">{{'settings.email_settings.create.error_messages.message1' | translate}}</div>
+                        <div *ngIf="emailSettings.company_from_email.errors.email">{{'settings.email_settings.create.error_messages.message2' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_host">{{'settings.email_settings.create.fields.mail_from_name' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <input type="text" class="form-control" placeholder="{{'settings.email_settings.create.placeholders.placeholder9' | translate}}" formControlName="mail_from_name" id="mail_from_name" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.mail_from_name.errors }" />
+                    <div *ngIf="isSubmitted && emailSettings.mail_from_name.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.mail_from_name.errors.required">{{'settings.email_settings.create.error_messages.message9' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.smtp_protocol.errors }">
+                    <label for="smtp_protocol">{{'settings.email_settings.create.fields.email_protocol' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <ng-select [searchable]="true" [items]="smtpHosts" [selectOnTab]="true" bindValue="value" labelForId="smtp_protocol" placeholder="{{'settings.email_settings.create.placeholders.placeholder2' | translate}}" formControlName="smtp_protocol">
+                    </ng-select>
+                    <div *ngIf="isSubmitted && emailSettings.smtp_protocol.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.smtp_protocol.errors.required">{{'settings.email_settings.create.error_messages.message3' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_host">{{'settings.email_settings.create.fields.smtp_host' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <input type="text" class="form-control" placeholder="smtp.domain.com" formControlName="smtp_host" id="smtp_host" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.smtp_host.errors }" />
+                    <div *ngIf="isSubmitted && emailSettings.smtp_host.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.smtp_host.errors.required">{{'settings.email_settings.create.error_messages.message4' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_user">{{'settings.email_settings.create.fields.smtp_user' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <input type="email" class="form-control" placeholder="info@gmail.com" formControlName="smtp_user" id="smtp_user" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.smtp_user.errors }" />
+                    <div *ngIf="isSubmitted && emailSettings.smtp_user.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.smtp_user.errors.required">{{'settings.email_settings.create.error_messages.message5' | translate}}</div>
+                        <div *ngIf="emailSettings.smtp_user.errors.email">{{'settings.email_settings.create.error_messages.message6' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_password">{{'settings.email_settings.create.fields.smtp_password' | translate}}</label>
+                    <input type="password" class="form-control" formControlName="smtp_password" id="smtp_password" placeholder="{{'settings.email_settings.create.placeholders.placeholder3' | translate}}" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.smtp_password.errors }" />
+                    <div *ngIf="isSubmitted && emailSettings.smtp_password.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.smtp_password.errors.required">{{'settings.email_settings.create.error_messages.message7' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_port">{{'settings.email_settings.create.fields.smtp_port' | translate}}<span class="text-danger">&nbsp;*</span></label>
+                    <input type="text" class="form-control" placeholder="587" formControlName="smtp_port" id="smtp_port" [ngClass]="{ 'is-invalid': isSubmitted && emailSettings.smtp_port.errors }" />
+                    <div *ngIf="isSubmitted && emailSettings.smtp_port.errors" class="invalid-feedback">
+                        <div *ngIf="emailSettings.smtp_port.errors.required">{{'settings.email_settings.create.error_messages.message8' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="smtp_encryption">{{'settings.email_settings.create.fields.email_encryption' | translate}}</label>
+                    <ng-select [searchable]="true" [items]="mailEncryption" [selectOnTab]="true" bindValue="value" labelForId="smtp_encryption" placeholder="{{'settings.email_settings.create.placeholders.placeholder4' | translate}}" formControlName="smtp_encryption">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="settingsForm.value.smtp_protocol == 'sparkpost'">
+                <div class="form-group">
+                    <label for="sparkpost_secret">{{'settings.email_settings.create.fields.sparkpost_secret' | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'settings.email_settings.create.placeholders.placeholder5' | translate}}" formControlName="sparkpost_secret" id="sparkpost_secret" />
+                </div>
+            </div>
+            <ng-container *ngIf="settingsForm.value.smtp_protocol == 'mailgun'">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="mailgun_domain">{{'settings.email_settings.create.fields.mailgun_domain' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'settings.email_settings.create.placeholders.placeholder6' | translate}}" formControlName="mailgun_domain" id="mailgun_domain" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="mailgun_secret">{{'settings.email_settings.create.fields.mailgun_secret' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="{{'settings.email_settings.create.placeholders.placeholder7' | translate}}" formControlName="mailgun_secret" id="mailgun_secret" />
+                    </div>
+                </div>
+            </ng-container>
+            <div class="col-md-3" *ngIf="settingsForm.value.smtp_protocol == 'mandrill'">
+                <div class="form-group">
+                    <label for="mandrill_secret">{{'settings.email_settings.create.fields.mandrill_secret' | translate}}</label>
+                    <input type="text" class="form-control" placeholder="{{'settings.email_settings.create.placeholders.placeholder8' | translate}}" formControlName="mandrill_secret" id="mandrill_secret" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <a [routerLink]="['/']" class="btn btn-cancel">{{'common.cancel' | translate}}</a>
+                <button type="submit" class="btn btn-submit" *ngxPermissionsOnly="['admin', 'super_admin', 'emailsettings_create', 'emailsettings_edit']">{{'common.save' | translate}}</button>
+                <button type="button" (click)="sendTestEmail();" class="btn btn-submit" *ngxPermissionsOnly="['admin', 'super_admin', 'emailsettings_create', 'emailsettings_edit']">{{'common.test' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,377 @@
+<section id="basic-form-layouts">
+	<form [formGroup]="createInvoiceForm" (ngSubmit)="onSubmit()" *ngIf="isFormLoaded">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">{{'invoices.title2' | translate}}</h4>
+					</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-user" aria-hidden="true"></i>{{'invoices.headings.head1' | translate}}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="project_id">{{'invoices.create.fields.project' | translate}}</label>
+											<ng-select [searchable]="true"
+												[clearable]="false"
+												[items]="projects"
+												[selectOnTab]="true"
+												(change)="projectChange($event)"
+												bindLabel="project_name"
+												bindValue="id"
+												labelForId="project_id"
+												formControlName="project_id"
+												placeholder="{{'invoices.create.placeholders.placeholder13' | translate}}">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && invoiceControl.client_id.errors }">
+											<label for="client_id">{{'invoices.create.fields.customer' | translate}}&nbsp;<span class="text-danger">*</span> </label>
+											<ng-select [searchable]="true"
+												[clearable]="false"
+												[items]="clients"
+												[selectOnTab]="true"
+												bindLabel="firstname"
+												bindValue="id"
+												labelForId="client_id"
+												formControlName="client_id"
+												placeholder="{{'invoices.create.placeholders.placeholder1' | translate}}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item.firstname}} {{item.lastname}}
+												</ng-template>
+											</ng-select>
+											<div *ngIf="isFormSubmitted && invoiceControl.client_id.errors" class="invalid-feedback">
+												<div *ngIf="invoiceControl.client_id.errors.required">{{'invoices.create.error_messages.message1' | translate}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<h4 class="form-section"><i class="ft-calendar"></i>{{'invoices.headings.head2' | translate}}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && invoiceControl.invoice_date.errors }">
+											<label for="invoice_date">{{'invoices.create.fields.invoice_date' | translate}}&nbsp;<span class="text-danger">*</span></label>
+											<div class="position-relative has-icon-left">
+												<input type="text"
+													class="form-control"
+													#dp1="bsDatepicker"
+													bsDatepicker
+													[bsConfig]="datepickerConfig"
+													formControlName="invoice_date"
+													id="invoice_date"
+													placeholder="{{'invoices.create.placeholders.placeholder2' | translate}}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && invoiceControl.invoice_date.errors" class="invalid-feedback">
+													<div *ngIf="invoiceControl.invoice_date.errors.required">{{'invoices.create.error_messages.message2' | translate}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && invoiceControl.due_date.errors }">
+											<label for="end-date">{{'invoices.create.fields.due_date' | translate}}&nbsp;<span class="text-danger">*</span></label>
+											<div class="position-relative has-icon-left">
+												<input type="text"
+													class="form-control"
+													#dp2="bsDatepicker"
+													bsDatepicker
+													[bsConfig]="datepickerConfig"
+													formControlName="due_date"
+													id="due_date"
+													placeholder="{{'invoices.create.placeholders.placeholder3' | translate}}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && invoiceControl.due_date.errors" class="invalid-feedback">
+													<div *ngIf="invoiceControl.due_date.errors.required">{{'invoices.create.error_messages.message3' | translate}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">&nbsp;</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-box"></i>{{'invoices.headings.head3' | translate}}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="reference">{{'invoices.create.fields.reference' | translate}} #</label>
+											<input type="text" class="form-control" formControlName="reference" id="reference" placeholder="{{'invoices.create.placeholders.placeholder4' | translate}}" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="type">{{'invoices.create.fields.discount_type' | translate}}</label>
+											<ng-select [searchable]="true"
+												[clearable]="false"
+												[items]="('invoices.discount_type' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="discount_type"
+												formControlName="discount_type"
+												placeholder="{{'invoices.create.placeholders.placeholder5' | translate}}"
+												(change)="changeDiscountType($event)">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="recurrence">{{'invoices.create.fields.recurrence' | translate }}</label><br>
+											<label class="form-check checkbox-container">
+												<input class="form-check-input" type="checkbox" formControlName="recurrence" id="recurrence" (change)="changeRecurrence($event)">
+												<label></label>
+												<span class="checkbox-checkmark"></span>
+											</label>
+										</div>
+									</div>
+									<div class="col-md-8" *ngIf="createInvoiceForm.get('recurrence').value">
+										<div class="form-group">
+											<label for="recurrence_occurrences">{{'invoices.create.fields.recurrence_occurrences' | translate}}<span class="text-danger">&nbsp;*</span></label>
+											<span class="ml-2"><i class="fa fa-lightbulb-o fa-1" placement="top" tooltip="{{'invoices.headings.head5' | translate}}"></i></span>
+											<input type="number" class="form-control" formControlName="recurrence_occurrences" id="recurrence_occurrences" placeholder="{{'invoices.create.placeholders.placeholder14' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && invoiceControl.recurrence_occurrences.errors }" />
+											<div *ngIf="isFormSubmitted && invoiceControl.recurrence_occurrences.errors" class="invalid-feedback">
+												<div *ngIf="invoiceControl.recurrence_occurrences.errors.required">{{'invoices.create.error_messages.message8' | translate}}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12" *ngIf="createInvoiceForm.get('recurrence').value">
+										<div class="form-group">
+											<label>{{'invoices.create.fields.recurrence_pattern' | translate }}<span class="text-danger">&nbsp;*</span></label><br>
+											<div class="row">
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="daily" id="checkbox_daily">
+														<label class="form-check-label" for="checkbox_daily">&nbsp;{{'invoices.create.fields.daily' | translate }}&nbsp;</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="weekly" id="checkbox_weekly">
+														<label class="form-check-label" for="checkbox_weekly">&nbsp;{{'invoices.create.fields.weekly' | translate }}</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="monthly" id="checkbox_monthly">
+														<label class="form-check-label" for="checkbox_monthly">&nbsp;{{'invoices.create.fields.monthly' | translate }}</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="quarterly" id="checkbox_quarterly">
+														<label class="form-check-label" for="checkbox_quarterly">&nbsp;{{'invoices.create.fields.quarterly' | translate }}</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="semi_annually" id="checkbox_semi_annually">
+														<label class="form-check-label" for="checkbox_semi_annually">&nbsp;{{'invoices.create.fields.semi_annually' | translate }}</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-6">
+													<label class="form-check radio-container d-block">
+														<input class="form-check-input" type="radio" formControlName="recurrence_pattern" value="annually" id="checkbox_annually">
+														<label class="form-check-label" for="checkbox_annually">&nbsp;{{'invoices.create.fields.annually' | translate }}</label>
+														<span class="radio-checkmark"></span>
+													</label>
+												</div>
+												<div class="col-md-12">
+													<div *ngIf="isFormSubmitted && invoiceControl.recurrence_pattern.errors" class="invalid-feedback d-block">
+														<div *ngIf="invoiceControl.recurrence_pattern.errors.required">{{'invoices.create.error_messages.message9' | translate}}</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-form" >
+						<h4 class="card-title">{{'invoices.headings.head4' | translate}}</h4>
+						<div class="card-button estimate-form">
+							<ng-select [items]="items"
+								[clearable]="false"
+								bindLabel="name"
+								bindValue="id"
+								(change)="changeItem($event)"
+								formControlName="selectedItem"
+								placeholder="{{'invoices.create.placeholders.placeholder7' | translate}}">
+								<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+									<div class="card mt-1 mb-1">
+										<div class="card-body p-2">
+											<h5 class="card-title" [ngOptionHighlight]="search">({{loginUser.currency.symbol}}{{item.price}}) {{item.name}}</h5>
+											<p class="card-text">{{item.description}}</p>
+										</div>
+									</div>
+								</ng-template>
+							</ng-select>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+							<table class="table table-bordered table-hover b4-datatable" width="100%">
+								<thead>
+									<tr>
+										<th>{{'invoices.create.fields.item_name' | translate}}</th>
+										<th>{{'invoices.create.fields.item_description' | translate}}</th>
+										<th class="width-100">{{'invoices.create.fields.quantity' | translate}}</th>
+										<th class="width-150">{{'invoices.create.fields.unit_price' | translate}}</th>
+										<th class="width-250">{{'invoices.create.fields.item_tax' | translate}}</th>
+										<th>{{'invoices.create.fields.total_item_amount' | translate}} ({{loginUser.currency.symbol}})</th>
+										<th class="text-right">{{'common.actions' | translate}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr formArrayName="item">
+										<td>
+											<div class="form-group">
+												<input type="text" class="form-control" formControlName="item_name" id="item_name" placeholder="{{'invoices.create.placeholders.placeholder8' | translate}}" />
+											</div>
+										</td>
+										<td>
+											<div class="form-group">
+												<textarea class="form-control" formControlName="item_description" id="item_description" placeholder="{{'invoices.create.placeholders.placeholder9' | translate}}">
+												</textarea>
+											</div>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="number" class="form-control" formControlName="quantity" id="quantity" min="1" placeholder="{{'invoices.create.placeholders.placeholder10' | translate}}" />
+												<input type="text" class="inp" formControlName="item_unit" placeholder="{{'invoices.create.fields.unit' | translate}}" />
+											</div>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="number" class="form-control" formControlName="unit_price" id="unit_price" min="0" placeholder="{{'invoices.create.placeholders.placeholder11' | translate}}" />
+											</div>
+										</td>
+										<td>
+											<div class="form-group">
+												<ng-select [searchable]="true"
+													[items]="taxes"
+													bindLabel="tax_name"
+													bindValue="id"
+													[multiple]="true"
+													[selectOnTab]="true"
+													formControlName="taxes"
+													placeholder="{{'invoices.create.placeholders.placeholder12' | translate}}">
+													<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+														{{item.tax_name}}({{item.tax_rate}}%)
+													</ng-template>
+												</ng-select>
+											</div>
+										</td>
+										<td>&nbsp;</td>
+										<td class="text-right"><button (click)="addItem($event)" class="btn btn-secondary" placement="left" tooltip="{{'common.add' | translate}}"><i class="fa fa-plus"></i></button></td>
+									</tr>
+									<tr *ngFor="let item of itemsArray; index as i">
+										<td>
+											<inline-edit-input [name]="'item_name'" [type]="'text'" [fieldValue]="item.item_name" [elementFor]="'invoices.inline_edit.item_name' | translate" [isRequired]="'true'" (updateValue)="saveItemDetail(i, 'item_name', $event);"></inline-edit-input>
+										</td>
+										<td>
+											<inline-edit-textarea [name]="'item_description'" [fieldValue]="item.item_description" [elementFor]="'invoices.inline_edit.item_description' | translate" [isRequired]="'false'" (updateValue)="saveItemDetail(i, 'item_description', $event);"></inline-edit-textarea>
+										</td>
+										<td>
+											<inline-edit-input [name]="'quantity'" [type]="'number'" [elementFor]="'invoices.inline_edit.quantity' | translate" [fieldValue]="item.quantity" [isRequired]="'true'" (updateValue)="saveItemDetail(i, 'quantity', $event);"></inline-edit-input>
+										</td>
+										<td>
+											<inline-edit-input [name]="'unit_price'" [type]="'number'" [elementFor]="'invoices.inline_edit.unit_price' | translate" [fieldValue]="item.unit_price" [isRequired]="'true'" (updateValue)="saveItemDetail(i, 'unit_price', $event);"></inline-edit-input>
+										</td>
+										<td>
+											<inline-edit-select-items [name]="'taxes'" [txtField]="'Taxes'" [elementFor]="'invoices.inline_edit.item_tax' | translate" [selectedValue]="item.taxes" [isRequired]="'true'" [options]="taxes" (updateValue)="saveItemDetail(i, 'taxes', $event);"></inline-edit-select-items>
+										</td>
+										<td class="text-center">{{item.quantity * item.unit_price}}</td>
+										<td class="actions-dropdown text-right">
+											<div class="btn-group" dropdown>
+												<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+												<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+													<li role="menuitem">
+														<a (click)="deleteItem(i)" class="dropdown-item btn btn-delete btn-raised"><i class="fa fa-trash-o" tooltip="{{'common.delete' | translate}}"></i></a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<tbody class="mt-4">
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td class="text-right"><strong>{{'invoices.create.fields.sub_total' | translate}}:</strong></td>
+										<td class="text-center">{{loginUser.currency.symbol}}{{ invoices.sub_total | number : '1.2-2' }}</td>
+										<td></td>
+									</tr>
+									<tr *ngFor="let tax of itemTaxes | keyvalue">
+										<ng-container *ngIf="tax">
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td class="text-right"><strong>{{taxesNameValues[tax.key].tax_name}}({{taxesNameValues[tax.key].tax_rate}})</strong></td>
+											<td class="text-center">{{loginUser.currency.symbol}}{{tax.value | number : '1.2-2'}}</td>
+											<td></td>
+										</ng-container>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td class="text-right"><strong>{{'invoices.create.fields.discount' | translate}}</strong></td>
+										<td><input type="number" name="discount" class="form-control" formControlName="discount" placeholder="00.00" (change)="changeDiscountAdjustment($event, 'discount')"></td>
+										<td class="danger text-center">(-) {{loginUser.currency.symbol}}{{total_discount | number : '1.2-2'}}</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td class="text-right"><strong>{{'invoices.create.fields.adjustment' | translate}}</strong></td>
+										<td><input type="number" name="adjustment" min="0" class="form-control" formControlName="adjustment" placeholder="00.00" (change)="changeDiscountAdjustment($event, 'adjustment')"></td>
+										<td class="text-center">{{loginUser.currency.symbol}}{{ invoices.adjustment | number : '1.2-2'}}</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td class="text-right"><strong>{{'invoices.create.fields.total_amount' | translate}}:</strong></td>
+										<td class="text-center">{{loginUser.currency.symbol}}{{ invoices.total | number : '1.2-2' }}</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12 text-right pt-3 pb-3">
+							<a [routerLink]="['/invoices']" class="btn btn-cancel mb-0">{{'common.cancel' | translate }}</a>
+							<button type="submit" class="btn btn-submit mb-0">{{'common.create' | translate }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

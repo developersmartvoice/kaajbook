@@ -1,0 +1,14 @@
+{
+    "name": "KnowledgeBaseCategory",
+    "alias": "knowledgebasecategory",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\KnowledgeBaseCategory\\Providers\\KnowledgeBaseCategoryServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

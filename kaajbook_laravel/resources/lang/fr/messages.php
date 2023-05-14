@@ -1,0 +1,97 @@
+<?php
+return [
+    "estimates" => [
+        "adjustment" => "Ajustement",
+        "discount" => "Remise",
+        "estimate_date" => "Date estimée",
+        "expiry_date" => "Date d'expiration",
+        "item_name" => "Article et description",
+        "note" => "Remarque",
+        "quantity" => "qté",
+        "reference" => "Référence",
+        "status" => [
+            "accepted" => "Accepté",
+            "declined" => "Diminué",
+            "draft" => "Brouillon",
+            "expired" => "EXPIRÉ",
+            "sent" => "Envoyé"
+        ],
+        "sub_total" => "Total partiel",
+        "tax" => "Impôt",
+        "terms_conditions" => "termes et conditions",
+        "title" => "Estimation",
+        "to" => "à",
+        "total" => "Total",
+        "total_item_amount" => "Montant",
+        "unit_price" => "Prix unitaire"
+    ],
+    "invoices" => [
+        "adjustment" => "Ajustement",
+        "amount" => "Montant",
+        "date" => "Rendez-vous amoureux",
+        "discount" => "Remise",
+        "due" => "Du",
+        "due_date" => "Date d'échéance",
+        "gst_number" => "TPS EN",
+        "invoice_date" => "Date de facturation",
+        "item_name" => "Article et description",
+        "note" => "Remarque",
+        "offline_payment" => "Paiement hors ligne",
+        "paid" => "Payé",
+        "payment_method" => "Mode de paiement",
+        "payments" => "Paiements",
+        "project_name" => "Projet",
+        "quantity" => "qté",
+        "receipt_no" => "Numéro de réception",
+        "reference" => "Référence",
+        "status" => ["paid" => "Payé", "partially_paid" => "Partiellement payé", "unpaid" => "Non payé"],
+        "sub_total" => "Total partiel",
+        "tax" => "Impôt",
+        "terms_conditions" => "termes et conditions",
+        "title" => "Facture d'achat",
+        "to" => "à",
+        "total" => "Total",
+        "total_item_amount" => "Montant",
+        "unit_price" => "Prix unitaire"
+    ],
+    "msg_1" => "Il n'y a aucune tâche.",
+    "payments" => [
+        "amount_due" => "Montant dû",
+        "invoice_amount" => "Montant de la facture",
+        "invoice_date" => "Date de facturation",
+        "invoice_number" => "Numéro de facture",
+        "payment_amount" => "Montant du paiement",
+        "payment_date" => "Date de paiement",
+        "payment_method" => "Mode de paiement",
+        "status" => ["failed" => "Échoué", "in_progress" => "En cours", "successful" => "Réussi"],
+        "title" => "reçu",
+        "to" => "à",
+        "transaction_id" => "identifiant de transaction"
+    ],
+    "status" => [
+        "approved" => "Approuvé",
+        "assigned" => "Attribué",
+        "cancel" => "annuler",
+        "closed" => "Fermé",
+        "completed" => "Terminé",
+        "deferred" => "Différé",
+        "in_progress" => "En cours",
+        "not_started" => "Pas commencé",
+        "on_hold" => "EN ATTENTE",
+        "open" => "Ouvrir",
+        "reopen" => "ROUVRIR",
+        "solved" => "Résolu",
+        "taken" => "Pris",
+        "waiting" => "Attendre"
+    ],
+    "timesheet" => [
+        "columns" => [
+            "end_time" => "Heure de fin",
+            "entry" => "Entrée",
+            "start_time" => "Heure de début",
+            "status" => "Statut",
+            "time_h" => "heures",
+            "user" => "Utilisateur"
+        ]
+    ]
+];

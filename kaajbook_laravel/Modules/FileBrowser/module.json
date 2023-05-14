@@ -1,0 +1,14 @@
+{
+    "name": "FileBrowser",
+    "alias": "filebrowser",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\FileBrowser\\Providers\\FileBrowserServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,5 @@
+<section class="detail-page">
+    <div class="card" *ngIf="isPageLoaded">
+    	<app-meeting-details [meeting]="meeting" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-meeting-details>
+    </div>
+</section>

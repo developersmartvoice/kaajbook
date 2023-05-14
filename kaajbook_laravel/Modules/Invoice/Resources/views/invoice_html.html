@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Invoice</title>
+    <style>
+    @import"https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap";
+
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        color: #333333;
+        background: #FFFFFF;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        margin-bottom: 10px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 10px 8px 10px;
+        background: #fdfdfd;
+        text-align: center;
+        font-size: 14px !important;
+    }
+
+    table th {
+        white-space: nowrap;
+        font-weight: normal;
+    }
+
+    table td {
+        text-align: right;
+    }
+
+    table .no {
+        color: #FFFFFF;
+        background: #009688;
+        text-align: center;
+    }
+
+    table .desc {
+        text-align: left;
+    }
+
+    table .unit {
+        background: #f3f3f3;
+    }
+
+    table td.qty {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    table tr.tax .tax {
+        text-align: right;
+    }
+
+    table tr.discount .discount {
+        text-align: right;
+    }
+
+    table tr.subtotal .subtotal {
+        text-align: right;
+        color: #000000;
+    }
+
+    table tbody tr:last-child td {
+        border: none;
+    }
+
+    table tfoot td {
+        background: #FFFFFF;
+        font-size: 14px;
+        white-space: nowrap;
+        border-bottom: 1px solid #ededed;
+    }
+
+    table tfoot tr:first-child td {
+        border-top: none;
+    }
+
+    table tfoot tr td:first-child {
+        border: none;
+    }
+
+    thead th {
+        font-size: 14px !important;
+        font-weight: bold;
+        padding: 10px 10px;
+        border-top: 1px solid #ededed;
+        border-bottom: 1px solid #ededed;
+    }
+
+    table.billing td {
+        background-color: #FFFFFF;
+    }
+
+    .total td {
+        font-size: 16px !important;
+        font-weight: bold;
+        color: #000000;
+    }
+
+    p {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        font-size: 14px;
+    }
+
+    .item {
+        color: #000000;
+        font-size: 14px;
+        margin: 0 0 0 0;
+        font-weight: bold;
+    }
+
+    .cpy-info {
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        margin-top: 2px;
+        font-weight: normal;
+    }
+
+    .status {
+        /*margin-top: 15px;
+        width: 100px;
+        color: #FFFFFF;
+        float: right;
+        text-align: center;
+        display: inline-block;*/
+        font-weight: bolder;
+        font-size: 18px !important;
+    }
+
+    .status.unpaid {
+        color: #E7505A;
+    }
+
+    .status.partially_paid {
+        color: #E7505A;
+    }
+
+    .status.paid {
+        color: #26C281;
+    }
+
+    .notices {
+        /*padding-left: 10px;
+        border-left: 10px solid #009688;*/
+    }
+
+    .align-left {
+        text-align: left;
+    }
+
+    .align-center {
+        text-align: center;
+    }
+
+    .w-5 {
+        width: 5%;
+    }
+
+    .w-15 {
+        width: 15%;
+    }
+
+    .w-20 {
+        width: 20%;
+    }
+
+    .w-40 {
+        width: 40%;
+    }
+
+    .mb-20 {
+        margin-bottom: 20px;
+    }
+
+    .f-12 {
+        font-size: 12px !important;
+    }
+
+    </style>
+</head>
+
+<body>
+    <header class="clearfix">
+        <table cellpadding="0" cellspacing="0" class="billing">
+            <tr>
+                <td class="align-left">
+                    <img src="https://www.chetsapp.com/wp-content/uploads/2017/06/ChetsApp_Logo_main.png" alt="Logo" />
+                </td>
+                <td>
+                    <b>INVOICE</b><br>
+                    <b># INV-000012</b><br>
+                    <div class="status sent">PAID</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-left">
+                    <p><b>ChetsApp Private Limited</b></p>
+                    <p class="cpy-info">411/ 412, Star Chambers,<br>Panchnath Main Road, Near GPO,<br>Harihar Chowk, Panchnath Plot,<br>Sadar, Rajkot, Gujarat – 360001<br>P: +91 87 5857 5857<br>GST IN: 44CEUPA4015F2ZU</p>
+                </td>
+                <td>
+                    <div class="mb-20">
+                        <p>To</p>
+                        <p><b>Vipul Patel</b></p>
+                        <p class="cpy-info">71634 Ludwigsburg, Germany<br>P: +49 175 8678468</p>
+                    </div>
+                    <div>
+                        <p>Ship To</p>
+                        <p><b>Kashyap Patel</b></p>
+                        <p class="cpy-info">Near Gondal Chokdi, Rajkot<br>P: +91 814101 6668</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <td class="align-center"><b>Invoice Date: </b>21-09-2020</td>
+                    <td class="align-center"><b>Due Date: </b>30-09-2020</td>
+                    <td class="align-center"><b>Reference # </b>Milan Unjiya</td>
+                </tr>
+            </thead>
+        </table>
+    </header>
+    <main>
+        <table border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="w-5 no">#</th>
+                    <th class="w-40">Item</th>
+                    <th class="w-5 qty">Qty/Hrs</th>
+                    <th class="w-15">Unit Price</th>
+                    <th class="w-15">Tax</th>
+                    <th class="w-20 unit">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="page-break-inside: avoid;">
+                    <td class="w-5 no">1</td>
+                    <td class="w-40 desc">
+                        <div class="item">USB Stick</div>
+                        <div class="f-12">Nulla sunt iusto voluptatem enim nam. Enim eius sed odio veritatis vitae accusamus vel.</div>
+                    </td>
+                    <td class="w-5 qty">3</td>
+                    <td class="w-15">30.00</td>
+                    <td class="w-15">GST 18.00 %</td>
+                    <td class="w-20 unit">90.00</td>
+                </tr>
+                <tr style="page-break-inside: avoid;">
+                    <td class="w-5 no">2</td>
+                    <td class="w-40 desc">
+                        <div class="item">MacBook Pro</div>
+                        <div class="f-12">Quaerat soluta consequatur rerum et suscipit et. Rem delectus quod enim quisquam et autem quia sed.</div>
+                    </td>
+                    <td class="w-5 qty">3</td>
+                    <td class="w-15">2,150.00</td>
+                    <td class="w-15">GST 18.00 %<br>VAT 10.00 %</td>
+                    <td class="w-20 unit">6,450.00</td>
+                </tr>
+                <tr style="page-break-inside: avoid;" class="subtotal">
+                    <td class="w-5 no">&nbsp;</td>
+                    <td class="w-40 desc">&nbsp;</td>
+                    <td class="w-5 qty">&nbsp;</td>
+                    <td class="w-15">&nbsp;</td>
+                    <td class="w-15 subtotal">Sub Total</td>
+                    <td class="w-20 unit">$ 6,540.00</td>
+                </tr>
+                <tr style="page-break-inside: avoid;" class="tax">
+                    <td class="w-5 no">&nbsp;</td>
+                    <td class="w-40 desc">&nbsp;</td>
+                    <td class="w-5 qty">&nbsp;</td>
+                    <td class="w-15">&nbsp;</td>
+                    <td class="w-15 tax">GST 18%</td>
+                    <td class="w-20 unit">$ 1,175.40</td>
+                </tr>
+                <tr style="page-break-inside: avoid;" class="tax">
+                    <td class="w-5 no">&nbsp;</td>
+                    <td class="w-40 desc">&nbsp;</td>
+                    <td class="w-5 qty">&nbsp;</td>
+                    <td class="w-15">&nbsp;</td>
+                    <td class="w-15 tax">VAT 10%</td>
+                    <td class="w-20 unit">$ 644.10</td>
+                </tr>
+                <tr style="page-break-inside: avoid;" class="discount">
+                    <td class="w-5 no">&nbsp;</td>
+                    <td class="w-40 desc">&nbsp;</td>
+                    <td class="w-5 qty">&nbsp;</td>
+                    <td class="w-15">&nbsp;</td>
+                    <td class="w-15 discount">Discount</td>
+                    <td class="w-20 unit">$ -10.00</td>
+                </tr>
+                <tr style="page-break-inside: avoid;" class="discount">
+                    <td class="w-5 no">&nbsp;</td>
+                    <td class="w-40 desc">&nbsp;</td>
+                    <td class="w-5 qty">&nbsp;</td>
+                    <td class="w-15">&nbsp;</td>
+                    <td class="w-15">Adjustment</td>
+                    <td class="w-20 unit">$ -29.41</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr dontbreak="true" class="total">
+                    <td colspan="5">Total</td>
+                    <td>$ 8320.00</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="notices"><b>Note: </b><br><span>Client note</span></div>
+        <div class="notices"><b>Terms & Conditions: </b><br><span>Looking forward to doing business with you.</span></div>
+    </main>
+</body>
+
+</html>

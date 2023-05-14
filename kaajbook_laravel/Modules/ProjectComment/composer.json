@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/projectcomment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ProjectComment\\Providers\\ProjectCommentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ProjectComment\\": ""
+        }
+    }
+}

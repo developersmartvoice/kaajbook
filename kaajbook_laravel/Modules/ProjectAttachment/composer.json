@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/projectattachment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ProjectAttachment\\Providers\\ProjectAttachmentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ProjectAttachment\\": ""
+        }
+    }
+}

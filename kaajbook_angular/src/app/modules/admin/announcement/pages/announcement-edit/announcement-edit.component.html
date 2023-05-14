@@ -1,0 +1,101 @@
+<section id="basic-form-layouts" *ngIf="isPageLoaded">
+	<form [formGroup]="editAnnouncementForm" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title" id="basic-layout-form">{{'announcements.create.title2' | translate }}</h4>
+					</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="title">{{'announcements.create.fields.title' | translate }}<span class="text-danger">&nbsp;*</span></label>
+											<input type="text" class="form-control" formControlName="title" id="title" placeholder="{{'announcements.create.placeholders.placeholder1' | translate }}" [ngClass]="{ 'is-invalid': isFormSubmitted && announcementControl.title.errors }" />
+											<div *ngIf="isFormSubmitted && announcementControl.title.errors" class="invalid-feedback">
+												<div *ngIf="announcementControl.title.errors.required">{{'announcements.create.error_messages.message1' | translate }}</div>
+												<div *ngIf="announcementControl.title.errors.maxlength">{{'announcements.create.error_messages.message2' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>{{'announcements.create.fields.status' | translate }}<span class="text-danger">&nbsp;*</span></label><br>
+											<label class="form-check radio-container d-block">
+												<input class="form-check-input" type="radio" formControlName="status" value="1" id="checkbox1">
+												<label class="form-check-label" for="checkbox1">&nbsp;{{'announcements.create.fields.publish' | translate }}&nbsp;</label>
+												<span class="radio-checkmark"></span>
+											</label>
+											<label class="form-check radio-container d-block">
+												<input class="form-check-input" type="radio" formControlName="status" value="0" id="checkbox2">
+												<label class="form-check-label" for="checkbox2">&nbsp;{{'announcements.create.fields.unpublish' | translate }}</label>
+												<span class="radio-checkmark"></span>
+											</label>
+											<label class="form-check radio-container d-block">
+												<input class="form-check-input" type="radio" formControlName="status" value="2" id="checkbox3">
+												<label class="form-check-label" for="checkbox3">&nbsp;{{'announcements.create.fields.completed' | translate }}</label>
+												<span class="radio-checkmark"></span>
+											</label>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label for="all_client">{{'announcements.create.fields.all_clients' | translate }}</label>
+											<label class="form-check checkbox-container d-block">
+												<input class="form-check-input" type="checkbox" formControlName="all_client" id="all_client">
+												<label></label>
+												<span class="checkbox-checkmark"></span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="start_date">{{'announcements.create.fields.start_date' | translate }}<span class="text-danger">&nbsp;*</span></label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #hhhhhhh="bsDatepicker" bsDatepicker formControlName="start_date" id="start_date" placeholder="{{'announcements.create.placeholders.placeholder2' | translate }}" [bsConfig]="datepickerConfig" [ngClass]="{ 'is-invalid': isFormSubmitted && announcementControl.start_date.errors }" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+											</div>
+											<div *ngIf="isFormSubmitted && announcementControl.start_date.errors" class="invalid-feedback">
+												<div *ngIf="announcementControl.start_date.errors.required">{{'announcements.create.error_messages.message3' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="end_date">{{'announcements.create.fields.end_date' | translate }}<span class="text-danger">&nbsp;*</span></label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #fffffff="bsDatepicker" bsDatepicker formControlName="end_date" id="end_date" placeholder="{{'announcements.create.placeholders.placeholder3' | translate }}" [bsConfig]="datepickerConfig" [minDate]="editAnnouncementForm.get('start_date').value" [ngClass]="{ 'is-invalid': isFormSubmitted && announcementControl.end_date.errors }" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+											</div>
+											<div *ngIf="isFormSubmitted && announcementControl.end_date.errors" class="invalid-feedback">
+												<div *ngIf="announcementControl.end_date.errors.required">{{'announcements.create.error_messages.message4' | translate }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label for="description">{{'announcements.create.fields.description' | translate }}</label>
+											<app-ngx-editor [config]="editorConfig" formControlName="description" id="description"></app-ngx-editor>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12 text-right">
+										<a [routerLink]="['/announcements']" class="btn btn-cancel">{{'common.cancel' | translate }}</a>
+										<button type="submit" class="btn btn-submit">{{'common.update' | translate }}</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

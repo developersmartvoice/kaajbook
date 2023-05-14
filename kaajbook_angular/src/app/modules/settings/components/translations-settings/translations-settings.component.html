@@ -1,0 +1,59 @@
+<!-- Card header -->
+<div class="card-header pl-0 pr-0 mb-3 border-bottom">
+	<h4 class="sub-title mt-2"><span>{{'settings.translations.title' | translate}}</span></h4>
+	<!-- <a class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'translations_create']" (click)="openTranslationCreateModal()" placement="top" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></a> -->
+</div>
+<div class="card-content pl-2 pr-2 pb-2 hide_empty_message">
+	<div class="card-body">
+		<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+			<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="translation_table" width="100%">
+				<thead>
+					<tr>
+						<th>{{'settings.translations.columns.icon' | translate}}</th>
+						<th>{{'settings.translations.columns.language' | translate}}</th>
+						<th>{{'settings.translations.columns.status' | translate}}</th>
+						<th>{{'settings.translations.columns.actions' | translate}}</th>
+					</tr>
+				</thead>
+				<tbody *ngIf="translations?.length != 0">
+					<tr *ngFor="let translation of translations; index as i">
+						<td class="text-center">
+							<img src="{{apiUrl}}/uploads/translation/{{translation.icon}}" height="30" width="30">
+						</td>
+						<td>{{translation.name}}</td>
+						<td>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'translations_edit']; else elseBlock1; then thenBlock1"></ng-container>
+							<ng-template #elseBlock1>
+								<div class="budges-status">
+									<span class="completed" *ngIf="translation.status == '1'">{{'common.status.active' | translate}}</span>
+									<span class="cancel" *ngIf="translation.status == '0'">{{'common.status.deactive' | translate}}</span>
+								</div>
+							</ng-template>
+							<ng-template #thenBlock1>
+								<ui-switch [checked]="translation.status == '1' ? true : false" (valueChange)="setActiveInactiveTranslation($event, translation)"></ui-switch>
+							</ng-template>
+						</td>
+						<td class="actions-dropdown">
+							<div class="btn-group" dropdown>
+								<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+								<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+									<li role="menuitem">
+										<a *ngxPermissionsOnly="['admin', 'super_admin', 'translations_edit']" (click)="openTranslationEditModal(translation)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}" placement="top"><i class="fa fa-pencil-square-o"></i></a>
+									</li>
+									<li role="menuitem">
+										<a *ngxPermissionsOnly="['admin', 'super_admin', 'translations_delete']" (click)="translationDelete(translation.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}" placement="top"><i class="fa fa-trash-o"></i></a>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot *ngIf="translations?.length == 0" class="tfoot_dt">
+					<tr>
+						<td colspan="4" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

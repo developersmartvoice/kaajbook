@@ -1,0 +1,88 @@
+<section *ngIf="isPageloaded">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card pl-2 pr-2">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="main-title mb-0 mt-2"><span>{{'todos.title' | translate}}</span></h4>
+					<button class="btn btn-create mb-0" (click)="openTodoCreateModal()" *ngxPermissionsOnly="['admin', 'super_admin', 'todos_create']" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></button>
+				</div>
+				<div class="card-content pt-3 pb-3">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="drag-container">
+									<div class="section-heading">{{'common.status.open' | translate}}</div>
+									<div cdkDropList #pendingList="cdkDropList" [cdkDropListData]="todos.open" [cdkDropListConnectedTo]="[doneList]" class="item-list" (cdkDropListDropped)="drop($event)">
+										<div class="item-box" *ngFor="let item of todos.open" cdkDrag>
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-md-10">
+														<inline-edit-textarea [name]="'description'" [fieldValue]="item.description" [elementFor]="'todos.inline_edit.description' | translate" [isRequired]="'true'" (updateValue)="saveTodosDetail(item, 'description', $event);"></inline-edit-textarea>
+														<span *ngIf="item.due_date">
+															{{ item.due_date | dateTimeFormatFilter: loginUser.settings.date_format }}
+														</span>
+													</div>
+													<!-- <div class="col-md-4 text-right">
+														<inline-edit-date [name]="'due_date'" [fieldValue]="item.due_date" [elementFor]="'todos.inline_edit.due_date' | translate" [isRequired]="'true'" [datepickerConfigs]="datepickerConfigs" [format]="loginUser.settings.date_format" (updateValue)="saveTodosDetail(item, 'due_date', $event);"></inline-edit-date>
+													</div> -->
+													<div class="col-md-2 actions-dropdown text-right">
+														<div class="btn-group" dropdown>
+															<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+															<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+																<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'todos_edit']">
+																	<a (click)="openTodoEditModal(item)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																</li>
+																<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'todos_delete']">
+																	<a  (click)="deleteTodo(item.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="drag-container">
+									<div class="section-heading">{{'common.status.completed' | translate}}</div>
+									<div cdkDropList #doneList="cdkDropList" [cdkDropListData]="todos.completed" [cdkDropListConnectedTo]="[pendingList]" class="item-list" (cdkDropListDropped)="drop($event)">
+										<div class="item-box" *ngFor="let item of todos.completed" cdkDrag>
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-md-10">
+														<inline-edit-textarea [name]="'description'" [fieldValue]="item.description" [elementFor]="'todos.inline_edit.description' | translate" [isRequired]="'true'" (updateValue)="saveTodosDetail(item, 'description', $event);"></inline-edit-textarea>
+														<span *ngIf="item.due_date">
+															{{ item.due_date | dateTimeFormatFilter: loginUser.settings.date_format }}
+														</span>
+													</div>
+													<!-- <div class="col-md-5 text-right">
+														<inline-edit-date [name]="'due_date'" [fieldValue]="item.due_date" [elementFor]="'todos.inline_edit.due_date' | translate" [isRequired]="'true'" [datepickerConfigs]="datepickerConfigs" [format]="loginUser.settings.date_format" (updateValue)="saveTodosDetail(item, 'due_date', $event);"></inline-edit-date>
+													</div> -->
+													<div class="col-md-2 actions-dropdown text-right">
+														<div class="btn-group" dropdown>
+															<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-2" aria-controls="dropdown-basic-2"><i class="fa fa-ellipsis-v"></i></button>
+															<ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-2">
+																<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'todos_edit']">
+																	<a (click)="openTodoEditModal(item)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																</li>
+																<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'todos_delete']">
+																	<a  (click)="deleteTodo(item.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

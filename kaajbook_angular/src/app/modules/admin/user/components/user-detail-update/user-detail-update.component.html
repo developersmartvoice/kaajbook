@@ -1,0 +1,246 @@
+<div class="card-content" *ngIf="isPageLoad">
+	<div class="card-body">
+		<div class="row">
+			<!-- Detail fields -->
+			<div class="col-md-12">
+				<h4 class="main-title mt-2 float-left"><span>{{user.firstname}} {{user.lastname}}</span></h4>
+				<div class="float-right mb-3">
+					<button (click)="openAvatarChangeModal()" *ngIf="permission" class="btn btn-create w-auto mr-2"><i class="fa fa-user"></i><span>{{'users.title7' | translate}}</span></button>
+					<button (click)="changeEmail()" *ngIf="permission" class="btn btn-create w-auto mr-2"><i class="fa fa-envelope"></i><span>{{'users.title4' | translate}}</span></button>
+					<button (click)="changePassword()" *ngIf="permission" class="btn btn-create w-auto"><i class="fa fa-lock"></i><span>{{'users.title5' | translate}}</span></button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<form class="form-body">
+				<!-- Detail fields -->
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.employment_ID' | translate}}</label>
+							<div class="detail-inline">{{user.emp_id}}</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.first_name' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock1">
+									<inline-edit-input [name]="'firstname'" [type]="'text'" [elementFor]="'users.inline_edit.first_name' | translate" [fieldValue]="user.firstname" [isRequired]="'true'" [maxLength]="20" (updateValue)="saveUserDetail('firstname', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock1>{{user.firstname}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.last_name' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock2">
+									<inline-edit-input [name]="'lastname'" [type]="'text'" [elementFor]="'users.inline_edit.last_name' | translate" [fieldValue]="user.lastname" [isRequired]="'true'" [maxLength]="20" (updateValue)="saveUserDetail('lastname', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock2>{{user.lastname}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.username' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock3">
+									<inline-edit-input [name]="'username'" [type]="'text'" [elementFor]="'users.inline_edit.username' | translate" [fieldValue]="user.username" [isRequired]="'true'" [minLength]="3" [maxLength]="30" pattern="^\S*$" (updateValue)="saveUserDetail('username', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock3>{{user.username}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3" *ngIf="user.is_client == 0">
+							<label>{{'users.create.fields.primary_manager' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock15">
+									<inline-edit-select [name]="'primary_manager'" [txtField]="'primary_manager'" [elementFor]="'users.inline_edit.primary_manager' | translate" [selectedValue]="user.primary_manager" [isRequired]="'false'" [options]="users" (updateValue)="saveUserDetail('primary_manager', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock15>
+									<ng-container *ngFor="let loop_user of users;">
+										<span *ngIf="user.primary_manager == loop_user.value">{{loop_user.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3" *ngIf="user.is_client == 0">
+							<label>{{'users.create.fields.secondary_manager' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock16">
+									<inline-edit-select [name]="'secondary_manager'" [txtField]="'secondary_manager'" [elementFor]="'users.inline_edit.secondary_manager' | translate" [selectedValue]="user.secondary_manager" [isRequired]="'false'" [options]="users" (updateValue)="saveUserDetail('secondary_manager', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock16>
+									<ng-container *ngFor="let loop_user of users;">
+										<span *ngIf="user.secondary_manager == loop_user.value">{{loop_user.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.joining_date' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock7">
+									<inline-edit-date [name]="'joindate'" [fieldValue]="user.joining_date" [elementFor]="'users.inline_edit.joining_date' | translate" [isRequired]="'false'" [format]="loginUser.settings.date_format" [datepickerConfigs]="datepickerConfigs" (updateValue)="saveUserDetail('joining_date', $event);"></inline-edit-date>
+								</ng-container>
+								<ng-template #elseBlock7>
+									{{user.joining_date | dateTimeFormatFilter: loginUser.settings.date_format}}
+								</ng-template>
+							</div>
+						</div>
+					</div>
+					<h4 class="main-title mt-2"><span>{{'users.headings.head1' | translate}}</span></h4>
+					<div class="row">
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.father_name' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock5">
+									<inline-edit-input [name]="'father_name'" [type]="'text'" [elementFor]="'users.inline_edit.father_name' | translate" [fieldValue]="user.father_name" [isRequired]="'false'" (updateValue)="saveUserDetail('father_name', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock5>{{user.father_name}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.mother_name' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock6">
+									<inline-edit-input [name]="'mother_name'" [type]="'text'" [elementFor]="'users.inline_edit.mother_name' | translate" [fieldValue]="user.mother_name" [isRequired]="'false'" (updateValue)="saveUserDetail('mother_name', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock6>{{user.mother_name}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.gender' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock4">
+									<inline-edit-select [name]="'gender'" [txtField]="'gender'" [elementFor]="'users.inline_edit.gender' | translate" [selectedValue]="user.gender" [isRequired]="'true'" [options]="('users.gender_options' | translate)" (updateValue)="saveUserDetail('gender', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock4>
+									<ng-container *ngFor="let gender of ('users.gender_options' | translate)">
+										<span *ngIf="user.gender == gender.value">{{gender.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.dob' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock8">
+									<inline-edit-date [name]="'dob'" [fieldValue]="user.dob" [elementFor]="'users.inline_edit.dob' | translate" [isRequired]="'false'" [datepickerConfigs]="datepickerConfigs" [format]="loginUser.settings.date_format" (updateValue)="saveUserDetail('dob', $event);"></inline-edit-date>
+								</ng-container>
+								<ng-template #elseBlock8>
+									{{user.dob | dateTimeFormatFilter: loginUser.settings.date_format}}
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.marital_status' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock9">
+									<inline-edit-select [name]="'maritial_status'" [txtField]="'maritial status'" [elementFor]="'users.inline_edit.maritial_status' | translate" [selectedValue]="user.maritial_status" [isRequired]="'false'" [options]="('users.marital_status' | translate)" (updateValue)="saveUserDetail('maritial_status', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock9>
+									<ng-container *ngFor="let marital of ('users.marital_status' | translate)">
+										<span *ngIf="user.maritial_status == marital.value">{{marital.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.language' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock11">
+									<inline-edit-select [name]="'language'" [txtField]="'language'" [elementFor]="'users.inline_edit.language' | translate" [selectedValue]="user.language" [isRequired]="'false'" [options]="languages" (updateValue)="saveUserDetail('language', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock11>
+									<ng-container *ngFor="let language of languages">
+										<span *ngIf="user.language == language.value">{{language.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+					</div>
+					<h4 class="main-title mt-2"><span>{{'users.headings.head4' | translate}}</span></h4>
+					<div class="row">
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.email' | translate}}</label>
+							<div class="detail-inline">{{user.email}}</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.skype' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock12">
+									<inline-edit-input [name]="'skype'" [type]="'text'" [elementFor]="'users.inline_edit.skype' | translate" [fieldValue]="user.skype" [isRequired]="'false'" (updateValue)="saveUserDetail('skype', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock12>{{user.skype}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.mobile' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock13">
+									<inline-edit-input [name]="'mobile'" [type]="'text'" [elementFor]="'users.inline_edit.mobile' | translate" [fieldValue]="user.mobile" [isRequired]="'false'" pattern="^(?:[+])?(\d[ -]?){1,15}$" (updateValue)="saveUserDetail('mobile', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock13>{{user.mobile}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.phone' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock14">
+									<inline-edit-input [name]="'phone'" [type]="'text'" [elementFor]="'users.inline_edit.phone' | translate" [fieldValue]="user.phone" [isRequired]="'false'" pattern="^(?:[+])?(\d[ -]?){1,15}$" (updateValue)="saveUserDetail('phone', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock14>{{user.phone}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.address' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock17">
+									<inline-edit-textarea [name]="'address'" [fieldValue]="user.address" [elementFor]="'users.inline_edit.address' | translate" [isRequired]="'false'" (updateValue)="saveUserDetail('address', $event);"></inline-edit-textarea>
+								</ng-container>
+								<ng-template #elseBlock17>{{user.address}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.inline_edit.city' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock18">
+									<inline-edit-input [name]="'city'" [type]="'text'" [elementFor]="'users.inline_edit.city' | translate" [fieldValue]="user.city" [isRequired]="'false'" (updateValue)="saveUserDetail('city', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock18>{{user.city}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.inline_edit.state' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock19">
+									<inline-edit-input [name]="'state'" [type]="'text'" [elementFor]="'users.inline_edit.state' | translate" [fieldValue]="user.state" [isRequired]="'false'" (updateValue)="saveUserDetail('state', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock19>{{user.state}}</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.create.fields.country' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock10">
+									<inline-edit-select [name]="'country'" [txtField]="'country'" [elementFor]="'users.inline_edit.country' | translate" [selectedValue]="user.country" [isRequired]="'false'" [options]="countries" (updateValue)="saveUserDetail('country', $event);"></inline-edit-select>
+								</ng-container>
+								<ng-template #elseBlock10>
+									<ng-container *ngFor="let country of countries">
+										<span *ngIf="user.country == country.value">{{country.label}}</span>
+									</ng-container>
+								</ng-template>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 mb-3">
+							<label>{{'users.inline_edit.postal_code' | translate}}</label>
+							<div class="detail-inline">
+								<ng-container *ngIf="permission; else elseBlock20">
+									<inline-edit-input [name]="'postal_code'" [type]="'text'" [elementFor]="'users.inline_edit.postal_code' | translate" [fieldValue]="user.postal_code" [isRequired]="'false'" (updateValue)="saveUserDetail('postal_code', $event);"></inline-edit-input>
+								</ng-container>
+								<ng-template #elseBlock20>{{user.postal_code}}</ng-template>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

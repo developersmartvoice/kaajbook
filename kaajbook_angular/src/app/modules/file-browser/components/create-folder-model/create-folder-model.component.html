@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-folder" aria-hidden="true"></i>&nbsp;{{'file_browser.title1' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsCreateFolderModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form [formGroup]="createFolderForm" (ngSubmit)="onSubmit()" class="bs4-forms">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-12">
+				<div class="form-group">
+					<label for="folder_name">{{'file_browser.create.fields.folder_name' | translate}}<span class="text-danger">&nbsp;*</span></label>
+					<input type="text" placeholder="{{'file_browser.create.placeholders.placeholder1' | translate}}" class="form-control" formControlName="folder_name" [ngClass]="{ 'is-invalid': isSubmitted && folderControl.folder_name.errors }" id="folder_name" />
+					<div *ngIf="isSubmitted && folderControl.folder_name.errors" class="invalid-feedback">
+						<div *ngIf="folderControl.folder_name.errors.required">{{'file_browser.create.error_messages.message1' | translate}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0"><span>{{'common.create' | translate}}</span></button>
+	</div>
+</form>

@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/leavetype",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\LeaveType\\Providers\\LeaveTypeServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\LeaveType\\": ""
+        }
+    }
+}

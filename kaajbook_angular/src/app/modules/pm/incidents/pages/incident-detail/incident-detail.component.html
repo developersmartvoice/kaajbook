@@ -1,0 +1,9 @@
+<section class="row detail-page">
+	<div class="card bg-transparent" *ngIf="isPageLoaded">
+		<app-incident-details [incident]="incident"
+			[loginUser]="loginUser"
+			[apiUrl]="apiUrl"
+			[permission]="permission">
+		</app-incident-details>
+	</div>
+</section>

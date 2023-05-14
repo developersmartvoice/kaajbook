@@ -1,0 +1,144 @@
+<!-- Card header -->
+<div class="pl-0 pr-0 border-bottom">
+    <h4 class="main-title mt-2"><span>{{'reports.headings.project_report' | translate}}</span></h4>
+</div>
+<!-- Card body -->
+<div class="card-body pt-3 overflow-x-scroll overflow-y-hidden">
+    <div class="row">
+        <div class="col-lg-12 mb-3">
+            <div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="projects_table">
+                    <thead>
+                        <tr class="display_all">
+                            <th>{{'projects.columns.id' | translate}}</th>
+                            <th>{{'projects.columns.project_name' | translate}}</th>
+                            <th>{{'projects.columns.version' | translate}}</th>
+                            <th>{{'projects.columns.start' | translate}}</th>
+                            <th>{{'projects.columns.end' | translate}}</th>
+                            <th>{{'projects.columns.hours' | translate}}</th>
+                            <th>{{'projects.columns.progress' | translate}}</th>
+                            <th>{{'projects.columns.creator' | translate}}</th>
+                            <th>{{'projects.columns.assigned_To' | translate}}</th>
+                            <th>{{'projects.columns.status' | translate}}</th>
+                            <th>{{'projects.columns.billing' | translate}}</th>
+                            <th>{{'projects.columns.budget' | translate}}</th>
+                            <th>{{'projects.columns.client' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="projects?.length != 0">
+                        <tr *ngFor="let project of projects">
+                            <td>{{project.generated_id}}</td>
+                            <td>{{project.project_name}}</td>
+                            <td><span class="badge badge-secondary">{{project.project_version}}</span></td>
+                            <td>{{project.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <td>{{project.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <td>
+                                <ng-container *ngIf="project.actual_hours else elseBlock4;">{{project.actual_hours}}</ng-container>
+                                <ng-template #elseBlock4>-</ng-template>
+                            </td>
+                            <td>{{project.progress}}%</td>
+                            <td class="people-lists">
+                                <a [routerLink]="['/users/profile', project.created_id]" class="btn btn-profile-info rounded-circle text-dark" tooltip="{{project.created_firstname}} {{project.created_lastname}}">
+                                    <img *ngIf="project.created_avatar" src="{{apiUrl}}/uploads/profile/{{project.created_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                    <img *ngIf="!project.created_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                </a>
+                            </td>
+                            <td class="people-lists">
+                                <ng-container *ngIf="project.assign_members == 'Unassign' || project.assign_members == '' || project.assign_members == null; else elseBlock1;">
+                                    <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle popover-item text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+                                        <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                    </a>
+                                </ng-container>
+                                <ng-template #elseBlock1>
+                                    <ng-container *ngFor="let user_id of project.assign_members | stringToArrayFilter index as i; odd as isOdd; even as isEven">
+                                        <a *ngIf="userLists[user_id]" [routerLink]="['/users/profile', user_id]" tooltip="{{userLists[user_id].firstname}} {{userLists[user_id].lastname}}" class="btn rounded-circle popover-item text-dark" [ngClass]="{'btn-profile-info': isOdd, 'btn-profile-danger': isEven}">
+                                            <img *ngIf="userLists[user_id].avatar" src="{{apiUrl}}/uploads/profile/{{userLists[user_id].avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                            <img *ngIf="!userLists[user_id].avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                        </a>
+                                    </ng-container>
+                                </ng-template>
+                            </td>
+                            <td class="budges-status">
+                                <ng-container *ngFor="let status of ('projects.status' | translate)">
+                                    <span class="badge {{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
+                                </ng-container>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="project.billing_type; else elseBlock2;">
+                                    <ng-container *ngFor="let type of ('projects.billing_types' | translate)">
+                                        <span class="badge badge-secondary" *ngIf="type.id == project.billing_type">{{type.label}}</span>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #elseBlock2>-</ng-template>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="project.price_rate else elseBlock3;">{{project.price_rate}}</ng-container>
+                                <ng-template #elseBlock3>-</ng-template>
+                            </td>
+                            <td class="people-lists">
+                                <ng-container *ngIf="project.client_id; else elseBlock5;">
+                                    <a [routerLink]="['/users/profile', project.client_id]" class="btn btn-profile-info rounded-circle text-dark" tooltip="{{project.client_firstname}} {{project.client_lastname}}">
+                                        <img *ngIf="project.client_avatar" src="{{apiUrl}}/uploads/profile/{{project.client_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                        <img *ngIf="!project.client_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                    </a>
+                                </ng-container>
+                                <ng-template #elseBlock5>-</ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.id' | translate}}" name="generated_id" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.project_name' | translate}}" name="project_name" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.version' | translate}}" name="project_version" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.start' | translate}}" name="start_date" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.end' | translate}}" name="end_date" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.hours' | translate}}" name="hours" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.progress' | translate}}" name="progress" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.creator' | translate}}" name="created" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.assigned_To' | translate}}" name="assigned" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.status' | translate}}" name="status" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.billing' | translate}}" name="billing" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.budget' | translate}}" name="budget" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'projects.columns.client' | translate}}" name="client" />
+                            </th>
+                        </tr>
+                    </tfoot>
+                    <tfoot *ngIf="projects?.length == 0" class="tfoot_dt">
+                        <tr>
+                            <td colspan="13" class="text-center">
+                                <img src="assets/img/norecord-img.png" width="50">
+                                <p class="mt-1">{{ 'common.empty_message.projects' | translate }}</p>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

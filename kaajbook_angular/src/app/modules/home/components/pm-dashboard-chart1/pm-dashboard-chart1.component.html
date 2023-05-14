@@ -1,0 +1,19 @@
+<div class="card card-height-chart">
+	<div class="card-header">
+		<h4 class="card-title">{{'dashboard.chart2' | translate}}</h4>
+	</div>
+	<div class="card-body">
+		<div class="card-block">
+			<div id="area-chart1" class="height-300">
+				<canvas baseChart class="chart"
+					[data]="polarAreaChartData"
+					[options]="polarChartOptions"
+					[labels]="polarAreaChartLabels"
+					[legend]="polarAreaLegend"
+					[chartType]="polarAreaChartType"
+					[colors]="ploarChartColors">
+				</canvas>
+			</div>
+		</div>
+	</div>
+</div>

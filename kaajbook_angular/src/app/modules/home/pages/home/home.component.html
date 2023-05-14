@@ -1,0 +1,70 @@
+<section *ngIf="isPageLoaded" class="dashboard_1">
+    <!-- <div class="row" *ngIf="loginUser.settings.is_demo">
+        <div class="col-sm-12">
+            <div class="alert alert-success">
+                <p>Demo resets every 12 hour on GMT+2. Feel free to test all the features before purchasing, keep in mind that some features are disabled.</p>
+            </div>
+        </div>
+    </div> -->
+    <app-dashboard-settings *ngIf="dashboardSettings" [dashboardSettings]="dashboardSettings"></app-dashboard-settings>
+    <app-pm-dashboard-widgets [dashboardLists]="dashboardLists" [dashboardLists1]="dashboardLists1" [loginUser]="loginUser" [dashboardSettings]="dashboardSettings"></app-pm-dashboard-widgets>
+    <app-pm-dashboard-charts  *ngIf="!loginUser.is_client" [projectChartReport]="dashboardLists1.project_count_by_status" [taskReport]="dashboardLists1.task_count_by_status" [monthlyReport]="dashboardLists1.count_by_month" [dashboardSettings]="dashboardSettings"></app-pm-dashboard-charts>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-sm-12 col-12">
+            <div class="row">
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'projects_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_projects_list">
+                        <app-pm-dashboard-projects [projects]="dashboardLists1.projects" [userLists]="userLists" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-projects>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'tasks_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_tasks_list">
+                        <app-pm-dashboard-tasks [tasks]="dashboardLists1.tasks" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-tasks>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'defects_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_defects_list">
+                        <app-pm-dashboard-defects [defects]="dashboardLists1.defects" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-defects>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'incidents_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_incidents_list">
+                        <app-pm-dashboard-incidents [incidents]="dashboardLists1.incidents" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-incidents>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'estimates_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_estimates_list">
+                        <app-pm-dashboard-estimates [estimates]="dashboardLists1.estimates" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-estimates>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'invoices_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_invoices_list">
+                        <app-pm-dashboard-invoices [invoices]="dashboardLists1.invoices" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-invoices>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'todos_view']">
+                    <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_todos_list">
+                        <app-pm-dashboard-todos [loginUser]="loginUser"></app-pm-dashboard-todos>
+                    </div>
+                </ng-container>
+                <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_activities_list">
+                    <app-pm-dashboard-activity [todaysActivity]="dashboardLists.today_activities" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-activity>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-sm-12 col-12">
+            <div class="row">
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_view']">
+                    <div class="col-xl-6 col-lg-12" *ngIf="dashboardSettings.is_meetings_list">
+                        <app-pm-dashboard-meetings [meetings]="dashboardLists.meetings" [loginUser]="loginUser"></app-pm-dashboard-meetings>
+                    </div>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'announcements_view']">
+                    <div class="col-xl-6 col-lg-12" *ngIf="dashboardSettings.is_announcement_list && !loginUser.is_client">
+                        <app-pm-dashboard-announcements [announcements]="dashboardLists.announcement" [loginUser]="loginUser"></app-pm-dashboard-announcements>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</section>

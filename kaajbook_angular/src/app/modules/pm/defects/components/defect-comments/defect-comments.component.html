@@ -1,0 +1,61 @@
+<!-- Card header -->
+<div class="card-header p-0">
+    <div class="card-buttons pt-2 pb-2 pr-1">
+        <button (click)="onSubmit()" id="post_comment" class="btn btn-create mb-0" tooltip="{{'common.create_comment' | translate}}"><i class="fa fa-plus"></i><span>{{'comments.buttons.button1' | translate}}</span></button>
+    </div>
+</div>
+<!-- Card body -->
+<div class="card-body">
+	<div class="row">
+		<div class="col-sm-12">
+			<form [formGroup]="defectCommentsForm" class="bs4-forms">
+				<div class="form-group">
+					<textarea class="form-control" name="comment" formControlName="comment" id="comment" placeholder="{{'comments.create.placeholders.placeholder1' | translate}}" [ngClass]="{ 'is-invalid': isCommentFormSubmitted && commentControl.comment.errors }"></textarea>
+					<div *ngIf="isCommentFormSubmitted && commentControl.comment.errors" class="invalid-feedback">
+						<div *ngIf="commentControl.comment.errors.required">{{'comments.create.error_messages.message1' | translate}}</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="hidden" formControlName="files">
+					<div class="dropzone dz-clickable" #commentdropzone>
+						<div class="dz-default dz-message">
+							<span><strong>{{'comments.create.error_messages.message2' | translate}}</strong></span>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- Comments lists -->
+	<div class="row">
+		<div class="col-sm-12">
+			<accordion [closeOthers]="oneAtATime">
+				<ng-container *ngFor="let comment of comments">
+					<accordion-group [panelClass]="customClass">
+						<button class="btn btn-link btn-block d-lg-flex justify-content-between" accordion-heading type="button">
+							<div class="">
+								<i class="fa fa-angle-down mr-1"></i>
+								<img src="../assets/img/profile_large.jpg" alt="User profile" class="img-sm rounded-circle" *ngIf="!comment.user.avatar" />
+								<img src="{{apiUrl}}/uploads/profile/{{comment.user.avatar}}" alt="User profile" class="img-sm rounded-circle" *ngIf="comment.user.avatar" />
+								<span class="ml-1">{{comment.user.firstname}} {{comment.user.lastname}}</span>
+							</div>
+							<div class="text-dark pt-1">{{comment.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }}</div>
+						</button>
+					   <div class="comment-text">
+							<inline-edit-textarea [name]="'comment'" [fieldValue]="comment.comment" [elementFor]="'common.comment' | translate" [isRequired]="'true'" (updateValue)="saveComments(comment, 'comment', $event);"></inline-edit-textarea>
+							<ul class="attachment_box" *ngIf="comment.attachments">
+								<li *ngFor="let item of comment.attachments;let i = index; trackBy: i">
+									<a target="_blank" download="{{item.name}}" href="{{apiUrl}}/uploads/defect_attachment/{{item.file}}"><span>{{item.name}}</span></a>
+								</li>
+							</ul>
+						</div>
+						<div class="comment-reply">
+							<a (click)="commentDelete(comment.id)" *ngIf="permission" class="text-danger">{{'common.remove' | translate}}</a>
+							<!-- <a (click)="showReplayCommentBox(comment.id)">{{'comments.buttons.button2' | translate}}</a> -->
+						</div>
+					</accordion-group>
+				</ng-container>
+			</accordion>
+		</div>
+	</div>
+</div>

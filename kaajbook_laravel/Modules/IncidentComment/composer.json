@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/incidentcomment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\IncidentComment\\Providers\\IncidentCommentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\IncidentComment\\": ""
+        }
+    }
+}

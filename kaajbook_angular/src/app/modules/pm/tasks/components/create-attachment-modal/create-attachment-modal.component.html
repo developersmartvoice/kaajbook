@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-paperclip modal-icon" aria-hidden="true"></i>&nbsp;{{'attachments.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsCreateAttachmentModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form class="form" [formGroup]="createAttachmentForm" (ngSubmit)="onSubmit()">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="file_name">{{'attachments.create.fields.file_title' | translate }}<span class="text-danger">&nbsp;*</span></label>
+						<input type="text" formControlName="file_name" placeholder="{{'attachments.create.placeholders.placeholder1' | translate }}" class="form-control" [ngClass]="{ 'is-invalid': isFormSubmitted && attachment.file_name.errors }" id="file_name" />
+						<div *ngIf="isFormSubmitted && attachment.file_name.errors" class="invalid-feedback">
+							<div *ngIf="attachment.file_name.errors.required">{{'attachments.create.error_messages.message1' | translate }}</div>
+							<div *ngIf="attachment.file_name.errors.maxlength">{{'attachments.create.error_messages.message5' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && attachment.file.errors }">
+						<label for="file">{{'attachments.create.fields.attachment' | translate }}<span class="text-danger">&nbsp;*</span></label>
+						<input type="hidden" formControlName="file">
+						<div class="dropzone dz-clickable" #logodropzone>
+							<div class="dz-default dz-message"><span><strong>{{'attachments.create.error_messages.message2' | translate }}</strong></span></div>
+						</div>
+						<div *ngIf="isFormSubmitted && attachment.file.errors" class="invalid-feedback">
+							<div *ngIf="attachment.file.errors.required">{{'attachments.create.error_messages.message3' | translate }}</div>
+						</div>
+					</div>
+				</div>
+				<input type="hidden" formControlName="file_extension">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.cancel' | translate }}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.create' | translate }}</button>
+	</div>
+</form>

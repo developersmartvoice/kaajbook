@@ -1,0 +1,42 @@
+<!-- Card header -->
+<div class="card-header pl-0 pr-0 border-bottom">
+	<h4 class="sub-title mt-2"><span>{{'settings.email_templates.title' | translate}}</span></h4>
+	<div class="width-300 mt-2">
+		<ng-select [searchable]="true" [items]="emailGroups" [selectOnTab]="true" bindLabel="email_group_name" bindValue="id" labelForId="email_group_id" placeholder="{{'settings.email_templates.create.placeholders.placeholder1' | translate}}" [(ngModel)]="email_group_id" [ngModelOptions]="{standalone: true}"></ng-select>
+	</div>
+</div>
+<form class="form">
+	<div class="form-body">
+		<div class="row email-templates-navs">
+			<div class="col-md-12">
+				<tabset class="email-templates-tab">
+					<tab heading="{{emailTemplate.template_name | translate}}" id="tab-{{emailTemplate.id}}" *ngFor="let emailTemplate of emailGroupTemplates[email_group_id];">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="subject_{{emailTemplate.id}}">{{'settings.email_templates.create.fields.subject' | translate}}</label>
+										<input type="text" class="form-control" name="subject_{{emailTemplate.id}}" id="subject_{{emailTemplate.id}}" placeholder="{{'settings.email_templates.create.placeholders.placeholder2' | translate}}" [(ngModel)]="emailTemplate.template_subject" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label for="description_{{emailTemplate.template_body}}">{{'settings.email_templates.create.fields.body' | translate}}</label>
+										<app-ngx-editor name="description_{{emailTemplate.template_body}}" height="200px" minHeight="50px" [placeholder]="''" [spellcheck]="true" id="description_{{emailTemplate.template_body}}" [(ngModel)]="emailTemplate.template_body"></app-ngx-editor>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<button type="submit" class="btn btn-submit" (click)="saveEmailtemplate(emailTemplate)" *ngxPermissionsOnly="['admin', 'super_admin', 'emailtemplates_create', 'emailtemplates_edit']">{{'common.save' | translate}}</button>
+								</div>
+							</div>
+						</div>
+					</tab>
+				</tabset>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,14 @@
+{
+    "name": "Slack",
+    "alias": "slack",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Slack\\Providers\\SlackServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

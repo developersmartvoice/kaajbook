@@ -1,0 +1,61 @@
+<!-- Card header -->
+<div class="card-header pl-0 pr-0 mb-3 border-bottom">
+	<h4 class="sub-title mt-3"><span>{{'settings.custom_fields.title' | translate}}</span></h4>
+	<button type="button" *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_create']" class="btn btn-create mb-0" (click)="openCustomFieldCreateModal()" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></button>
+</div>
+<div class="card-content pl-2 pr-2 pb-2">
+	<div class="card-body">
+		<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+			<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="custom_field_table" width="100%">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>{{'settings.custom_fields.columns.label' | translate}}</th>
+						<th>{{'settings.custom_fields.columns.custom_field_for' | translate}}</th>
+						<th>{{'settings.custom_fields.columns.type' | translate}}</th>
+						<th>{{'settings.custom_fields.columns.status' | translate}}</th>
+						<th>{{'settings.custom_fields.columns.actions' | translate}}</th>
+					</tr>
+				</thead>
+				<tbody *ngIf="customFields?.length != 0">
+					<tr *ngFor="let customField of customFields; index as i">
+						<td>{{i + 1}}</td>
+						<td>{{customField.field_label}}</td>
+						<td>{{formTables[customField.form_id]}}</td>
+						<td>{{customField.field_type}}</td>
+						<td>
+							<div *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_edit']; else elseBlock1; then thenBlock1"></div>
+							<ng-template #elseBlock1>
+								<div class="budges-status">
+									<span class="completed" *ngIf="customField.status == '1'">{{'common.status.active' | translate}}</span>
+									<span class="cancel" *ngIf="customField.status == '0'">{{'common.status.inactive' | translate}}</span>
+								</div>
+							</ng-template>
+							<ng-template #thenBlock1>
+								<ui-switch [checked]="customField.status == '1' ? true : false" (valueChange)="changeStatus($event, customField.id)"></ui-switch>
+							</ng-template>
+						</td>
+						<td class="actions-dropdown">
+							<div class="btn-group" dropdown>
+								<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+								<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+									<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_edit']">
+										<a (click)="openCustomFieldEditModal(customField)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}" placement="top"><i class="fa fa-pencil-square-o"></i></a>
+									</li>
+									<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_delete']">
+										<a (click)="removeCustomField(customField.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}" placement="top"><i class="fa fa-trash-o"></i></a>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot *ngIf="customFields?.length == 0" class="tfoot_dt">
+					<tr>
+						<td colspan="6" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

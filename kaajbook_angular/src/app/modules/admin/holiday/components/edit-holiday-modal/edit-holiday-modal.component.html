@@ -1,0 +1,61 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-tree" aria-hidden="true"></i>&nbsp;{{'holidays.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form [formGroup]="editHolidayForm" (ngSubmit)="onSubmit()" class="form">
+	<div class="modal-body">
+		<div class="modal-body">
+			<div class="form-body">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="event_name">{{'holidays.create.fields.event_name' | translate}}<span class="text-danger">&nbsp;*</span></label>
+							<input type="text" class="form-control" formControlName="event_name" id="event_name" placeholder="{{'holidays.create.placeholders.placeholder1' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && holidayControl.event_name.errors }" />
+							<div *ngIf="isFormSubmitted && holidayControl.event_name.errors" class="invalid-feedback">
+								<div *ngIf="holidayControl.event_name.errors.required">{{'holidays.create.error_messages.message1' | translate}}</div>
+								<div *ngIf="holidayControl.event_name.errors.maxlength">{{'holidays.create.error_messages.message2' | translate}}</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && holidayControl.date.errors }">
+							<label for="start_date">{{'holidays.create.fields.date' | translate}}<span class="text-danger">&nbsp;*</span></label>
+							<div class="position-relative has-icon-left">
+								<input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" formControlName="date" id="date" placeholder="{{'holidays.create.placeholders.placeholder2' | translate}}" aria-describedby="inputGroupPrepend2" />
+								<div class="form-control-position"><i class="ft-calendar"></i></div>
+							</div>
+							<div *ngIf="isFormSubmitted && holidayControl.date.errors" class="invalid-feedback">
+								<div *ngIf="holidayControl.date.errors.required">{{'holidays.create.error_messages.message3' | translate}}</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="color">{{'holidays.create.fields.color' | translate}}</label>
+							<div class="position-relative has-icon-left">
+								<input [colorPicker]="editHolidayForm.get('color').value" [value]="editHolidayForm.get('color').value" (colorPickerChange)="editHolidayForm.get('color').setValue($event)" [style.background]="editHolidayForm.get('color').value" [cpCancelButton]="true" class="form-control" id="color" formControlName="color">
+								<div class="form-control-position"><i class="ft-droplet"></i></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="location">{{'holidays.create.fields.location' | translate}}</label>
+							<input type="text" class="form-control" formControlName="location" id="location" placeholder="{{'holidays.create.placeholders.placeholder3' | translate}}" />
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="description">{{'holidays.create.fields.description' | translate}}</label>
+							<app-ngx-editor [config]="editorConfig" formControlName="description" id="description"></app-ngx-editor>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.update' | translate}}</button>
+	</div>
+</form>

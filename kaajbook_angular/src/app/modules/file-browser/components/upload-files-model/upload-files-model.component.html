@@ -1,0 +1,63 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;{{'file_browser.title3' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsCreateFileModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-12">
+			<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well dropzone text-center">
+				<i class="fa fa-upload fa-4x"></i>
+				<br />
+				<h4 class="dz-message">{{'file_browser.create.error_messages.message2' | translate}}</h4>
+			</div>
+		</div>
+		<div class="col-md-12 mt-2">
+			<label class="btn btn-raised btn-info round btn-file">
+				<input type="file" ng2FileSelect [uploader]="uploader" multiple class="d-none" />
+				<span><i class="fa fa-upload"></i> {{'file_browser.title3' | translate}}</span>
+			</label>
+		</div>
+		<div class="col-md-12" *ngIf="uploader.queue.length != 0">
+			<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+				<table class="table table-bordered table-hover b4-datatable" id="upload_files_table" width="100%">
+					<thead>
+						<tr>
+							<th width="50%">{{'file_browser.columns.name' | translate}}</th>
+							<th>{{'file_browser.columns.size' | translate}}</th>
+							<th>{{'file_browser.columns.progress' | translate}}</th>
+							<th>{{'file_browser.columns.status' | translate}}</th>
+							<th>{{'file_browser.columns.actions' | translate}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of uploader.queue; index as i">
+							<td><strong>{{ item?.file?.name }}</strong></td>
+							<td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+							<td *ngIf="uploader.options.isHTML5">
+								<progressbar max="100" [value]="item.progress" [animate]="true" [striped]="true"></progressbar>
+							</td>
+							<td class="budges-status">
+								<span *ngIf="item.isSuccess" class="completed">{{'common.status.success' | translate}}</span>
+								<span *ngIf="item.isCancel" class="cancel">{{'common.status.cancel' | translate}}</span>
+								<span *ngIf="item.isError" class="closed">{{'common.status.error' | translate}}</span>
+							</td>
+							<td class="actions-dropdown">
+	                            <div class="btn-group" dropdown>
+	                                <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+	                                <ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+	                                    <li role="menuitem">
+	                                        <a (click)="item.remove();uploaderRemove(attachmentsArr[i])" class="dropdown-item btn btn-danger btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.close' | translate}}</button>
+</div>

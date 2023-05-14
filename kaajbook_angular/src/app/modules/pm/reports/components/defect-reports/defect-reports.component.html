@@ -1,0 +1,127 @@
+<!-- Card header -->
+<div class="pl-0 pr-0 border-bottom">
+    <h4 class="main-title mt-2"><span>{{'reports.headings.defect_report' | translate}}</span></h4>
+</div>
+<!-- Card body -->
+<div class="card-body pt-3 overflow-x-scroll overflow-y-hidden">
+    <div class="row">
+        <div class="col-lg-12 mb-3">
+            <div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" width="100%" id="defects_table">
+                    <thead>
+                        <tr class="display_all">
+                            <th>{{'defects.columns.id' | translate}}</th>
+                            <th>{{'defects.columns.defect_name' | translate}}</th>
+                            <th>{{'defects.columns.start_date' | translate}}</th>
+                            <th>{{'defects.columns.end_date' | translate}}</th>
+                            <th>{{'defects.columns.actual_hours' | translate}}</th>
+                            <th>{{'defects.columns.creator' | translate}}</th>
+                            <th>{{'defects.columns.assigned' | translate}}</th>
+                            <th>{{'defects.columns.type' | translate}}</th>
+                            <th>{{'defects.columns.severity' | translate}}</th>
+                            <th>{{'defects.columns.status' | translate}}</th>
+                            <th>{{'defects.columns.project' | translate}}</th>
+                            <th>{{'defects.columns.project_version' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="defects?.length != 0">
+                        <tr *ngFor="let defect of defects">
+                            <td>{{defect.generated_id}}</td>
+                            <td>{{defect.defect_name}}</td>
+                            <td>{{defect.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <td>{{defect.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <td>
+                                <ng-container *ngIf="defect.actual_hours else elseBlock2;">{{defect.actual_hours}}</ng-container>
+                                <ng-template #elseBlock2>-</ng-template>
+                            </td>
+                            <td class="people-lists">
+                                <a [routerLink]="['/users/profile', defect.create_user_id]" class="btn btn-profile-info rounded-circle text-dark" tooltip="{{defect.created_firstname}} {{defect.created_lastname}}">
+                                    <img *ngIf="defect.created_avatar" src="{{apiUrl}}/uploads/profile/{{defect.created_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                    <img *ngIf="!defect.created_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                </a>
+                            </td>
+                            <td class="people-lists">
+                                <ng-container *ngIf="defect.assign_member == 'Unassign' || defect.assign_member == '' || defect.assign_member == null; else elseBlock1;">
+                                    <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+                                        <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                    </a>
+                                </ng-container>
+                                <ng-template #elseBlock1>
+                                    <a [routerLink]="['/users/profile', defect.assign_member]" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{defect.assigned_firstname}} {{defect.assigned_lastname}}">
+                                        <img *ngIf="defect.assigned_avatar" src="{{apiUrl}}/uploads/profile/{{defect.assigned_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                        <img *ngIf="!defect.assigned_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                    </a>
+                                </ng-template>
+                            </td>
+                            <td class="budges-status">
+                                <ng-container *ngFor="let type of ('defects.defect_types' | translate)">
+                                    <span class="badge badge-secondary" *ngIf="type.id == defect.defect_type">{{type.label}}</span>
+                                </ng-container>
+                            </td>
+                            <td class="budges-status">
+                                <ng-container *ngFor="let severity of ('defects.severities' | translate)">
+                                    <span class="badge {{severity.class}}" *ngIf="severity.id == defect.severity">{{severity.label}}</span>
+                                </ng-container>
+                            </td>
+                            <td class="budges-status">
+                                <ng-container *ngFor="let status of ('defects.status' | translate)">
+                                    <span class="badge {{status.class}}" *ngIf="status.id == defect.status">{{status.label}}</span>
+                                </ng-container>
+                            </td>
+                            <td>{{defect.project_name}}</td>
+                            <td><span class="badge badge-secondary">{{defect.project_version}}</span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.id' | translate}}" name="defect_ID" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.defect_name' | translate}}" name="defect_Id" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.start_date' | translate}}" name="start_date" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.end_date' | translate}}" name="end_date" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.actual_hours' | translate}}" name="actual_hours" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.creator' | translate}}" name="created" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.assigned' | translate}}" name="assigned" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.type' | translate}}" name="type" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.severity' | translate}}" name="Severity" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.status' | translate}}" name="status" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.project' | translate}}" name="project" />
+                            </th>
+                            <th>
+                                <input type="text" class="form-control" placeholder="{{'defects.columns.project_version' | translate}}" name="project_version" />
+                            </th>
+                        </tr>
+                    </tfoot>
+                    <tfoot *ngIf="defects?.length == 0" class="tfoot_dt">
+                        <tr>
+                            <td colspan="12" class="text-center">
+                                <img src="assets/img/norecord-img.png" width="50">
+                                <p class="mt-1">{{'common.empty_message.defects' | translate}}</p>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

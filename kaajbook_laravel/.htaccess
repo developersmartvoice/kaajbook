@@ -1,0 +1,18 @@
+# Disable Directory listing
+Options -Indexes
+
+# block files which needs to be hidden, specify .example extension of the file
+<Files ~ "\.(editorconfig|env|env.example|gitattributes|gitignore|lock|sql|xml|md|txt)$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files composer.json>
+ order allow,deny
+ Deny from all
+</Files>
+
+<Files package.json>
+ order allow,deny
+ Deny from all
+</Files>

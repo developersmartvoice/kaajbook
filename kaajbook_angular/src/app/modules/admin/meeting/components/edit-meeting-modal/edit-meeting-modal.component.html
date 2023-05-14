@@ -1,0 +1,140 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-group" aria-hidden="true"></i>&nbsp;{{'meetings.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form class="form" [formGroup]="editMeetingForm" (ngSubmit)="onSubmit()" *ngIf="isPageLoaded">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="form-group">
+						<label for="title">{{'meetings.create.fields.title' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<input type="text" class="form-control" formControlName="title" id="title" placeholder="{{'meetings.create.placeholders.placeholder1' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && meetingControl.title.errors }" />
+						<div *ngIf="isFormSubmitted && meetingControl.title.errors" class="invalid-feedback">
+							<div *ngIf="meetingControl.title.errors.required">{{'meetings.create.error_messages.message1' | translate}}</div>
+							<div *ngIf="meetingControl.title.errors.maxlength">{{'meetings.create.error_messages.message2' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="card shadow-none">
+						<div class="card-img text-center">
+							<img *ngIf="meeting.avatar" src="{{apiUrl}}/uploads/profile/{{meeting.avatar}}" alt="{{meeting.firstname}}" class="img-sm rounded-circle">
+							<img *ngIf="!meeting.avatar" src="../assets/img/profile_large.jpg" alt="Profile" class="img-sm rounded-circle">
+						</div>
+						<div class="card-body text-center">
+							<label class="m-0">{{meeting.firstname}} {{meeting.lastname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && meetingControl.start_date.errors }">
+						<label for="start_date">{{'meetings.create.fields.start_date' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<owl-date-time #startDT></owl-date-time>
+							<input type="text" class="form-control" [owlDateTimeTrigger]="startDT" [owlDateTime]="startDT" formControlName="start_date" id="start_date" placeholder="{{'meetings.create.placeholders.placeholder2' | translate}}" aria-describedby="inputGroupPrepend2" (dateTimeChange)="startDateChange($event)" />
+							<div class="form-control-position"><i class="ft-calendar"></i></div>
+						</div>
+						<div *ngIf="isFormSubmitted && meetingControl.start_date.errors" class="invalid-feedback">
+							<div *ngIf="meetingControl.start_date.errors.required">{{'meetings.create.error_messages.message3' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && meetingControl.end_date.errors }">
+						<label for="end_date">{{'meetings.create.fields.end_date' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<div class="position-relative has-icon-left">
+							<owl-date-time #endDT></owl-date-time>
+							<input type="text" class="form-control" [owlDateTimeTrigger]="endDT" [owlDateTime]="endDT" [min]="editMeetingForm.get('start_date').value" formControlName="end_date" id="end_date" placeholder="{{'meetings.create.placeholders.placeholder3' | translate}}" aria-describedby="inputGroupPrepend3" />
+							<div class="form-control-position"><i class="ft-calendar"></i></div>
+						</div>
+						<div *ngIf="isFormSubmitted && meetingControl.end_date.errors" class="invalid-feedback">
+							<div *ngIf="meetingControl.end_date.errors.required">{{'meetings.create.error_messages.message4' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="project_id">{{'meetings.create.fields.project' | translate }}</label>
+						<ng-select [searchable]="true"
+							[items]="projects"
+							[selectOnTab]="true"
+							(change)="projectChange($event)"
+							bindLabel="project_name"
+							bindValue="id"
+							labelForId="project_id"
+							formControlName="project_id"
+							placeholder="{{'meetings.create.placeholders.placeholder8' | translate }}">
+							<ng-template ng-option-tmp let-item="item">
+								{{item.project_name}}
+							</ng-template>
+						</ng-select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="client_id">{{'meetings.create.fields.client_name' | translate }}</label>
+						<ng-select [searchable]="true"
+							[items]="clients"
+							[selectOnTab]="true"
+							bindLabel="firstname"
+							bindValue="id"
+							labelForId="client_id"
+							formControlName="client_id"
+							placeholder="{{'meetings.create.placeholders.placeholder6' | translate }}">
+							<ng-template ng-option-tmp let-item="item">
+								{{item.firstname}} {{item.lastname}}
+							</ng-template>
+						</ng-select>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && meetingControl.members.errors }">
+						<label for="members">{{'meetings.create.fields.peoples' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<ng-select [items]="users" bindLabel="firstname" bindValue="id" [multiple]="true" formControlName="members" placeholder="{{'meetings.create.placeholders.placeholder4' | translate}}" [searchable]="true">
+							<ng-template ng-option-tmp let-item="item">
+								{{item.firstname}} {{item.lastname}}
+							</ng-template>
+						</ng-select>
+						<div *ngIf="isFormSubmitted && meetingControl.members.errors" class="invalid-feedback">
+							<div *ngIf="meetingControl.members.errors.required">{{'meetings.create.error_messages.message5' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="location">{{'meetings.create.fields.location' | translate}}</label>
+						<input type="text" class="form-control" formControlName="location" id="location" placeholder="{{'meetings.create.placeholders.placeholder5' | translate}}" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && meetingControl.status.errors }">
+						<label for="status">{{'meetings.create.fields.status' | translate }}&nbsp;<span class="text-danger">*</span></label>
+						<ng-select [searchable]="true"
+							[items]="('meetings.status' | translate)"
+							[selectOnTab]="true"
+							bindLabel="label"
+							bindValue="id"
+							labelForId="status"
+							formControlName="status"
+							placeholder="{{'meetings.create.placeholders.placeholder7' | translate }}">
+						</ng-select>
+						<div *ngIf="isFormSubmitted && meetingControl.status.errors" class="invalid-feedback">
+							<div *ngIf="meetingControl.status.errors.required">{{'meetings.create.error_messages.message7' | translate }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="description">{{'meetings.create.fields.description' | translate}}</label>
+						<app-ngx-editor [config]="editorConfig" formControlName="description" id="description"></app-ngx-editor>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.update' | translate}}</button>
+	</div>
+</form>

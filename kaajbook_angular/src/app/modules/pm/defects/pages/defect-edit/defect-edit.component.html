@@ -1,0 +1,257 @@
+<section id="basic-form-layouts" *ngIf="isPageLoaded">
+	<form [formGroup]="editDefectForm" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">{{'defects.title2' | translate }} - #{{ defect.generated_id }}</h4>
+					</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="fa fa-bug"></i> {{'defects.headings.head1' | translate }}</h4>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="defect_name">{{'defects.create.fields.defect_name' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<input type="text" class="form-control" formControlName="defect_name" id="defect_name" placeholder="{{'defects.create.placeholders.placeholder1' | translate }}" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.defect_name.errors }" />
+											<div *ngIf="isFormSubmitted && defectControl.defect_name.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.defect_name.errors.required">{{'defects.create.error_messages.message1' | translate }}</div>
+												<div *ngIf="defectControl.defect_name.errors.maxlength">{{'defects.create.error_messages.message2' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.start_date.errors }">
+											<label for="start_date">{{'defects.create.fields.start_date' | translate }}</label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #dp1="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" [minDate]="projectStartDate" (onHidden)="startDateChange()" formControlName="start_date" id="start_date" placeholder="{{'defects.create.placeholders.placeholder8' | translate }}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && defectControl.start_date.errors" class="invalid-feedback">
+													<div *ngIf="defectControl.start_date.errors">{{'defects.create.error_messages.message11' | translate }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.end_date.errors }">
+											<label for="end-date">{{'defects.create.fields.end_date' | translate }}</label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #dp2="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" [minDate]="editDefectForm.get('start_date').value" formControlName="end_date" id="end_date" placeholder="{{'defects.create.placeholders.placeholder9' | translate }}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && defectControl.end_date.errors" class="invalid-feedback">
+													<div *ngIf="defectControl.end_date.errors">{{'defects.create.error_messages.message12' | translate }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.defect_type.errors }">
+											<label for="defect_type">{{'defects.create.fields.defect_type' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<ng-select [searchable]="true"
+												[items]="('defects.defect_types' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="type"
+												formControlName="defect_type"
+												placeholder="{{'defects.create.placeholders.placeholder2' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && defectControl.defect_type.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.defect_type.errors.required">{{'defects.create.error_messages.message3' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.severity.errors }">
+											<label for="severity">{{'defects.create.fields.severity' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<ng-select [searchable]="true"
+												[items]="('defects.severities' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="severity"
+												formControlName="severity"
+												placeholder="{{'defects.create.placeholders.placeholder4' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && defectControl.severity.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.severity.errors.required">{{'defects.create.error_messages.message6' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="assigned_group_id">{{'defects.create.fields.assigned_group' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="teams"
+												[selectOnTab]="true"
+												bindLabel="team_name"
+												bindValue="id"
+												labelForId="assigned_group_id"
+												formControlName="assigned_group_id"
+												placeholder="{{'defects.create.placeholders.placeholder5' | translate }}"
+												(change)="assignGroupChange($event)">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="assign_member">{{'defects.create.fields.assigned_To' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="teamsMembers"
+												bindLabel="firstname"
+												bindValue="id"
+												labelForId="assign_member"
+												[multiple]="false"
+												[selectOnTab]="true"
+												formControlName="assign_member"
+												placeholder="{{'common.unassigned' | translate}}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item.firstname}} {{item.lastname}}
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="estimated_hours">{{'defects.create.fields.estimate_hours' | translate }}</label>
+											<input type='text' class="form-control" formControlName="estimated_hours" placeholder="00:00" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.estimated_hours.errors }">
+											<div *ngIf="isFormSubmitted && defectControl.estimated_hours.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.estimated_hours.errors.pattern">{{'defects.create.error_messages.message13' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.status.errors }">
+											<label for="status">{{'defects.create.fields.status' | translate }}&nbsp;<span class="text-danger">*</span> </label>
+											<ng-select [searchable]="true"
+												[items]="('defects.status' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="status"
+												formControlName="status"
+												placeholder="{{'defects.create.placeholders.placeholder3' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && defectControl.status.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.status.errors.required">{{'defects.create.error_messages.message5' | translate }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">&nbsp;</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-zap"></i> {{'defects.headings.head2' | translate }}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && defectControl.project_id.errors }">
+											<label for="project_id">{{'defects.create.fields.project_name' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<ng-select [searchable]="true"
+												[items]="projects"
+												[selectOnTab]="true"
+												(change)="projectChange($event)"
+												bindLabel="project_name"
+												bindValue="id"
+												labelForId="project_id"
+												formControlName="project_id"
+												placeholder="{{'defects.create.placeholders.placeholder6' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && defectControl.project_id.errors" class="invalid-feedback">
+												<div *ngIf="defectControl.project_id.errors.required">{{'defects.create.error_messages.message8' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="project_version">{{'defects.create.fields.project_version' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="projectVersion"
+												[selectOnTab]="true"
+												formControlName="project_version"
+												placeholder="{{'defects.create.placeholders.placeholder7' | translate }}">
+												<ng-template ng-option-tmp let-item="item">{{item}}</ng-template>
+											</ng-select>
+										</div>
+									</div>
+								</div>
+								<h4 class="form-section"><i class="ft-upload"></i> {{'defects.headings.head3' | translate }}</h4>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>{{'defects.create.fields.choose_file' | translate }}</label>
+											<input type="hidden" formControlName="file">
+											<div class="dropzone dz-clickable" #logodropzone>
+												<div class="dz-default dz-message" *ngIf="isLogoUploaded">
+													<span><strong>{{'defects.create.error_messages.message10' | translate }}</strong></span>
+												</div>
+												<div class="dz-preview dz-image-preview" *ngIf="isLogoLoaded && defect.attachment_hash">
+													<div class="dz-image">
+														<img src="{{apiUrl}}/uploads/defect/{{defect.attachment_hash}}" height="100" width="100" />
+													</div>
+													<a class="btn btn-sm btn-block" (click)="removeDropzoneImage()">{{ 'common.remove_file' | translate }}</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12" *ngIf="customFields.length > 0">
+				<div class="card">
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-star"></i>{{'defects.headings.head4' | translate }}</h4>
+								<div class="row mb-3">
+									<div class="col-md-12">
+										<app-show-custom-field-element [formArray]="'custom_field'"
+											[controls]="editDefectForm.get('custom_field')"
+											[customFields]="customFields"
+											[isFormSubmitted]="isFormSubmitted"
+											[formName]="editDefectForm">
+										</app-show-custom-field-element>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-message-square"></i>{{'defects.headings.head5' | translate }}</h4>
+								<div class="row mb-3">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="description">{{'defects.create.fields.description' | translate }}</label>
+											<app-ngx-editor [config]="editorConfig" formControlName="description" id="description"></app-ngx-editor>
+										</div>
+									</div>
+									<div class="col-md-12 text-right">
+										<a [routerLink]="['/defects']" class="btn btn-cancel mb-0">{{'common.cancel' | translate}}</a>
+										<button type="submit" class="btn btn-submit mb-0">{{'common.update' | translate}}</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

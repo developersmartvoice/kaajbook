@@ -1,0 +1,24 @@
+@extends('theme::layouts.master')
+
+@section('template_title')
+    {{ trans('installer_messages.welcome.templateTitle') }}
+@endsection
+
+@section('title')
+    {{ trans('installer_messages.welcome.title') }}
+@endsection
+
+@section('container')
+    <p class="text-center">
+      {{ trans('installer_messages.welcome.message') }}
+    </p>
+    <p class="text-center">
+      <a href="{{ route('LaravelInstaller::requirements') }}" class="button">
+        {{ trans('installer_messages.welcome.next') }}
+        <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
+      </a>
+    </p>
+    <div class="text-center">
+        <a target="_blank" href="https://vipspm.chetsapp.de/documentation">Read documentation before start the installation.
+    </a>
+@endsection

@@ -1,0 +1,31 @@
+<div class="card card-height overflow-y">
+    <div class="card-header border-bottom mb-3">
+        <h4 class="card-title mt-2">{{'meetings.title' | translate}}</h4>
+        <div class="card-buttons">
+            <a [routerLink]="['/meetings']" *ngxPermissionsOnly="['admin', 'super_admin', 'meetings_view']" class="btn btn-rounded mb-0" tooltip="{{'common.lists' | translate}}"><i class="fa fa-list"></i></a>
+        </div>
+    </div>
+    <div class="card-body sidebar-content mb-3" [perfectScrollbar]="scrollConfig">
+        <div class="card-block pt-0">
+            <ul class="horizontal-timeline list-unstyled" *ngIf="meetings.length !=0">
+                <li *ngFor="let meeting of meetings; index as i; odd as isOdd; even as isEven">
+                    <div class="timeline-icon" [ngClass]="{'bg-success': isOdd, 'bg-info': isEven}">
+                        <i class="feather icon-plus font-m-2 align-middle"></i>
+                    </div>
+                    <div class="timeline-info">
+                        <h6 class="mb-1"><a [routerLink]="['/meetings/detail', meeting.id]" tooltip="{{'common.view' | translate}}">{{meeting.generated_id}}</a><span> - {{meeting.title}}</span></h6>
+                        <p class="mb-2" [innerHTML]="meeting.description"></p>
+                    </div>
+                    <div class="timeline-muted">
+                        <h6>{{meeting.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</h6>
+                        <span>{{meeting.start_date | dateTimeFormatFilter : 'hh:mm a'}}</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="text-center" *ngIf="meetings?.length == 0">
+                <img src="assets/img/norecord-img.png" width="50">
+                <p class="mt-1">{{ 'common.empty_message.meetings' | translate }}</p>
+            </div>
+        </div>
+    </div>
+</div>

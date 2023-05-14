@@ -1,0 +1,526 @@
+<section class="row detail-page project_planner">
+	<div class="card bg-transparent" *ngIf="isPageLoaded">
+		<div class="card-content">
+			<div class="card-body">
+				<div class="row mr-0 ml-0">
+					<div class="col-md-12 card-separator">
+						<div class="d-flex justify-content-between">
+							<div class="task-name d-lg-flex">
+								<h4 class="task-id">
+									<span>#{{project.generated_id}} </span>
+								</h4>
+								<p class="task-title ml-lg-2">
+									{{project.project_name}}
+								</p>
+							</div>
+							<div class="task-action d-flex">
+								<button *ngIf="permissions.edit_delete_permission.edit" class="btn btn-create mb-2 mb-lg-0 float-right" (click)="openEditProjectModal(project.id)" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 pr-0 pl-0 ">
+						<form class="form-body overflow-hidden mt-3">
+							<!-- Detail fields -->
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-lg-4 pr-lg-3 pl-lg-2 pr-2 pl-2">
+										<div class="row">
+											<div class="col">
+												<div class="row">
+													<div class="col card-separator mb-3">
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.version' | translate}}</label>
+															<div class="detail-inline">{{project.project_version}}</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.status' | translate}}</label>
+															<div class="status-dropdown">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock11">
+																	<div class="btn-group" dropdown>
+																		<button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(project.status) | translate}}&nbsp;<span class="caret"></span></button>
+																		<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+																			<li role="menuitem" *ngFor="let status of ('projects.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': project.status == status.id}" (click)="changeProjectStatus([project.id], status);project.status = status.id">{{status.label}}</a></li>
+																		</ul>
+																	</div>
+																</ng-container>
+																<ng-template #elseBlock11>
+																	<ng-container *ngFor="let status of ('projects.status' | translate)">
+																		<div class="budges-status">
+																			<span class="{{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
+																		</div>
+																	</ng-container>
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.created_by' | translate}}</label>
+															<div class="people-lists">
+																<a [routerLink]="['/users/profile', project.created_user.id]" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="{{project.created_user.firstname}} {{project.created_user.lastname}}">
+																	<img *ngIf="project.created_user.avatar" src="{{apiUrl}}/uploads/profile/{{project.created_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																	<img *ngIf="!project.created_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a>
+																<span class="ml-1">{{project.created_user.firstname}} {{project.created_user.lastname}}</span>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.assigned_To' | translate}}</label>
+															<div class="people-lists">
+																<ng-container *ngIf="project.assign_members == 'Unassign' || project.assign_members == '' || project.assign_members == null; else elseBlock">
+																	<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																		<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																	</a>
+																</ng-container>
+																<ng-template #elseBlock>
+																	<ng-container *ngFor="let user_id of project.assign_members | stringToArrayFilter index as i; odd as isOdd; even as isEven">
+																		<a *ngIf="userLists[user_id]" [routerLink]="['/users/profile', user_id]" tooltip="{{userLists[user_id].firstname}} {{userLists[user_id].lastname}}" class="btn rounded-circle popover-item text-dark" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven, 'popover-item': i!=0}">
+																			<img *ngIf="userLists[user_id].avatar" src="{{apiUrl}}/uploads/profile/{{userLists[user_id].avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																			<img *ngIf="!userLists[user_id].avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																		</a>
+																	</ng-container>
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.completed' | translate}}</label>
+															<div>
+																<progressbar max="100" [value]="project.progress" [animate]="true"><strong>{{project.progress}}%</strong></progressbar>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-12 card-separator">
+														<div class="col-lg-12 mb-3" *ngIf="!loginUser.is_client">
+															<label>{{'projects.create.fields.client_name' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock4">
+																	<inline-edit-select [name]="'firstname'" [elementFor]="'projects.inline_edit.client' | translate" [txtField]="'client_id'" [selectedValue]="project.client_id" [isRequired]="'true'" [options]="clients" (updateValue)="saveProjectDetail('client_id', $event);"></inline-edit-select>
+																</ng-container>
+																<ng-template #elseBlock4>
+																	<span *ngIf="project.clients">
+																		{{ project.clients.firstname}} {{project.clients.lastname}}
+																	</span>
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.start_date' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock5">
+																	<inline-edit-date [name]="'start_date'" [elementFor]="'projects.inline_edit.start_date' | translate" [fieldValue]="project.start_date" [format]="loginUser.settings.date_format" [isRequired]="'true'" [datepickerConfigs]="datepickerConfigs" (updateValue)="saveProjectDetail('start_date', $event);"></inline-edit-date>
+																</ng-container>
+																<ng-template #elseBlock5>
+																	{{ project.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.end_date' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock6">
+																	<inline-edit-date [name]="'end_date'" [elementFor]="'projects.inline_edit.end_date' | translate" [fieldValue]="project.end_date" [isRequired]="'true'" [datepickerConfigs]="datepickerConfigs" [format]="loginUser.settings.date_format" (updateValue)="saveProjectDetail('end_date', $event);"></inline-edit-date>
+																</ng-container>
+																<ng-template #elseBlock6>
+																	{{ project.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.estimate_hours' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock7">
+																	<inline-edit-hours [name]="'estimated_hours'" [elementFor]="'projects.inline_edit.estimate_hours' | translate" [fieldValue]="project.estimated_hours" [isRequired]="'false'" (updateValue)="saveProjectDetail('estimated_hours', $event);"></inline-edit-hours>
+																</ng-container>
+																<ng-template #elseBlock7>{{ project.estimated_hours}}</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.actual_hours' | translate}}</label>
+															<div class="detail-inline">{{project.actual_hours}}</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.demo_URL' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock8">
+																	<inline-edit-input [type]="'text'" [name]="'demo_url'" [elementFor]="'projects.inline_edit.demo_url' | translate" [fieldValue]="project.demo_url" [isRequired]="'true'" (updateValue)="saveProjectDetail('demo_url', $event);"></inline-edit-input>
+																</ng-container>
+																<ng-template #elseBlock8>{{ project.demo_url }}</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.billing_type' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock9">
+																	<inline-edit-select [name]="'label'" [txtField]="'billing_type'" [elementFor]="'projects.inline_edit.billing_type' | translate" [selectedValue]="project.billing_type" [isRequired]="'true'" [options]="('projects.billing_types' | translate)" (updateValue)="saveProjectDetail('billing_type', $event);"></inline-edit-select>
+																</ng-container>
+																<ng-template #elseBlock9>
+																	<ng-container *ngFor="let type of ('projects.billing_types' | translate)">
+																		<span *ngIf="project.billing_type == type.id">{{type.label}}</span>
+																	</ng-container>
+																</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'projects.create.fields.budget' | translate}}</label>
+															<div class="detail-inline">
+																<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock10">
+																	<inline-edit-input [name]="'price_rate'" [type]="'text'" [elementFor]="'projects.inline_edit.budget' | translate" [pattern]="'^[0-9]+(\.[0-9]{1,2})?$'" [fieldValue]="project.price_rate" [isRequired]="'false'" (updateValue)="saveProjectDetail('price_rate', $event);"></inline-edit-input>
+																</ng-container>
+																<ng-template #elseBlock10>{{project.price_rate}}</ng-template>
+															</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'common.created' | translate}}</label>
+															<div class="detail-inline">{{project.created_at | dateTimeFormatFilter : loginUser.settings.date_time_format}}</div>
+														</div>
+														<div class="col-lg-12 mb-3">
+															<label>{{'common.updated' | translate}}</label>
+															<div class="detail-inline">{{project.updated_at | dateTimeFormatFilter : loginUser.settings.date_time_format}}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-8">
+										<div class="row">
+											<!-- Description field -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 description-detail mb-3 card-separator">
+												<h4 class="sub-title"><span>{{'projects.details.title2' | translate}}</span></h4>
+												<div class="detail-inline">
+													<ng-container *ngIf="permissions.edit_delete_permission.edit; else elseBlock1">
+														<inline-edit-text-editor [name]="'description'" [fieldValue]="project.description" [elementFor]="'projects.inline_edit.description' | translate" (updateValue)="saveProjectDetail('description', $event);"></inline-edit-text-editor>
+													</ng-container>
+													<ng-template #elseBlock1>
+														<p [innerHtml]="project.description"></p>
+													</ng-template>
+												</div>
+											</div>
+											<!-- Custom fields -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3" *ngIf="project.custom_fields.length > 0">
+												<h4 class="sub-title"><span>{{'projects.details.title1' | translate}}</span></h4>
+												<div class="row">
+													<ng-container *ngFor="let customField of project.custom_fields">
+														<div class="col-lg-4 col-md-6 mt-2" *ngIf="customField.field_type != 'textarea'">
+															<ng-container *ngIf="customField.field_type == 'text' || customField.field_type == 'numeric'">
+																<label>{{customField.field_label}}</label>
+																<div class="detail-inline">{{project[customField.field_column]}}</div>
+															</ng-container>
+															<ng-container *ngIf="customField.field_type == 'date'">
+																<label>{{customField.field_label}}</label>
+																<div class="detail-inline">{{project[customField.field_column] | dateTimeFormatFilter: loginUser.settings.date_format}}</div>
+															</ng-container>
+															<ng-container *ngIf="customField.field_type == 'dropdown'">
+																<label>{{customField.field_label}}</label>
+																<div class="detail-inline">
+																	<ng-container *ngFor="let fieldValue of getParseArray(customField.default_value)">
+																		<ng-container *ngIf="fieldValue.value == project[customField.field_column]">
+																			{{fieldValue.label}}
+																		</ng-container>
+																	</ng-container>
+																</div>
+															</ng-container>
+															<ng-container *ngIf="customField.field_type == 'checkbox'">
+																<label>{{customField.field_label}}</label>
+																<div class="detail-inline">
+																	<div *ngIf="project[customField.field_column] == 1; else checkboxElseBlock">{{'common.true' | translate}}</div>
+																	<ng-template #checkboxElseBlock>{{'common.false' | translate}}</ng-template>
+																</div>
+															</ng-container>
+														</div>
+													</ng-container>
+													<ng-container *ngFor="let customField of project.custom_fields">
+														<div class="col-lg-4 col-md-6 mt-2" *ngIf="customField.field_type == 'textarea'">
+															<ng-container>
+																<label>{{customField.field_label}}</label>
+																<div class="detail-inline">{{project[customField.field_column]}}</div>
+															</ng-container>
+														</div>
+													</ng-container>
+												</div>
+											</div>
+											<!-- Sprint -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 description-detail mb-3 card-separator">
+												<div class="card-header p-0">
+													<h4 class="sub-title"><span>{{'project_planner.title5' | translate}}</span></h4>
+													<div class="card-buttons pb-2">
+														<button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_create']" (click)="openCreateSprintModal()" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></button>
+													</div>
+												</div>
+												<div class="table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm table-responsive-xs">
+													<table class="table table-bordered table-hover" width="100%">
+														<thead>
+															<tr>
+																<th class="width-5-per text-center"></th>
+																<th class="width-20-per">{{'project_planner.columns.name' | translate}}</th>
+																<th class="width-20-per">{{'project_planner.columns.responsible' | translate}}</th>
+																<th class="width-10-per">{{'project_planner.columns.type' | translate}}</th>
+																<th class="width-20-per">{{'project_planner.columns.start_date' | translate}} </th>
+																<th class="width-20-per">{{'project_planner.columns.end_date' | translate}}</th>
+																<th class="width-5-per">{{'project_planner.columns.hours' | translate}}</th>
+																<th class="width-5-per">{{'project_planner.columns.status' | translate}}</th>
+																<th class="width-5-per text-center">{{'project_planner.columns.actions' | translate}}</th>
+															</tr>
+														</thead>
+														<tbody *ngIf="sprints.sprint_tasks?.length != 0">
+															<!-- Sprints -->
+															<ng-container *ngFor="let sprint of sprints.sprint_tasks; let i = index">
+																<tr class="tr_clickable">
+																	<td class="width-5-per text-center" (click)="changeSprintId(sprint.id)" [ngClass]="{'details-control': sprint.tasks?.length != 0}"></td>
+																	<td class="width-20-per">{{sprint.sprint_name}}</td>
+																	<td class="width-20-per people-lists">
+																		<ng-container *ngIf="sprint.sprint_members?.length; else elseBlock3">
+																			<a tooltip="{{member.firstname}} {{member.lastname}}" class="btn rounded-circle popover-item text-dark" placement="top" *ngFor="let member of sprint.sprint_members; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info': isOdd, 'btn-profile-danger': isEven}">
+																				<img *ngIf="member.avatar" src="{{apiUrl}}/uploads/profile/{{member.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																				<img *ngIf="!member.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																			</a>
+																		</ng-container>
+																		<ng-template #elseBlock3>
+																			<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																				<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																			</a>
+																		</ng-template>
+																	</td>
+																	<td class="width-10-per">{{'project_planner.title5' | translate}}</td>
+																	<td class="width-20-per">{{sprint.start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+																	<td class="width-20-per">{{sprint.end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+																	<td class="width-5-per">{{sprint.hours}}</td>
+																	<td class="budges-status width-5-per">
+																		<ng-container *ngFor="let status of ('project_planner.sprint.status' | translate)">
+																			<span class="{{status.class}}" *ngIf="status.id == sprint.status">{{status.label}}</span>
+																		</ng-container>
+																	</td>
+																	<td class="actions-dropdown width-5-per">
+																		<div class="btn-group" dropdown>
+																			<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+																			<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+																				<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_edit']">
+																					<a (click)="openEditSprintModal(sprint.project, sprint.id)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																				</li>
+																				<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_create']">
+																					<a (click)="openCreateSprintTaskModal(sprint, 'Task')" class="dropdown-item btn btn-info btn-raised" tooltip="{{'project_planner.title1' | translate}}"><i class="fa fa-plus"></i></a>
+																					<a (click)="openCreateSprintTaskModal(sprint, 'Story')" class="dropdown-item btn btn-info btn-raised" tooltip="{{'project_planner.title2' | translate}}"><i class="fa fa-plus"></i></a>
+																				</li>
+																				<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_delete']">
+																					<a (click)="deleteSprint(sprint.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																				</li>
+																			</ul>
+																		</div>
+																	</td>
+																</tr>
+																<!-- Sprint Tasks -->
+																<ng-container *ngFor="let task of sprint.tasks; index as i">
+																	<tr *ngIf="hideElementsChild[sprint.id]">
+																		<td colspan="9" class="p-0">
+																			<div class="table-responsive-xl table-responsive-lg table-responsive-md table-responsive-sm table-responsive-xs">
+																				<table class="table table-sm table-bordered mb-0">
+																					<tbody>
+																						<tr>
+																							<td class="width-5-per text-center">{{i+1}}</td>
+																							<td class="width-20-per">{{task.name}}</td>
+																							<td class="width-20-per people-lists">
+																								<ng-container *ngIf="task.task_members?.length; else elseBlock4">
+																									<a tooltip="{{member.firstname}} {{member.lastname}}" class="btn rounded-circle text-dark" placement="top" *ngFor="let member of task.task_members; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven}">
+																										<img *ngIf="member.avatar" src="{{apiUrl}}/uploads/profile/{{member.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																										<img *ngIf="!member.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																									</a>
+																								</ng-container>
+																								<ng-template #elseBlock4>
+																									<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																										<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																									</a>
+																								</ng-template>
+																							</td>
+																							<td class="width-10-per">{{task.type}}</td>
+																							<td class="width-15-per">{{task.start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+																							<td class="width-15-per">{{task.end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+																							<td class="width-5-per">{{task.estimated_hours}}</td>
+																							<td class="budges-status width-5-per">
+																								<ng-container *ngIf='task.type == "Story"; else elseBlock5'>
+																									<ng-container *ngFor="let status of ('project_planner.sprint_task.story_status' | translate)">
+																										<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
+																									</ng-container>
+																								</ng-container>
+																								<ng-template #elseBlock5>
+																									<ng-container *ngFor="let status of ('project_planner.sprint_task.task_status' | translate)">
+																										<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
+																									</ng-container>
+																								</ng-template>
+																							</td>
+																							<td class="actions-dropdown width-5-per">
+																								<div class="btn-group" dropdown>
+																									<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-2" aria-controls="dropdown-basic-2"><i class="fa fa-ellipsis-v"></i></button>
+																									<ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-2">
+																										<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_edit']">
+																											<a (click)="openEditSprintTaskModal(sprint, task.id)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																										</li>
+																										<li role="menuitem">
+																											<ng-container *ngIf='task.type == "Task"; else elseBlock1'>
+																												<a (click)="openMoveTaskModal(task.id, sprint.id)" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_edit']" class="dropdown-item btn btn-move btn-raised" tooltip="{{'common.move' | translate}}"><i class="fa fa-arrows-alt"></i></a>
+																												<a (click)="deleteTask(task.id)" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_delete']" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																											</ng-container>
+																											<ng-template #elseBlock1>
+																												<a (click)="deleteStory(task.id)" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_delete']" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																											</ng-template>
+																										</li>
+																									</ul>
+																								</div>
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																		</td>
+																	</tr>
+																</ng-container>
+															</ng-container>
+														</tbody>
+														<tfoot *ngIf="sprints.sprint_tasks?.length == 0">
+															<tr>
+																<td colspan="9" class="text-center">
+																	<img src="assets/img/norecord-img.png" width="50">
+																	<p class="mt-1">{{'common.empty_message.sprints' | translate}}</p>
+																</td>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
+											</div>
+											<!-- Task -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 description-detail mb-3 card-separator">
+												<div class="card-header p-0">
+													<h4 class="sub-title"><span>{{'project_planner.sprint_task.title4' | translate}}</span></h4>
+													<div class="card-buttons pb-2">
+														<button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_create']" (click)="openCreateTaskModal(project, 'Task')" tooltip="{{'project_planner.title1' | translate}}"><i class="fa fa-plus"></i></button>
+													</div>
+												</div>
+												<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl overflow-x-auto">
+													<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="task_datatable" width="100%">
+														<thead>
+															<tr>
+																<th>{{'project_planner.columns.name' | translate}}</th>
+																<th>{{'project_planner.columns.responsible' | translate}}</th>
+																<th>{{'project_planner.columns.start_date' | translate}} </th>
+																<th>{{'project_planner.columns.end_date' | translate}}</th>
+																<th>{{'project_planner.columns.hours' | translate}}</th>
+																<th>{{'project_planner.columns.status' | translate}}</th>
+																<th>{{'project_planner.columns.actions' | translate}}</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr *ngFor="let task_story of sprints.non_sprint_tasks">
+																<td>{{task_story.name}}</td>
+																<td class="people-lists">
+																	<ng-container *ngIf="task_story.task_members?.length; else elseBlock12">
+																		<a tooltip="{{member.firstname}} {{member.lastname}}" class="btn rounded-circle text-dark" placement="top" *ngFor="let member of task_story.task_members; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven}">
+																			<img *ngIf="member.avatar" src="{{apiUrl}}/uploads/profile/{{member.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																			<img *ngIf="!member.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																		</a>
+																	</ng-container>
+																	<ng-template #elseBlock12>
+																		<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																			<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																		</a>
+																	</ng-template>
+																</td>
+																<td>{{task_story.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+																<td>{{task_story.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+																<td>{{task_story.estimated_hours}}</td>
+																<td class="budges-status">
+																	<ng-container *ngFor="let status of ('project_planner.sprint_task.task_status' | translate)">
+																		<span class="{{status.class}}" *ngIf="status.id == task_story.status">{{status.label}}</span>
+																	</ng-container>
+																</td>
+																<td class="actions-dropdown">
+																	<div class="btn-group" dropdown>
+																		<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-3" aria-controls="dropdown-basic-3"><i class="fa fa-ellipsis-v"></i></button>
+																		<ul id="dropdown-basic-3" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-3">
+																			<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_edit']">
+																				<a (click)="openEditTaskModal(project, task_story.id)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																			</li>
+																			<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_edit']">
+																				<a (click)="openMoveTaskModal(task_story.id)"  class="dropdown-item btn btn-move btn-raised" tooltip="{{'common.move' | translate}}"><i class="fa fa-arrows-alt"></i></a>
+																			</li>
+																			<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_delete']">
+																				<a (click)="deleteTask(task_story.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																			</li>
+																		</ul>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<!-- Story -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 description-detail mb-3 card-separator">
+												<div class="card-header p-0">
+													<h4 class="sub-title"><span>{{'project_planner.sprint_task.title5' | translate}}</span></h4>
+													<div class="card-buttons pb-2">
+														<button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projectplanner_create']" (click)="openCreateTaskModal(project, 'Story')" tooltip="{{'project_planner.title2' | translate}}"><i class="fa fa-plus"></i></button>
+													</div>
+												</div>
+												<div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl overflow-x-auto">
+													<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable " id="story_datatable" width="100%">
+														<thead>
+															<tr>
+																<th>{{'project_planner.columns.name' | translate}}</th>
+																<th>{{'project_planner.columns.responsible' | translate}}</th>
+																<th>{{'project_planner.columns.start_date' | translate}} </th>
+																<th>{{'project_planner.columns.end_date' | translate}}</th>
+																<th>{{'project_planner.columns.hours' | translate}}</th>
+																<th>{{'project_planner.columns.status' | translate}}</th>
+																<th>{{'project_planner.columns.actions' | translate}}</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr *ngFor="let task_story of sprints.non_sprint_story">
+																<td>{{task_story.name}}</td>
+																<td class="people-lists">
+																	<ng-container *ngIf="task_story.task_members?.length; else elseBlock12">
+																		<a tooltip="{{member.firstname}} {{member.lastname}}" class="btn rounded-circle text-dark" placement="top" *ngFor="let member of task_story.task_members; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven}">
+																			<img *ngIf="member.avatar" src="{{apiUrl}}/uploads/profile/{{member.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																			<img *ngIf="!member.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																		</a>
+																	</ng-container>
+																	<ng-template #elseBlock12>
+																		<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																			<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																		</a>
+																	</ng-template>
+																</td>
+																<td>{{task_story.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+																<td>{{task_story.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+																<td>{{task_story.estimated_hours}}</td>
+																<td class="budges-status">
+																	<ng-container *ngFor="let status of ('project_planner.sprint_task.story_status' | translate)">
+																		<span class="{{status.class}}" *ngIf="status.id == task_story.status">{{status.label}}</span>
+																	</ng-container>
+																</td>
+																<td class="actions-dropdown">
+																	<div class="btn-group" dropdown>
+																		<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-4" aria-controls="dropdown-basic-4"><i class="fa fa-ellipsis-v"></i></button>
+																		<ul id="dropdown-basic-4" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-4">
+																			<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_edit']">
+																				<a (click)="openEditTaskModal(project, task_story.id)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																			</li>
+																			<li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin','projectplanner_delete']">
+																				<a (click)="deleteTask(task_story.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																			</li>
+																		</ul>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,317 @@
+<div class="card-content">
+	<div class="card-body">
+		<div class="row mr-2 ml-2">
+			<div class="col-md-12 card-separator">
+				<div class="d-flex justify-content-between">
+					<div class="task-name d-lg-flex">
+						<h4 class="task-id">
+							<span>#{{incident.generated_id}} </span>
+						</h4>
+						<p class="task-title ml-lg-2">
+							{{incident.incident_name}}
+						</p>
+					</div>
+					<div class="task-action d-flex">
+						<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'timesheet_create']">
+							<div class="countdown pt-1 pr-1" *ngIf="showTimer">
+								<ul class="p-0 m-0">
+									<li><span>{{totalHours}}:{{totalMinutes}}:{{totalSeconds}}</span></li>
+								</ul>
+							</div>
+							<div *ngIf="showTimer">
+								<ng-container *ngIf="isTimerStarted else elseBlock10">
+									<button class="btn btn-create mb-0 mb-lg-0 float-right" tooltip="{{'timer_logs.title1' | translate}}" (click)="stopTimer(true)"><i class="fa fa-stop-circle" aria-hidden="true"></i></button>
+								</ng-container>
+								<ng-template #elseBlock10>
+									<button class="btn btn-create mb-0 mb-lg-0 float-right" tooltip="{{'timer_logs.title' | translate}}" (click)="startTimer()"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+								</ng-template>
+							</div>
+						</ng-container>
+						<a *ngIf="permission" [routerLink]="['/incidents/edit', incident.id]" class="btn btn-create mb-2 mb-lg-0 float-right" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 pr-0 pl-0">
+				<form class="form-body overflow-hidden mt-3">
+					<!-- Detail fields -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-lg-4 pr-lg-3 pl-lg-2 pr-2 pl-2">
+								<div class="row">
+									<div class="col">
+										<div class="row">
+											<div class="col card-separator mb-3">
+												<div class="col-md-12 mb-3">
+													<label>{{'incidents.create.fields.project_name' | translate }}</label>
+													<ng-container *ngIf="incident.project == null; else elseBlock5">
+														<div class="detail-inline">-</div>
+													</ng-container>
+													<ng-template #elseBlock5>
+														<div class="detail-inline">{{incident.project.project_name}}</div>
+													</ng-template>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label>{{'incidents.create.fields.project_version' | translate }}</label>
+													<ng-container *ngIf="incident.project_version == null; else elseBlock6">
+														<div class="detail-inline">-</div>
+													</ng-container>
+													<ng-template #elseBlock6>
+														<div class="detail-inline">{{incident.project_version}}</div>
+													</ng-template>
+												</div>
+												<div class="col-lg-12 mb-3 d-flex justify-content-between">
+													<div class="">
+														<label>{{'incidents.create.fields.status' | translate }}</label>
+														<ng-container *ngIf="permission; else elseBlock2">
+															<div class="status-dropdown">
+																<div class="btn-group" dropdown>
+																	<button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle" aria-controls="dropdown-basic">{{getTranslateStatus(incident.status) | translate}}&nbsp;<span class="caret"></span></button>
+																	<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+																		<li role="menuitem" *ngFor="let status of ('incidents.status' | translate)">
+																			<a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': incident.status == status.id}" (click)="changeIncidentStatus([incident.id], status);incident.status = status.id">{{status.label}}</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</ng-container>
+														<ng-template #elseBlock2>
+															<ng-container *ngFor="let status of ('incidents.status' | translate)">
+																<div class="budges-status">
+																	<span class="{{status.class}}" *ngIf="status.id == incident.status">{{status.label}}</span>
+																</div>
+															</ng-container>
+														</ng-template>
+													</div>
+													<div class="">
+														<label>{{'incidents.create.fields.priority' | translate }}</label>
+														<ng-container *ngIf="permission; else elseBlock3">
+															<div class="status-dropdown">
+																<div class="btn-group" dropdown>
+																	<button dropdownToggle id="button-basic-1" type="button" class="btn dropdown-toggle" aria-controls="dropdown-basic-1">{{getTranslatePriorities(incident.priority) | translate}}&nbsp;<span class="caret"></span></button>
+																	<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+																		<li role="menuitem" *ngFor="let priority of ('incidents.priorities' | translate)">
+																			<a class="dropdown-item btn btn-sm {{priority.class}}" [ngClass]="{'active': incident.priority == priority.id}" (click)="changeIncidentSeverity([incident.id], priority);incident.priority = priority.id">{{priority.label}}</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</ng-container>
+														<ng-template #elseBlock3>
+															<ng-container *ngFor="let priority of ('incidents.priorities' | translate)">
+																<div class="budges-status">
+																	<span class="{{priority.class}}" *ngIf="priority.id == incident.priority">{{priority.label}}</span>
+																</div>
+															</ng-container>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-lg-12 mb-3 d-flex justify-content-between">
+													<div class="text-center"> 
+														<label>{{'incidents.create.fields.created_by' | translate }}</label>
+														<div class="people-lists ">
+															<a [routerLink]="['/users/profile', incident.created_user.id]" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="{{incident.created_user.firstname}} {{incident.created_user.lastname}}">
+																<img *ngIf="incident.created_user.avatar" src="{{apiUrl}}/uploads/profile/{{incident.created_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																<img *ngIf="!incident.created_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+															</a><br>
+															<span class="mt-1">{{incident.created_user.firstname}} {{incident.created_user.lastname}}</span>
+														</div>
+													</div>
+													<div class="text-center">
+														<label>{{'incidents.create.fields.assigned_To' | translate }}</label>
+														<div class="people-lists">
+															<ng-container *ngIf="incident.assign_to == 'Unassign' || incident.assign_to == '' || incident.assign_to == null; else elseBlock">
+																<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																	<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a>
+															</ng-container>
+															<ng-template #elseBlock>
+																<a [routerLink]="['/users/profile', incident.assign_user.id]" class="btn rounded-circle text-dark btn-profile-danger" placement="top" tooltip="{{incident.assign_user.firstname}} {{incident.assign_user.lastname}}">
+																	<img *ngIf="incident.assign_user.avatar" src="{{apiUrl}}/uploads/profile/{{incident.assign_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																	<img *ngIf="!incident.assign_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a><br>
+																<span class="mt-1">{{incident.assign_user.firstname}} {{incident.assign_user.lastname}}</span>
+															</ng-template>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 card-separator">
+												<div class="col-md-12 mb-3">
+													<label>{{'incidents.create.fields.start_date' | translate }}</label>
+													<div class="detail-inline">{{incident.start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label>{{'incidents.create.fields.end_date' | translate }}</label>
+													<div class="detail-inline">{{incident.end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'incidents.create.fields.estimate_hours' | translate}}</label>
+													<div class="detail-inline">
+														<ng-container *ngIf="permission; else elseBlock7">
+															<inline-edit-hours [name]="'estimated_hours'" [elementFor]="'incidents.inline_edit.estimate_hours' | translate" [fieldValue]="incident.estimated_hours" [isRequired]="'false'" (updateValue)="saveIncidentDetail('estimated_hours', $event);"></inline-edit-hours>
+														</ng-container>
+														<ng-template #elseBlock7>{{ incident.estimated_hours}}</ng-template>
+													</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'incidents.create.fields.actual_hours' | translate}}</label>
+													<div class="detail-inline">{{incident.actual_hours}}</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label>{{'incidents.create.fields.incident_type' | translate }}</label>
+													<div class="detail-inline">
+														<ng-container *ngIf="permission; else elseBlock1">
+															<inline-edit-select [name]="'incident_type'" [txtField]="'incident Types'" [elementFor]="'incidents.inline_edit.incident_type' | translate" [selectedValue]="incident.incident_type" [isRequired]="'true'" [options]="('incidents.incident_types' | translate)" (updateValue)="saveIncidentDetail('incident_type', $event);"></inline-edit-select>
+														</ng-container>
+														<ng-template #elseBlock1>
+															<ng-container *ngFor="let type of ('incidents.incident_types' | translate)">
+																<span class="badge badge-secondary" *ngIf="type.id == incident.incident_type">{{type.label | translate}}</span>
+															</ng-container>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label>{{'common.created' | translate }}</label>
+													<div class="detail-inline">{{incident.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format}}</div>
+												</div>
+												<div class="col-md-12 mb-3">
+													<label>{{'common.updated' | translate }}</label>
+													<div class="detail-inline">{{incident.updated_at | dateTimeFormatFilter: loginUser.settings.date_time_format}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-8">
+								<div class="row">
+									<!-- Description field -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 mb-3 description-detail card-separator">
+										<h4 class="sub-title"><span>{{'incidents.details.title2' | translate}}</span></h4>
+										<div class="detail-inline">
+											<ng-container *ngIf="permission; else elseBlock4">
+												<inline-edit-text-editor [name]="'description'" [fieldValue]="incident.description" [elementFor]="'incidents.inline_edit.description' | translate" (updateValue)="saveIncidentDetail('description', $event);"></inline-edit-text-editor>
+											</ng-container>
+											<ng-template #elseBlock4>
+												<p [innerHtml]="incident.description"></p>
+											</ng-template>
+										</div>
+									</div>
+									<!-- Custom fields -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3" *ngIf="incident.custom_fields.length > 0">
+										<h4 class="sub-title"><span>{{'incidents.details.title1' | translate}}</span></h4>
+										<div class="row">
+											<ng-container *ngFor="let customField of incident.custom_fields">
+												<div class="col-lg-4 col-md-6 mt-2 mb-3" *ngIf="customField.field_type != 'textarea'">
+													<ng-container *ngIf="customField.field_type == 'text' || customField.field_type == 'numeric'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{incident[customField.field_column]}}</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'date'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{incident[customField.field_column] | dateTimeFormatFilter: loginUser.settings.date_format}}</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'dropdown'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">
+															<ng-container *ngFor="let fieldValue of getParseArray(customField.default_value)">
+																<ng-container *ngIf="fieldValue.value == incident[customField.field_column]">
+																	{{fieldValue.label}}
+																</ng-container>
+															</ng-container>
+														</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'checkbox'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">
+															<div *ngIf="incident[customField.field_column] == 1; else checkboxElseBlock">{{'common.true' | translate}}</div>
+															<ng-template #checkboxElseBlock>{{'common.false' | translate}}</ng-template>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+											<ng-container *ngFor="let customField of incident.custom_fields">
+												<div class="col-lg-6 col-md-12 mt-2 mb-3" *ngIf="customField.field_type == 'textarea'">
+													<ng-container>
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{incident[customField.field_column]}}</div>
+													</ng-container>
+												</div>
+											</ng-container>
+										</div>
+									</div>
+									<!-- Todos list -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3">
+										<app-todo-detail [module_id]="4" [module_related_id]="incident.id"></app-todo-detail>
+									</div>
+									<!-- Timesheet -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3">
+										<app-timesheet-list [module_id]="'4'" [module_related_id]="incident.id" [project_id]="incident.project_id" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-timesheet-list>
+									</div>
+									<!-- Tab Design -->
+									<tabset class="nav nav-tabs d-flex justify-content-left details-tabs col-md-12 p-0">
+										<!-- Comments -->
+										<tab customClass="text-left" class="card-separator mb-3" id="1" (selectTab)="setActiveIncidentTab($event)">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-comments-o"></i><span class="mt-1 ml-1">{{'comments.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Task Comment -->
+											<div class="col-lg-12 pr-0 pl-0">
+												<app-incident-comments [permission]="permission" [apiUrl]="apiUrl" [loginUser]="loginUser"></app-incident-comments>
+											</div>
+										</tab>
+										<!-- Attachments -->
+										<tab customClass="text-left" class="card-separator mb-3" id="2" (selectTab)="setActiveIncidentTab($event)">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-paperclip"></i><span class="mt-1 ml-1">{{'attachments.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Task Attachment -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 pr-0 pl-0">
+												<app-incident-attachment [loginUser]="loginUser" [permission]="permission" [incident]="incident"></app-incident-attachment>
+											</div>
+										</tab>
+										<!-- Notes -->
+										<tab customClass="text-left" class="card-separator mb-3 tab-width" id="3" (selectTab)="setActiveIncidentTab($event)">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-sticky-note-o"></i><span class="mt-1 ml-1">{{'notes.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Notes -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<h4 class="sub-title mt-2">
+													<!-- <span>{{'notes.title' | translate}}</span> -->
+												</h4>
+												<div class="detail-inline">
+													<ng-container *ngIf="permission; else elseBlock4">
+														<inline-edit-text-editor [name]="'notes'" [fieldValue]="incident.notes" [elementFor]="'incidents.inline_edit.notes' | translate" (updateValue)="saveIncidentDetail('notes', $event);"></inline-edit-text-editor>
+													</ng-container>
+													<ng-template #elseBlock4>
+														<p [innerHtml]="incident.notes"></p>
+													</ng-template>
+												</div>
+											</div>
+										</tab>
+										<!-- Activity -->
+										<tab customClass="text-left" class="card-separator mb-3" id="4" (selectTab)="setActiveIncidentTab($event)">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-list"></i><span class="mt-1 ml-1">{{'activities.title' | translate}}</span></div>
+											</ng-template>
+											<app-incident-activities [incident]="incident" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-incident-activities>
+										</tab>
+										<!-- History -->
+										<tab customClass="text-left" class="card-separator  mb-3 tab-width" id="5" (selectTab)="setActiveIncidentTab($event)">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-history"></i><span class="mt-1 ml-1">{{'histories.title' | translate}}</span></div>
+											</ng-template>
+											<app-incident-history [incident]="incident" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-incident-history>
+										</tab>
+									</tabset>
+									<!-- Tab Design End -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

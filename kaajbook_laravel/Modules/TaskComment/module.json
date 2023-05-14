@@ -1,0 +1,14 @@
+{
+    "name": "TaskComment",
+    "alias": "taskcomment",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\TaskComment\\Providers\\TaskCommentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

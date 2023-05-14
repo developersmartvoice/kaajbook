@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/filebrowser",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\FileBrowser\\Providers\\FileBrowserServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FileBrowser\\": ""
+        }
+    }
+}

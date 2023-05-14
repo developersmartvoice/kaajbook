@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/emailgroup",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\EmailGroup\\Providers\\EmailGroupServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\EmailGroup\\": ""
+        }
+    }
+}

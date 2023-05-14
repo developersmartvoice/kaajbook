@@ -1,0 +1,393 @@
+<div class="card-content">
+	<div class="card-body">
+		<div class="row mr-2 ml-2">
+			<div class="col-md-12 card-separator">
+				<div class="d-flex justify-content-between">
+					<div class="task-name d-lg-flex">
+						<h4 class="task-id"><span>#{{task.generated_id}}</span></h4>
+						<p class="task-title ml-lg-2">{{task.name}}</p>
+					</div>
+					<div class="task-action d-flex">
+						<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'timesheet_create']">
+							<div class="countdown pt-1 pr-1" *ngIf="showTimer">
+								<ul class="p-0 m-0">
+									<li><span>{{totalHours}}:{{totalMinutes}}:{{totalSeconds}}</span></li>
+								</ul>
+							</div>
+							<div *ngIf="showTimer">
+								<ng-container *ngIf="isTimerStarted else elseBlock10">
+									<button class="btn btn-create mb-0 mb-lg-0 float-right" tooltip="{{'timer_logs.title1' | translate}}" (click)="stopTimer(true)"><i class="fa fa-stop-circle" aria-hidden="true"></i></button>
+								</ng-container>
+								<ng-template #elseBlock10>
+									<button class="btn btn-create mb-0 mb-lg-0 float-right" tooltip="{{'timer_logs.title' | translate}}" (click)="startTimer()"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+								</ng-template>
+							</div>
+						</ng-container>
+						<a *ngIf="permission" [routerLink]="['/tasks/edit', task.id]" class="btn btn-create mb-2 mb-lg-0 float-right" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 pr-0 pl-0 ">
+				<form class="form-body overflow-hidden mt-3">
+					<!-- Detail fields -->
+					<div class="col-md-12">
+						<div class="row">
+							<!-- left side -->
+							<div class="col-lg-4 pr-lg-3 pl-lg-2 pr-2 pl-2">
+								<div class="row">
+									<div class="col">
+										<div class="row">
+											<div class="col card-separator mb-3">
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.project_name' | translate}}</label>
+													<div class="detail-inline">{{task.project1.project_name}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.project_version' | translate}}</label>
+													<div class="detail-inline">{{task.project_version}}</div>
+												</div>
+												<div class="col-md-12 mb-3 d-flex justify-content-between">
+													<div>
+														<label>{{'tasks.create.fields.status' | translate}}</label>
+														<div class="status-dropdown">
+															<ng-container *ngIf="permission; else elseBlock">
+																<div class="btn-group" dropdown>
+																	<button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(task.status) | translate}}&nbsp;<span class="caret"></span></button>
+																	<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+																		<li role="menuitem" *ngFor="let status of (getTaskStatus(task.status) | translate)">
+																			<a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': task.status == status.id}" (click)="changeTaskStatus([task.id], status);task.status = status.id">{{status.label}}</a>
+																		</li>
+																	</ul>
+																</div>
+															</ng-container>
+															<ng-template #elseBlock>
+																<ng-container *ngFor="let status of (getTaskStatus(task.status) | translate)">
+																	<div class="budges-status">
+																		<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
+																	</div>
+																</ng-container>
+															</ng-template>
+														</div>
+													</div>
+													<div>
+														<label>{{'tasks.create.fields.priority' | translate }}</label>
+														<ng-container *ngIf="permission; else elseBlock8">
+															<div class="status-dropdown">
+																<div class="btn-group" dropdown>
+																	<button dropdownToggle id="button-basic-3" type="button" class="btn dropdown-toggle" aria-controls="dropdown-basic-3">{{getTranslatePriorities(task.priority) | translate}}&nbsp;<span class="caret"></span></button>
+																	<ul id="dropdown-basic-3" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-3">
+																		<li role="menuitem" *ngFor="let priority of ('tasks.priorities' | translate)">
+																			<a class="dropdown-item btn btn-sm {{priority.class}}" [ngClass]="{'active': task.priority == priority.id}" (click)="changeTaskPriority([task.id], priority);task.priority = priority.id">{{priority.label}}</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</ng-container>
+														<ng-template #elseBlock8>
+															<ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
+																<div class="budges-status">
+																	<span class="{{priority.class}}" *ngIf="priority.id == task.priority">{{priority.label}}</span>
+																</div>
+															</ng-container>
+														</ng-template>
+													</div>
+												</div>
+												<div class="col-lg-12 mb-3 d-flex justify-content-between">
+													<div class="text-center">
+														<label>{{'tasks.create.fields.created_by' | translate}}</label>
+														<div class="people-lists">
+															<a [routerLink]="['/users/profile', task.created_by]" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="{{task.created_firstname}} {{task.created_lastname}}">
+																<img *ngIf="task.created_avatar" src="{{apiUrl}}/uploads/profile/{{task.created_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																<img *ngIf="!task.created_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+															</a><br>
+															<span class="mt-2">{{task.created_firstname}} {{task.created_lastname}}</span>
+														</div>
+													</div>
+													<div class="text-center">
+														<label>{{'tasks.create.fields.assigned_To' | translate}}</label>
+														<div class="people-lists">
+															<ng-container *ngIf="task.assign_user == null; else elseBlock6">
+																<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																	<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a>
+															</ng-container>
+															<ng-template #elseBlock6>
+																<a [routerLink]="['/users/profile', task.assign_user.id]" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="{{task.assign_user.firstname}} {{task.assign_user.lastname}}">
+																	<img *ngIf="task.assign_user.avatar" src="{{apiUrl}}/uploads/profile/{{task.assign_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																	<img *ngIf="!task.assign_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a><br>
+																<span class="mt-2">{{task.assign_user.firstname}} {{task.assign_user.lastname}}</span>
+															</ng-template>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.progress' | translate}}</label>
+													<div>
+														<progressbar max="100" [value]="task.progress" [animate]="true"><strong>{{task.progress}}%</strong></progressbar>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 card-separator">
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.plan_startdate' | translate}}</label>
+													<div class="detail-inline">{{task.planned_start_date | dateTimeFormatFilter : loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.plan_enddate' | translate}}</label>
+													<div class="detail-inline">{{task.planned_end_date | dateTimeFormatFilter : loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.actual_startdate' | translate}}</label>
+													<div class="detail-inline">{{task.task_start_date | dateTimeFormatFilter : loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.actual_enddate' | translate}}</label>
+													<div class="detail-inline">{{task.task_end_date | dateTimeFormatFilter : loginUser.settings.date_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.estimate_hours' | translate}}</label>
+													<div class="detail-inline">
+														<ng-container *ngIf="permission; else elseBlock1">
+															<inline-edit-hours [name]="'estimated_hours'" [elementFor]="'tasks.inline_edit.estimate_hours' | translate" [fieldValue]="task.estimated_hours" [isRequired]="'false'" (updateValue)="saveTaskDetail('estimated_hours', $event);"></inline-edit-hours>
+														</ng-container>
+														<ng-template #elseBlock1>{{ task.estimated_hours}}</ng-template>
+													</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'tasks.create.fields.actual_hours' | translate}}</label>
+													<div class="detail-inline">{{task.actual_hours}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'common.created' | translate}}</label>
+													<div class="detail-inline">{{task.created_at | dateTimeFormatFilter : loginUser.settings.date_time_format}}</div>
+												</div>
+												<div class="col-lg-12 mb-3">
+													<label>{{'common.updated' | translate}}</label>
+													<div class="detail-inline">{{task.updated_at | dateTimeFormatFilter : loginUser.settings.date_time_format}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Task Activity -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-1 pl-0 pr-0">
+									</div>
+								</div>
+							</div>
+							<!-- right side -->
+							<div class="col-lg-8">
+								<div class="row">
+									<!-- Description field -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 description-detail mb-3 card-separator">
+										<h4 class="sub-title"><span>{{'tasks.details.title2' | translate}}</span></h4>
+										<div class="detail-inline">
+											<ng-container *ngIf="permission; else elseBlock2">
+												<inline-edit-text-editor [name]="'description'" [fieldValue]="task.description" [elementFor]="'tasks.inline_edit.description' | translate" (updateValue)="saveTaskDetail('description', $event);"></inline-edit-text-editor>
+											</ng-container>
+											<ng-template #elseBlock2>
+												<p [innerHtml]="task.description"></p>
+											</ng-template>
+										</div>
+									</div>
+									<!-- Custom fields -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3" *ngIf="task.custom_fields.length > 0">
+										<h4 class="sub-title"><span>{{'tasks.details.title1' | translate}}</span></h4>
+										<div class="row">
+											<ng-container *ngFor="let customField of task.custom_fields">
+												<div class="col-lg-4 col-md-6 mt-2" *ngIf="customField.field_type != 'textarea'">
+													<ng-container *ngIf="customField.field_type == 'text' || customField.field_type == 'numeric'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{task[customField.field_column]}}</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'date'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{task[customField.field_column] | dateTimeFormatFilter: loginUser.settings.date_format}}</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'dropdown'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">
+															<ng-container *ngFor="let fieldValue of getParseArray(customField.default_value)">
+																<ng-container *ngIf="fieldValue.value == task[customField.field_column]">
+																	{{fieldValue.label}}
+																</ng-container>
+															</ng-container>
+														</div>
+													</ng-container>
+													<ng-container *ngIf="customField.field_type == 'checkbox'">
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">
+															<div *ngIf="task[customField.field_column] == 1; else checkboxElseBlock">{{'common.true' | translate}}</div>
+															<ng-template #checkboxElseBlock>{{'common.false' | translate}}</ng-template>
+														</div>
+													</ng-container>
+												</div>
+											</ng-container>
+											<ng-container *ngFor="let customField of task.custom_fields">
+												<div class="col-lg-4 col-md-6 mt-2" *ngIf="customField.field_type == 'textarea'">
+													<ng-container>
+														<label>{{customField.field_label}}</label>
+														<div class="detail-inline">{{task[customField.field_column]}}</div>
+													</ng-container>
+												</div>
+											</ng-container>
+										</div>
+									</div>
+									<!-- Todos list -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3">
+										<app-todo-detail [module_id]="2" [module_related_id]="task.id"></app-todo-detail>
+									</div>
+									<!-- Sub-task list -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3" *ngIf="task.parent_task_id == 0">
+										<div class="card-header p-0">
+											<h4 class="sub-title mt-3"><span>{{'tasks.details.title3' | translate}}</span></h4>
+											<div class="card-buttons pt-2 pr-1 pt-2">
+												<a *ngxPermissionsOnly="['admin', 'super_admin', 'tasks_create']" [routerLink]="['/tasks/create', task.id]" class="btn btn-create mb-2 mb-lg-0  float-right" tooltip="{{'tasks.tooltips.sub_task' | translate}}"><i class="fa fa-plus"></i></a>
+											</div>
+										</div>
+										<div *ngIf="task.sub_tasks?.length != 0" class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl overflow-x-auto">
+											<table class="table table-bordered table-hover b4-datatable">
+												<thead>
+													<tr>
+														<th>{{'tasks.columns.id' | translate}}</th>
+														<th>{{'tasks.columns.task_name' | translate}}</th>
+														<th>{{'tasks.columns.end_date' | translate}}</th>
+														<th>{{'tasks.columns.hours' | translate}}</th>
+														<th>{{'tasks.columns.priority' | translate}}</th>
+														<th>{{'tasks.columns.creator' | translate}}</th>
+														<th>{{'tasks.columns.assigned' | translate}}</th>
+														<th>{{'tasks.columns.status' | translate}}</th>
+														<th>{{'tasks.columns.actions' | translate}}</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let sub_task of task.sub_tasks; index as i">
+														<td>
+															<a [routerLink]="['/tasks/detail', sub_task.id]" tooltip="{{'common.view' | translate}}">{{sub_task.generated_id}}</a>
+														</td>
+														<td>
+															<ng-container *ngIf="getCheckPermission(sub_task); else elseBlock3">
+																<inline-edit-input [name]="'name'" [type]="'text'" [elementFor]="'tasks.inline_edit.task_name' | translate" [fieldValue]="sub_task.name" [isRequired]="'true'" (updateValue)="saveSubTaskDetail(sub_task, 'name', $event);"></inline-edit-input>
+															</ng-container>
+															<ng-template #elseBlock3>{{sub_task.name}}</ng-template>
+														</td>
+														<td>{{sub_task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+														<td>{{sub_task.estimated_hours}}</td>
+														<td class="budges-status">
+															<ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
+																<div class="budges-status">
+																	<span class="{{priority.class}}" *ngIf="priority.id == sub_task.priority">{{priority.label}}</span>
+																</div>
+															</ng-container>
+														</td>
+														<td class="people-lists">
+															<a [routerLink]="['/users/profile', sub_task.created_by]" class="btn btn-profile-danger rounded-circle text-dark" tooltip="{{sub_task.created_user.firstname}} {{sub_task.created_user.lastname}}" placement="top">
+																<img *ngIf="sub_task.created_user.avatar" src="{{apiUrl}}/uploads/profile/{{sub_task.created_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																<img *ngIf="!sub_task.created_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+															</a>
+														</td>
+														<td class="people-lists">
+															<ng-container *ngIf="sub_task.assign_to == null; else elseBlock7">
+																<a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+																	<img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a>
+															</ng-container>
+															<ng-template #elseBlock7>
+																<a [routerLink]="['/users/profile', sub_task.assign_to]" class="btn btn-profile-danger rounded-circle text-dark" tooltip="{{sub_task.assign_user.firstname}} {{sub_task.assign_user.lastname}}" placement="top">
+																	<img *ngIf="sub_task.assign_user.avatar" src="{{apiUrl}}/uploads/profile/{{sub_task.assign_user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+																	<img *ngIf="!sub_task.assign_user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+																</a>
+															</ng-template>
+														</td>
+														<td class="status-dropdown">
+															<ng-container *ngIf="getCheckPermission(sub_task); else elseBlock4">
+																<div class="btn-group" dropdown>
+																	<button dropdownToggle id="button-basic-2" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic-2">{{getTranslateStatus(sub_task.status) | translate}}&nbsp;<span class="caret"></span></button>
+																	<ul id="dropdown-basic-2" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-2">
+																		<li role="menuitem" *ngFor="let status of (getTaskStatus(sub_task.status) | translate)">
+																			<a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': sub_task.status == status.id}" (click)="changeTaskStatus([sub_task.id], status);sub_task.status = status.id">{{status.label}}</a>
+																		</li>
+																	</ul>
+																</div>
+															</ng-container>
+															<ng-template #elseBlock4>
+																<ng-container *ngFor="let status of (getTaskStatus(sub_task.status) | translate)">
+																	<div class="budges-status">
+																		<span class="{{status.class}}" *ngIf="status.id == sub_task.status">{{status.label}}</span>
+																	</div>
+																</ng-container>
+															</ng-template>
+														</td>
+														<td class="actions-dropdown">
+															<div class="btn-group" dropdown>
+																<button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
+																<ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+																	<li role="menuitem" *ngIf="getCheckPermission(sub_task)">
+																		<a [routerLink]="['/tasks/edit', sub_task.id]" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
+																	</li>
+																	<li role="menuitem" *ngIf="getCheckPermission(sub_task)">
+																		<a (click)="deleteSubTask(sub_task.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}"><i class="fa fa-trash-o"></i></a>
+																	</li>
+																</ul>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<!-- Task Timesheet -->
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 card-separator mb-3">
+										<app-timesheet-list [module_id]="'2'" [module_related_id]="task.id" [project_id]="task.project_id" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-timesheet-list>
+									</div>
+									<!-- Tab Design -->
+									<tabset class="nav nav-tabs d-flex justify-content-left details-tabs col-md-12 p-0">
+										<tab customClass="text-left" class="card-separator mb-3" id="1">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-comments-o"></i><span class="mt-1 ml-1">{{'comments.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Task Comment -->
+											<div class="col-lg-12 pr-0 pl-0">
+												<app-task-comments [permission]="permission" [apiUrl]="apiUrl" [loginUser]="loginUser"></app-task-comments>
+											</div>
+										</tab>
+										<tab customClass="text-left" class="card-separator mb-3" id="2">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-paperclip"></i><span class="mt-1 ml-1">{{'attachments.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Task Attachment -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 pr-0 pl-0">
+												<app-task-attachments [task]="task" [loginUser]="loginUser" [permission]="permission" [apiUrl]="apiUrl"></app-task-attachments>
+											</div>
+										</tab>
+										<tab customClass="text-left" class="card-separator mb-3 tab-width" id="3">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-sticky-note-o"></i><span class="mt-1 ml-1">{{'notes.title' | translate}}</span></div>
+											</ng-template>
+											<!-- Notes -->
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<!-- <h4 class="sub-title pt-2"><span>{{'notes.title' | translate}}</span></h4> -->
+												<div class="detail-inline">
+													<ng-container *ngIf="permission; else elseBlock5">
+														<inline-edit-text-editor [name]="'notes'" [fieldValue]="task.notes" [elementFor]="'tasks.inline_edit.notes' | translate" (updateValue)="saveTaskDetail('notes', $event);"></inline-edit-text-editor>
+													</ng-container>
+													<ng-template #elseBlock5></ng-template>
+												</div>
+											</div>
+										</tab>
+										<tab customClass="text-left" class="card-separator mb-3" id="4">
+											<ng-template tabHeading>
+												<div class="d-flex"><i class="fa fa-list"></i><span class="mt-1 ml-1">{{'activities.title' | translate}}</span></div>
+											</ng-template>
+											<app-task-activities [task]="task" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-task-activities>
+										</tab>
+									</tabset>
+									<!-- Tab Design End -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/announcement",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Announcement\\Providers\\AnnouncementServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Announcement\\": ""
+        }
+    }
+}

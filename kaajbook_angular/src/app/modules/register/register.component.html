@@ -1,0 +1,88 @@
+<section id="register" *ngIf="isSettingsLoad" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
+	<div class="container-fluid">
+		<div class="row full-height-vh">
+			<div class="col-12 d-flex align-items-center justify-content-center">
+				<div class="card card-inverse indigo-purple-gradient width-400 login-form">
+					<div class="login-user-img d-flex justify-content-center">
+						<img alt="element 06" class="mb-2" src="{{apiUrl}}/uploads/company_logo/{{settings.company_logo}}" width="200" height="96" *ngIf="settings.company_logo">
+						<img alt="element 06" class="mb-2" src="assets/img/logos/vipspm_logo_large.png" height="75" *ngIf="!settings.company_logo">
+					</div>
+					<div class="card-body text-center">
+						<div class="card-block">
+							<h3 class="text-uppercase mb-3">{{'register.title' | translate}}</h3>
+							<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-forms">
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="text" class="form-control" id="username" placeholder="{{'register.create.placeholders.placeholder1' | translate}}" aria-describedby="usernamePrepend" formControlName="username" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.username.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.username.errors" class="invalid-feedback">
+											<div *ngIf="userControl.username.errors.required">{{'register.create.error_messages.message1' | translate}}</div>
+											<div *ngIf="userControl.username.errors.minlength || userControl.username.errors.maxlength || userControl.username.errors.pattern">{{'register.create.error_messages.message2' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="text" class="form-control" formControlName="firstname" id="firstname" placeholder="{{'register.create.placeholders.placeholder2' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.firstname.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.firstname.errors" class="invalid-feedback">
+											<div *ngIf="userControl.firstname.errors.required">{{'register.create.error_messages.message3' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="text" class="form-control" formControlName="lastname" id="lastname" placeholder="{{'register.create.placeholders.placeholder3' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.lastname.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.lastname.errors" class="invalid-feedback">
+											<div *ngIf="userControl.lastname.errors.required">{{'register.create.error_messages.message4' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="email" class="form-control" formControlName="email" id="email" placeholder="{{'register.create.placeholders.placeholder4' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.email.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.email.errors" class="invalid-feedback">
+											<div *ngIf="userControl.email.errors.required">{{'register.create.error_messages.message5' | translate}}</div>
+											<div *ngIf="userControl.email.errors.email">{{'register.create.error_messages.message6' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="password" class="form-control" formControlName="password" id="password" placeholder="{{'register.create.placeholders.placeholder5' | translate}}" autocomplete="off" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.password.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.password.errors" class="invalid-feedback">
+											<div *ngIf="userControl.password.errors.required">{{'register.create.error_messages.message7' | translate}}</div>
+											<div *ngIf="userControl.password.errors.minlength || userControl.password.errors.maxlength">{{'register.create.error_messages.message8' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<input type="password" class="form-control" formControlName="password_confirmation" id="password_confirmation" placeholder="{{'register.create.placeholders.placeholder6' | translate}}" autocomplete="off" [ngClass]="{ 'is-invalid': isFormSubmitted && userControl.password_confirmation.errors }" />
+										<div *ngIf="isFormSubmitted && userControl.password_confirmation.errors" class="invalid-feedback">
+											<div *ngIf="userControl.password_confirmation.errors.required">{{'register.create.error_messages.message9' | translate}}</div>
+											<div *ngIf="userControl.password_confirmation.errors.mustMatch">{{'register.create.error_messages.message10' | translate}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group mb-0">
+									<div class="col-md-12">
+										<button type="submit" class="btn btn-submit mb-0">{{'common.submit' | translate}}</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="card-footer text-center">
+						<div class="form-group mb-1">
+							<div class="col-md-12">
+								<div class="text-center" class="mb-1">
+									<h5>{{'register.title1' | translate}}</h5>
+								</div>
+								<div><a class="btn btn-cancel m-0" [routerLink]="['/login']">{{'login.title' | translate}}</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

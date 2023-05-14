@@ -1,0 +1,32 @@
+<div class="card card-height overflow-y">
+	<div class="card-header border-bottom mb-3">
+		<h4 class="card-title mt-2">{{ 'activities.title' | translate }}</h4>
+	</div>
+	<div class="card-body sidebar-content" [perfectScrollbar]="scrollConfig">
+		<div class="card-block pt-0">
+			<div class="list-elements" *ngIf="todaysActivity?.length != 0">
+				<div class="feed-element completed" *ngFor="let activity of todaysActivity">
+					<div class="feed-element-body d-flex">
+						<div class="feed-element-profile">
+							<a [routerLink]="['/users/profile', activity.user.id]" tooltip="{{activity.user.firstname}} {{activity.user.lastname}}" class="btn rounded-circle text-dark" placement="top">
+								<img *ngIf="activity.user.avatar" src="{{apiUrl}}/uploads/profile/{{activity.user.avatar}}" class="img-sm rounded-circle" alt="Profile" />
+								<img *ngIf="!activity.user.avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+							</a>
+						</div>
+						<div class="feed-element-child">
+							<p class="mb-0" [innerHTML]="activity.description"></p>
+						</div>
+					</div>
+					<div class="feed-element-date-activities">
+						<span>{{activity.created_at | dateTimeFormatFilter: 'Do MMMM YYYY'}}</span>
+						<span>{{activity.created_at | dateTimeFormatFilter : 'hh:mm a' }}</span>
+					</div>
+				</div>
+			</div>
+			<div class="text-center" *ngIf="todaysActivity?.length == 0">
+				<img src="assets/img/norecord-img.png" width="50">
+				<p class="mt-1">{{ 'common.empty_message.activities' | translate }}</p>
+			</div>
+		</div>
+	</div>
+</div>

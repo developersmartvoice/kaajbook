@@ -1,0 +1,107 @@
+<!-- Card header -->
+<div class="card-header pl-0 pr-0 mb-3 border-bottom">
+	<h4 class="sub-title mt-2"><span>{{'settings.theme_settings.title' | translate}}</span></h4>
+</div>
+<div class="row">
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label for="compnay_logo">{{'settings.theme_settings.create.fields.compnay_logo' | translate}}</label>
+			<div class="dropzone dz-clickable d-flex justify-content-center" #logodropzone>
+				<div class="dz-preview dz-image-preview" *ngIf="settings.company_logo && isCompanyLogoUploaded" id="logo_image">
+					<div class="dz-image">
+						<img src="{{apiUrl}}/uploads/company_logo/{{settings.company_logo}}" />
+					</div>
+					<a class="btn btn-sm btn-block" (click)="removeCompanyLogo()">{{'common.remove_file' | translate}}</a>
+				</div>
+				<div class="dz-default dz-message">
+					<span><strong>{{'settings.theme_settings.create.error_messages.message1' | translate}}</strong></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label for="login_bg">{{'settings.theme_settings.create.fields.login_background' | translate}}</label>
+			<div class="dropzone dz-clickable d-flex justify-content-center" #loginbg>
+				<div class="dz-preview dz-image-preview" *ngIf="settings.login_background && isLoginBgUploaded" id="bg_image">
+					<div class="dz-image">
+						<img src="{{apiUrl}}/uploads/login_bg/{{settings.login_background}}" />
+					</div>
+					<a class="btn btn-sm btn-block" (click)="removeLoginBg()">{{'common.remove_file' | translate}}</a>
+				</div>
+				<div class="dz-default dz-message">
+					<span><strong>{{'settings.theme_settings.create.error_messages.message1' | translate}}</strong></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label for="compnay_sidebar_logo">{{'settings.theme_settings.create.fields.compnay_sidebar_logo' | translate}}</label>
+			<div class="dropzone dz-clickable d-flex justify-content-center" #sidebardropzone>
+				<div class="dz-preview dz-image-preview" *ngIf="settings.company_sidebar_logo && isCompanySidebarLogoUploaded" id="company_sidebar_logo">
+					<div class="dz-image">
+						<img src="{{apiUrl}}/uploads/company_sidebar_logo/{{settings.company_sidebar_logo}}" />
+					</div>
+					<a class="btn btn-sm btn-block" (click)="removeCompanySidebarLogo()">{{'common.remove_file' | translate}}</a>
+				</div>
+				<div class="dz-default dz-message">
+					<span><strong>{{'settings.theme_settings.create.error_messages.message1' | translate}}</strong></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label for="sidebar_background_images">{{'settings.theme_settings.create.fields.sidebar_background_images' | translate}}</label>
+			<div class="dropzone dz-clickable" #colorpaletts>
+				<div class="dz-preview dz-image-preview d-flex" *ngIf="settings.sidebar_background_images && settings.sidebar_background_images.length > 0 && isSidebarBgsUploaded" id="sidebar_bg_images">
+					<ng-container *ngFor="let sidebarImg of settings.sidebar_background_images; index as i">
+						<div class="dz-image-custom" *ngIf="sidebarImg">
+							<img src="{{apiUrl}}/uploads/sidebar_background_images/{{sidebarImg}}" />
+							<button class="btn btn-sm btn-block" (click)="removeSidebarBgImage(sidebarImg)">{{'common.remove_file' | translate}}</button>
+						</div>
+					</ng-container>
+				</div>
+				<div class="dz-default dz-message">
+					<span><strong>{{'settings.theme_settings.create.error_messages.message1' | translate}}</strong></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="sidebar-width">{{'theme_setting.header.head14' | translate}}</label>
+			<div>
+				<ng-select [searchable]="true"
+					[items]="('theme_setting.width_options' | translate)"
+					[selectOnTab]="true"
+					bindLabel="value"
+					bindValue="key"
+					labelForId="sidebarWidth"
+					placeholder="{{'theme_setting.placeholders.placeholder2' | translate}}"
+					[(ngModel)]="settings.sidebar_width"
+					(change)="changeSidebarWidth($event)">
+				</ng-select>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label>{{'theme_setting.header.head13' | translate}}</label>
+			<div class="onoffswitch" *ngxPermissionsOnly="['admin', 'super_admin', 'dashboardsettings_create', 'dashboardsettings_edit']">
+				<input type="checkbox" class="onoffswitch-checkbox" id="is_collapsed_menu" name="is_collapsed_menu" [(ngModel)]="settings.is_collapsed_menu" (change)="changeCollapsedMenu($event)" />
+				<label class="onoffswitch-label m-b-none" for="is_collapsed_menu">
+					<span class="onoffswitch-inner"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<a [routerLink]="['/']" class="btn btn-cancel">{{'common.cancel' | translate}}</a>
+		<button type="button" class="btn btn-submit" (click)="onSubmit()" *ngxPermissionsOnly="['admin', 'super_admin', 'themesettings_create', 'themesettings_edit']"><span>{{'common.save' | translate}}</span></button>
+	</div>
+</div>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Payment Receipt</title>
+    <style>
+    @import"https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap";
+
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        color: #333333;
+        background: #FFFFFF;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        margin-bottom: 10px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 10px 8px 10px;
+        background: #fdfdfd;
+        text-align: center;
+        font-size: 14px !important;
+    }
+
+    table th {
+        white-space: nowrap;
+        font-weight: normal;
+    }
+
+    table td {
+        text-align: right;
+    }
+
+    table tbody tr:last-child td {
+        border: none;
+    }
+
+    table tfoot td {
+        background: #FFFFFF;
+        font-size: 14px;
+        white-space: nowrap;
+        border-bottom: 1px solid #ededed;
+    }
+
+    table tfoot tr:first-child td {
+        border-top: none;
+    }
+
+    table tfoot tr td:first-child {
+        border: none;
+    }
+
+    thead th {
+        font-size: 14px !important;
+        font-weight: bold;
+        padding: 10px 10px;
+        border-top: 1px solid #ededed;
+        border-bottom: 1px solid #ededed;
+    }
+
+    table.billing td {
+        background-color: #FFFFFF;
+    }
+
+    p {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        font-size: 14px;
+    }
+
+    .cpy-info {
+        font-size: 14px;
+        letter-spacing: 0.6px;
+        margin-top: 2px;
+        font-weight: normal;
+    }
+
+    .align-left {
+        text-align: left;
+    }
+
+    .align-center {
+        text-align: center;
+    }
+
+    .mb-20 {
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        max-width: 150px;
+    }
+
+    </style>
+</head>
+
+<body>
+    <header class="clearfix">
+        <table cellpadding="0" cellspacing="0" class="billing">
+            <tr>
+                <td class="align-left logo">
+                    <img src="https://www.chetsapp.com/wp-content/uploads/2017/06/ChetsApp_Logo_main.png" alt="Logo">
+                </td>
+                <td>
+                    <b>PAYMENT RECEIPT</b><br>
+                    <b># PAY-000001</b><br>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-left">
+                    <p><b>ChetsApp Private Limited</b></p>
+                    <p class="cpy-info">411/ 412, Star Chambers,<br>Panchnath Main Road, Near GPO,<br>Harihar Chowk, Panchnath Plot,<br>Sadar, Rajkot, Gujarat – 360001<br>P: +91 87 5857 5857</p>
+                </td>
+                <td>
+                    <div class="mb-20">
+                        <p>To</p>
+                        <p><b>Vipul Patel</b></p>
+                        <p class="cpy-info">71634 Ludwigsburg, Germany<br>P: +49 175 8678468</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <td class="align-center"><b>Payment Date: </b>21-09-2020</td>
+                    <td class="align-center"><b>Payment Mode: </b>Bank Transfer</td>
+                    <td class="align-center"><b>Transaction ID: </b>q1w2e3</td>
+                </tr>
+            </thead>
+        </table>
+    </header>
+    <main>
+        <table border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="">Invoice Number</th>
+                    <th class="">Invoice Date</th>
+                    <th class="">Invoice Amount</th>
+                    <th class="">Payment Amount</th>
+                    <th class="">Amount Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="page-break-inside: avoid;">
+                    <td class="align-center">INV-000012</td>
+                    <td class="align-center">2020-10-14</td>
+                    <td class="">$ 500.00</td>
+                    <td class="">$ 500.00</td>
+                    <td class="">$ 0.00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </main>
+</body>
+
+</html>

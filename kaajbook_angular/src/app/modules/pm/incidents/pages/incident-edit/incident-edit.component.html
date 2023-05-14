@@ -1,0 +1,244 @@
+<section id="basic-form-layouts" *ngIf="isPageLoaded">
+	<form [formGroup]="editIncidentForm" (ngSubmit)="onSubmit()">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">{{'incidents.title2' | translate }} - #{{ incident.generated_id }}</h4>
+					</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="fa fa-ticket"></i> {{'incidents.headings.head1' | translate }}</h4>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="incident_name">{{'incidents.create.fields.incident_name' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<input type="text" class="form-control" formControlName="incident_name" id="incident_name" placeholder="{{'incidents.create.placeholders.placeholder1' | translate }}" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.incident_name.errors }" />
+											<div *ngIf="isFormSubmitted && incidentControl.incident_name.errors" class="invalid-feedback">
+												<div *ngIf="incidentControl.incident_name.errors.required">{{'incidents.create.error_messages.message1' | translate }}</div>
+												<div *ngIf="incidentControl.incident_name.errors.maxlength">{{'incidents.create.error_messages.message2' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.start_date.errors }">
+											<label for="start_date">{{'incidents.create.fields.start_date' | translate }}</label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #dp1="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" [minDate]="projectStartDate" (onHidden)="startDateChange()" formControlName="start_date" id="start_date" placeholder="{{'incidents.create.placeholders.placeholder8' | translate }}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && incidentControl.start_date.errors" class="invalid-feedback">
+													<div *ngIf="incidentControl.start_date.errors">{{'incidents.create.error_messages.message7' | translate }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.end_date.errors }">
+											<label for="end-date">{{'incidents.create.fields.end_date' | translate }}</label>
+											<div class="position-relative has-icon-left">
+												<input type="text" class="form-control" #dp2="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" [minDate]="editIncidentForm.get('start_date').value" formControlName="end_date" id="end_date" placeholder="{{'incidents.create.placeholders.placeholder9' | translate }}" />
+												<div class="form-control-position"><i class="ft-calendar"></i></div>
+												<div *ngIf="isFormSubmitted && incidentControl.end_date.errors" class="invalid-feedback">
+													<div *ngIf="incidentControl.end_date.errors">{{'incidents.create.error_messages.message8' | translate }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="assigned_group_id">{{'incidents.create.fields.assigned_group' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="teams"
+												[selectOnTab]="true"
+												bindLabel="team_name"
+												bindValue="id"
+												labelForId="assigned_group_id"
+												formControlName="assigned_group_id"
+												placeholder="{{'incidents.create.placeholders.placeholder5' | translate }}"
+												(change)="assignGroupChange($event)">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="assign_to">{{'incidents.create.fields.assigned_To' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="teamsMembers"
+												[multiple]="false"
+												[selectOnTab]="true"
+												bindLabel="firstname"
+												bindValue="id"
+												labelForId="assign_to"
+												formControlName="assign_to"
+												placeholder="{{'common.unassigned' | translate}}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item.firstname}} {{item.lastname}}
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="estimated_hours">{{'incidents.create.fields.estimate_hours' | translate }}</label>
+											<input type='text' class="form-control" formControlName="estimated_hours" placeholder="00:00" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.estimated_hours.errors }">
+											<div *ngIf="isFormSubmitted && incidentControl.estimated_hours.errors" class="invalid-feedback">
+												<div *ngIf="incidentControl.estimated_hours.errors.pattern">{{'incidents.create.error_messages.message9' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.status.errors }">
+											<label for="status">{{'incidents.create.fields.status' | translate }}&nbsp;<span class="text-danger">*</span> </label>
+											<ng-select [searchable]="true"
+												[items]="('incidents.status' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="status"
+												formControlName="status"
+												placeholder="{{'incidents.create.placeholders.placeholder2' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && incidentControl.status.errors" class="invalid-feedback">
+												<div *ngIf="incidentControl.status.errors.required">{{'incidents.create.error_messages.message4' | translate }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">&nbsp;</div>
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-zap"></i> {{'incidents.headings.head2' | translate }}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="project_id">{{'incidents.create.fields.project' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="projects"
+												[selectOnTab]="true" 
+												(change)="projectChange($event)"
+												bindLabel="project_name"
+												bindValue="id"
+												labelForId="project_id"
+												formControlName="project_id"
+												placeholder="{{'incidents.create.placeholders.placeholder6' | translate }}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item.project_name}}
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="project_version">{{'incidents.create.fields.project_version' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="projectVersions"
+												[selectOnTab]="true"
+												formControlName="project_version"
+												placeholder="{{'incidents.create.placeholders.placeholder7' | translate }}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item}}
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+								</div>
+								<h4 class="form-section"><i class="ft-box"></i> {{'incidents.headings.head5' | translate}}</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.priority.errors }">
+											<label for="priority">{{'incidents.create.fields.priority' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<ng-select [searchable]="true"
+												[items]="('incidents.priorities' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="priority"
+												formControlName="priority"
+												placeholder="{{'incidents.create.placeholders.placeholder3' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && incidentControl.priority.errors" class="invalid-feedback">
+												<div *ngIf="incidentControl.priority.errors.required">{{'incidents.create.error_messages.message5' | translate }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && incidentControl.incident_type.errors }">
+											<label for="incident_type">{{'incidents.create.fields.incident_type' | translate }}&nbsp;<span class="text-danger">*</span></label>
+											<ng-select [searchable]="true"
+												[items]="('incidents.incident_types' | translate)"
+												[selectOnTab]="true"
+												bindLabel="label"
+												bindValue="id"
+												labelForId="type"
+												formControlName="incident_type"
+												placeholder="{{'incidents.create.placeholders.placeholder4' | translate }}">
+											</ng-select>
+											<div *ngIf="isFormSubmitted && incidentControl.incident_type.errors" class="invalid-feedback">
+												<div *ngIf="incidentControl.incident_type.errors.required">{{'incidents.create.error_messages.message6' | translate }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12" *ngIf="customFields.length>0">
+				<div class="card">
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-star"></i> {{'incidents.headings.head3' | translate }}</h4>
+								<div class="row mb-3">
+									<div class="col-md-12">
+										<app-show-custom-field-element [formArray]="'custom_field'"
+											[controls]="editIncidentForm.get('custom_field')"
+											[customFields]="customFields"
+											[isFormSubmitted]="isFormSubmitted"
+											[formName]="editIncidentForm">
+										</app-show-custom-field-element>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="px-3">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-message-square"></i> {{'incidents.headings.head4' | translate }}</h4>
+								<div class="row mb-3">
+									<div class="col-md-12">
+										<div class="form-group">
+											<div class="form-group">
+												<label for="description">{{'incidents.create.fields.description' | translate }}</label>
+												<app-ngx-editor [config]="editorConfig" formControlName="description" id="description"></app-ngx-editor>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 text-right">
+										<a href="#/incidents" class="btn btn-cancel mb-0">{{'common.cancel' | translate}}</a>
+										<button type="submit" class="btn btn-submit mb-0">{{'common.update' | translate}}</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

@@ -1,0 +1,97 @@
+<section>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card pl-2 pr-2">
+				<div class="card-header pl-0 pr-0 border-bottom">
+					<h4 class="main-title mb-0 mt-0"><span>{{'settings.title' | translate}}</span></h4>
+				</div>
+				<div class="card-content custom-nav-tabs mt-3">
+					<div class="card-body">
+						<tabset [vertical]="false" type="pills" #tabset>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'companydetail_view']">
+								<tab heading="{{'settings.company_details.title' | translate}}" id="1" (selectTab)="setSettingTab($event)">
+									<app-company-detail [settings]="settings" [countries]="countries" *ngIf="getActiveSettingTab('1') && isSettingsLoad"></app-company-detail>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'systemsettings_view']">
+								<tab heading="{{'settings.system_settings.title' | translate}}" id="2" (selectTab)="setSettingTab($event)">
+									<app-system-settings [settings]="settings" [loginUser]="loginUser" *ngIf="getActiveSettingTab('2')"></app-system-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'slacksettings_view']">
+								<tab heading="{{'settings.slack_settings.title' | translate}}" id="3" (selectTab)="setSettingTab($event)">
+									<app-slack-settings [loginUser]="loginUser" *ngIf="getActiveSettingTab('3')"></app-slack-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'emailsettings_view']">
+								<tab heading="{{'settings.email_settings.title' | translate}}" id="4" (selectTab)="setSettingTab($event)">
+									<app-email-settings [settings]="settings" *ngIf="getActiveSettingTab('4')"></app-email-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'emailtemplates_view']">
+								<tab heading="{{'settings.email_templates.title' | translate}}" id="5" (selectTab)="setSettingTab($event)">
+									<app-email-templates *ngIf="getActiveSettingTab('5')"></app-email-templates>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'emailnotifications_view']">
+								<tab heading="{{'settings.email_notification.title' | translate}}" id="6" (selectTab)="setSettingTab($event)">
+									<app-email-notifications [settings]="settings" *ngIf="getActiveSettingTab('6')"></app-email-notifications>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'cronjob_view']">
+								<tab heading="{{'settings.cronjob.title' | translate}}" id="7" (selectTab)="setSettingTab($event)">
+									<app-cronjob-settings [settings]="settings" [loginUser]="loginUser" *ngIf="getActiveSettingTab('7')"></app-cronjob-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'menuallocation_view']">
+								<tab heading="{{'settings.menu_allocation.title' | translate}}" id="8" (selectTab)="setSettingTab($event)">
+									<app-menu-allocation *ngIf="getActiveSettingTab('8')"></app-menu-allocation>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'themesettings_view']">
+								<tab heading="{{'settings.theme_settings.title' | translate}}" id="9" (selectTab)="setSettingTab($event)">
+									<app-theme-settings [settings]="settings" *ngIf="getActiveSettingTab('9')"></app-theme-settings>
+								</tab>
+							</ng-container>
+							<!-- <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'dashboardsettings_view']">
+								<tab heading="{{'settings.dashboard_settings.title' | translate}}" id="10" (selectTab)="setSettingTab($event)">
+									<app-dashboard-settings [settings]="settings" *ngIf="getActiveSettingTab('10')"></app-dashboard-settings>
+								</tab>
+							</ng-container> -->
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'backupdatabase_view']">
+								<tab heading="{{'settings.database_backups.title' | translate}}" id="11" (selectTab)="setSettingTab($event)">
+									<app-database-backup *ngIf="getActiveSettingTab('11')"></app-database-backup>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_view']">
+								<tab heading="{{'settings.custom_fields.title' | translate}}" id="12" (selectTab)="setSettingTab($event)">
+									<app-custom-fields *ngIf="getActiveSettingTab('12')"></app-custom-fields>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'translations_view']">
+								<tab heading="{{'settings.translations.title' | translate}}" id="13" (selectTab)="setSettingTab($event)">
+									<app-translations-settings *ngIf="getActiveSettingTab('13')"></app-translations-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'estimatesettings_view']">
+								<tab heading="{{'settings.estimate_settings.title' | translate}}" id="14" (selectTab)="setSettingTab($event)">
+									<app-estimate-settings *ngIf="getActiveSettingTab('14')"></app-estimate-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'invoicesettings_view']">
+								<tab heading="{{'settings.invoice_settings.title' | translate}}" id="15" (selectTab)="setSettingTab($event)">
+									<app-invoice-settings *ngIf="getActiveSettingTab('15')"></app-invoice-settings>
+								</tab>
+							</ng-container>
+							<ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'paymentgatewaysettings_view']">
+								<tab heading="{{'settings.payment_gateway_settings.title' | translate}}" id="16" (selectTab)="setSettingTab($event)">
+									<app-paypal-gateway *ngIf="getActiveSettingTab('16')"></app-paypal-gateway>
+								</tab>
+							</ng-container>
+						</tabset>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

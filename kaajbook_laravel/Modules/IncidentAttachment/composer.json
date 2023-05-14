@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/incidentattachment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\IncidentAttachment\\Providers\\IncidentAttachmentServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\IncidentAttachment\\": ""
+        }
+    }
+}

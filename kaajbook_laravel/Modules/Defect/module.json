@@ -1,0 +1,14 @@
+{
+    "name": "Defect",
+    "alias": "defect",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Defect\\Providers\\DefectServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

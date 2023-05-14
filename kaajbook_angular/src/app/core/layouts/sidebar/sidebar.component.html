@@ -1,0 +1,63 @@
+<!-- Sidebar Header starts -->
+<div class="sidebar-header">
+	<div class="logo clearfix">
+		<a [routerLink]="['/']" class="logo-text">
+			<div class="logo-img mr-1">
+				<img src="{{apiUrl}}/uploads/company_sidebar_logo/{{settings.company_sidebar_logo}}" width="30" height="30" alt="Logo 30x30" *ngIf="settings.company_sidebar_logo" />
+				<img src="assets/img/logos/favicon-72x72.png" width="30" height="30" alt="Profile Logo" *ngIf="!settings.company_sidebar_logo" />
+			</div>
+			<span class="text align-middle">{{settings.company_short_name}}</span>
+		</a>
+		<a class="nav-close d-block d-md-block d-lg-none d-xl-none" id="sidebarClose" href="javascript:;">
+			<i class="ft-x"></i>
+		</a>
+	</div>
+</div>
+<div class="sidebar-content" [perfectScrollbar]="scrollConfig">
+	<div class="nav-container">
+		<ul class="navigation">
+			<!-- First level menu -->
+			 <li *ngFor="let menuItem of menuItems" [ngClass]="[menuItem.class]" [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}">
+				<a [routerLink]="menuItem.class === '' ? [menuItem.link] : null" *ngIf="!menuItem.isExternalLink; else externalLinkBlock">
+					<i [ngClass]="[menuItem.icon]"></i>
+					<span class="menu-title">{{menuItem.text | translate}}</span>
+					<span *ngIf="menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+				</a>
+				<ng-template #externalLinkBlock>
+					<a [href]="[menuItem.link]" target="_blank">
+						<i [ngClass]="[menuItem.icon]"></i>
+						<span class="menu-title">{{menuItem.text | translate}}</span>
+						<span *ngIf="menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+					</a>
+				</ng-template>
+				<!-- Second level menu -->
+				<ul class="menu-content" *ngIf="menuItem.submenu.length > 0">
+					<li *ngFor="let menuSubItem of menuItem.submenu" [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'" [ngClass]="[menuSubItem.class]">
+						<a [routerLink]="menuSubItem.submenu.length > 0 ? null : [menuSubItem.link]" *ngIf="!menuSubItem.isExternalLink; else externalSubLinkBlock">
+							<span class="menu-title">{{menuSubItem.text | translate}}</span>
+						</a>
+						<ng-template #externalSubLinkBlock>
+							<a [href]="[menuSubItem.link]">
+								<span class="menu-title">{{menuSubItem.text | translate}}</span>
+							</a>
+						</ng-template>
+						<!-- Third level menu -->
+						<!-- <ul class="menu-content" *ngIf="menuSubItem.submenu.length > 0">
+							<li *ngFor="let menuSubsubItem of menuSubItem.submenu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+								[ngClass]="[menuSubsubItem.class]">
+								<a [routerLink]="[menuSubsubItem.link]" *ngIf="!menuSubsubItem.isExternalLink; else externalSubSubLinkBlock">
+									<span class="menu-title">{{menuSubsubItem.text | translate}}</span>
+								</a>
+								<ng-template #externalSubSubLinkBlock>
+									<a [href]="[menuSubsubItem.link]">
+										<span class="menu-title">{{menuSubsubItem.text | translate}}</span>
+									</a>
+								</ng-template>
+							</li>
+						</ul> -->
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>

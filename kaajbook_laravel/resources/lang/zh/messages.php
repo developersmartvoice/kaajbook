@@ -1,0 +1,97 @@
+<?php
+return [
+    "estimates" => [
+        "adjustment" => "调整",
+        "discount" => "折扣",
+        "estimate_date" => "估计日期",
+        "expiry_date" => "到期日",
+        "item_name" => "商品描述",
+        "note" => "注意",
+        "quantity" => "数量",
+        "reference" => "参考",
+        "status" => [
+            "accepted" => "公认",
+            "declined" => "下降",
+            "draft" => "草案",
+            "expired" => "过期",
+            "sent" => "发送"
+        ],
+        "sub_total" => "小计",
+        "tax" => "税",
+        "terms_conditions" => "条款和条件",
+        "title" => "估计",
+        "to" => "至",
+        "total" => "总",
+        "total_item_amount" => "量",
+        "unit_price" => "单价"
+    ],
+    "invoices" => [
+        "adjustment" => "调整",
+        "amount" => "量",
+        "date" => "日期",
+        "discount" => "折扣",
+        "due" => "应有",
+        "due_date" => "截止日期",
+        "gst_number" => "消费税",
+        "invoice_date" => "发票日期",
+        "item_name" => "商品描述",
+        "note" => "注意",
+        "offline_payment" => "离线付款",
+        "paid" => "付费",
+        "payment_method" => "付款方式",
+        "payments" => "支付",
+        "project_name" => "项目",
+        "quantity" => "数量",
+        "receipt_no" => "收据编号",
+        "reference" => "参考",
+        "status" => ["paid" => "付费", "partially_paid" => "部分付款", "unpaid" => "未付"],
+        "sub_total" => "小计",
+        "tax" => "税",
+        "terms_conditions" => "条款和条件",
+        "title" => "发票",
+        "to" => "至",
+        "total" => "总",
+        "total_item_amount" => "量",
+        "unit_price" => "单价"
+    ],
+    "msg_1" => "没有任何任务。",
+    "payments" => [
+        "amount_due" => "到期金额",
+        "invoice_amount" => "发票金额",
+        "invoice_date" => "发票日期",
+        "invoice_number" => "发票编号",
+        "payment_amount" => "支付金额",
+        "payment_date" => "付款日期",
+        "payment_method" => "付款方式",
+        "status" => ["failed" => "失败", "in_progress" => "进行中", "successful" => "成功的"],
+        "title" => "付款收据",
+        "to" => "至",
+        "transaction_id" => "交易ID"
+    ],
+    "status" => [
+        "approved" => "批准",
+        "assigned" => "已分配",
+        "cancel" => "取消",
+        "closed" => "关闭",
+        "completed" => "已完成",
+        "deferred" => "递延",
+        "in_progress" => "进行中",
+        "not_started" => "没有开始",
+        "on_hold" => "等候接听",
+        "open" => "打开",
+        "reopen" => "RE-OPEN",
+        "solved" => "解决了",
+        "taken" => "已采取",
+        "waiting" => "等候"
+    ],
+    "timesheet" => [
+        "columns" => [
+            "end_time" => "时间结束",
+            "entry" => "条目",
+            "start_time" => "开始时间",
+            "status" => "状态",
+            "time_h" => "小时",
+            "user" => "用户"
+        ]
+    ]
+];

@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable " id="appointment_recurrence_datatable" width="100%">
+                <thead>
+                    <tr>
+                        <th>{{'appointments.columns.id' | translate }}</th>
+                        <th>{{'appointments.columns.start_time' | translate }}</th>
+                        <th>{{'appointments.columns.end_time' | translate }}</th>
+                        <th>{{'appointments.columns.status' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let recurrence of appointment.recurrences; index as i">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td>{{recurrence.start_date_time | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
+                        <td>{{recurrence.end_date_time | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
+                        <td class="status-dropdown">
+                            <div *ngxPermissionsOnly="['admin', 'super_admin', 'appointment_edit']; else elseBlock1; then thenBlock1"></div>
+                            <ng-template #elseBlock1>
+                                <ng-container *ngFor="let status of ('appointments.status' | translate)">
+                                    <div class="budges-status">
+                                        <span class="{{status.class}}" *ngIf="status.id == recurrence.status">{{status.label}}</span>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #thenBlock1>
+                                <div class="btn-group" dropdown>
+                                    <button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(recurrence.status) | translate}}&nbsp;<span class="caret"></span></button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+                                        <li role="menuitem" *ngFor="let status of ('appointments.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': recurrence.status == status.id}" (click)="changeAppointmentRecurrenceStatus([recurrence.id], status);recurrence.status = status.id">{{status.label}}</a></li>
+                                    </ul>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/projectplannersprint",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ProjectPlannerSprint\\Providers\\ProjectPlannerSprintServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ProjectPlannerSprint\\": ""
+        }
+    }
+}

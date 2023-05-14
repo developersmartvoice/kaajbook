@@ -1,0 +1,25 @@
+{
+    "name": "vipspatel/knowledgebasecategory",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vips Patel",
+            "email": "info@chetsapp.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\KnowledgeBaseCategory\\Providers\\KnowledgeBaseCategoryServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\KnowledgeBaseCategory\\": ""
+        }
+    }
+}

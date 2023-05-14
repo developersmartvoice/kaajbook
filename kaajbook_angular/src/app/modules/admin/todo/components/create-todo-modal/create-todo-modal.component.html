@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<h2 class="modal-title font-weight-normal"><i class="fa fa-list-ul" aria-hidden="true"></i>&nbsp;{{'todos.title' | translate}}</h2>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<form class="form" [formGroup]="createTodoForm" (ngSubmit)="onSubmit()">
+	<div class="modal-body">
+		<div class="form-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="description">{{'todos.create.fields.description' | translate}}<span class="text-danger">&nbsp;*</span></label>
+						<textarea type="text" placeholder="{{'todos.create.placeholders.placeholder1' | translate}}" class="form-control" id="description" formControlName="description" [ngClass]="{ 'is-invalid': isFormSubmitted && todoControl.description.errors }"></textarea>
+						<div *ngIf="isFormSubmitted && todoControl.description.errors" class="invalid-feedback">
+							<div *ngIf="todoControl.description.errors.required">{{'todos.create.error_messages.message1' | translate}}</div>
+							<div *ngIf="todoControl.description.errors.minlength">{{'todos.create.error_messages.message2' | translate}}</div>
+							<div *ngIf="todoControl.description.errors.maxlength">{{'todos.create.error_messages.message3' | translate}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="due_date">{{'todos.create.fields.due_date' | translate}}</label>
+						<div class="position-relative has-icon-left">
+							<input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [bsConfig]="datepickerConfig" [minDate]="minDate" formControlName="due_date" id="due_date" placeholder="{{'todos.create.placeholders.placeholder3' | translate}}" [ngClass]="{ 'is-invalid': isFormSubmitted && todoControl.due_date.errors }" />
+							<div class="form-control-position"><i class="ft-calendar"></i></div>
+							<div *ngIf="isFormSubmitted && todoControl.due_date.errors" class="invalid-feedback">
+								<div>{{'todos.create.error_messages.message5' | translate}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-cancel mb-0" (click)="onCancel()">{{'common.close' | translate}}</button>
+		<button type="submit" class="btn btn-submit mb-0">{{'common.create' | translate}}</button>
+	</div>
+</form>

@@ -1,0 +1,13 @@
+.countdown {
+    li {
+        display: inline-block;
+        font-size: 1rem;
+        list-style-type: none;
+        text-transform: uppercase;
+        text-align: center;
+        span {
+            display: block;
+            font-size: 1rem;
+        }
+    }
+}
