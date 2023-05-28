@@ -71,12 +71,12 @@
                                             <tr>
                                                 <th>{{'tasks.columns.id' | translate}}</th>
                                                 <th>{{'tasks.columns.task_name' | translate}}</th>
+                                                <th>{{'tasks.columns.status' | translate}}</th>
                                                 <th>{{'tasks.columns.start_date' | translate}}</th>
                                                 <th>{{'tasks.columns.end_date' | translate}}</th>
                                                 <th>{{'tasks.columns.hours' | translate}}</th>
                                                 <th>{{'tasks.columns.assigned' | translate}}</th>
                                                 <th>{{'tasks.columns.priority' | translate}}</th>
-                                                <th>{{'tasks.columns.status' | translate}}</th>
                                                 <th>{{'tasks.columns.actions' | translate}}</th>
                                             </tr>
                                         </thead>
@@ -90,29 +90,6 @@
                                                         <inline-edit-input [name]="'name'" [type]="'text'" [elementFor]="'tasks.inline_edit.task_name' | translate" [fieldValue]="task.name" [isRequired]="'true'" (updateValue)="saveTaskDetail(i, 'name', $event);"></inline-edit-input>
                                                     </ng-container>
                                                     <ng-template #elseBlock1>{{task.name}}</ng-template>
-                                                </td>
-                                                <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
-                                                <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
-                                                <td>{{task.actual_hours}}</td>
-                                                <td class="people-lists">
-                                                    <ng-container *ngIf="task.assign_to == null; else elseBlock3">
-                                                        <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
-                                                            <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
-                                                        </a>
-                                                    </ng-container>
-                                                    <ng-template #elseBlock3>
-                                                        <a [routerLink]="['/users/profile', task.assign_to]" class="btn btn-profile-danger rounded-circle text-dark" tooltip="{{task.assign_firstname}} {{task.assign_lastname}}" placement="top">
-                                                            <img *ngIf="task.assign_avatar" src="{{apiUrl}}/uploads/profile/{{task.assign_avatar}}" class="img-sm rounded-circle" alt="Profile" />
-                                                            <img *ngIf="!task.assign_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
-                                                        </a>
-                                                    </ng-template>
-                                                </td>
-                                                <td class="budges-status">
-                                                    <ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
-                                                        <div class="budges-status">
-                                                            <span class="{{priority.class}}" *ngIf="priority.id == task.priority">{{priority.label}}</span>
-                                                        </div>
-                                                    </ng-container>
                                                 </td>
                                                 <td class="status-dropdown">
                                                     <div class="overdue-td">
@@ -138,6 +115,30 @@
                                                         </ng-container>
                                                     </div>
                                                 </td>
+                                                <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+                                                <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+                                                <td>{{task.actual_hours}}</td>
+                                                <td class="people-lists">
+                                                    <ng-container *ngIf="task.assign_to == null; else elseBlock3">
+                                                        <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
+                                                            <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                                        </a>
+                                                    </ng-container>
+                                                    <ng-template #elseBlock3>
+                                                        <a [routerLink]="['/users/profile', task.assign_to]" class="btn btn-profile-danger rounded-circle text-dark" tooltip="{{task.assign_firstname}} {{task.assign_lastname}}" placement="top">
+                                                            <img *ngIf="task.assign_avatar" src="{{apiUrl}}/uploads/profile/{{task.assign_avatar}}" class="img-sm rounded-circle" alt="Profile" />
+                                                            <img *ngIf="!task.assign_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
+                                                        </a>
+                                                    </ng-template>
+                                                </td>
+                                                <td class="budges-status">
+                                                    <ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
+                                                        <div class="budges-status">
+                                                            <span class="{{priority.class}}" *ngIf="priority.id == task.priority">{{priority.label}}</span>
+                                                        </div>
+                                                    </ng-container>
+                                                </td>
+                                               
                                                 <td class="actions-dropdown">
                                                     <div class="btn-group" dropdown>
                                                         <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
