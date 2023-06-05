@@ -248,7 +248,7 @@
 									<tabset class="nav nav-tabs d-flex justify-content-left details-tabs col-md-12 p-0">
 										<tab customClass="text-left" class="card-separator mb-3" id="1">
 											<ng-template tabHeading>
-												<div class="d-flex"><i class="fa fa-comments-o"></i><span class="m-1">{{'comments.title' | translate}}</span></div>
+												<div class="d-flex"><i class="fa fa-comments-o"></i><span class="m-1">{{project.comments.length | json}} {{'comments.title' | translate}}</span></div>
 											</ng-template>
 											<!-- Task Comment -->
 											<div class="col-lg-12 pr-0 pl-0">
@@ -257,7 +257,7 @@
 										</tab>
 										<tab customClass="text-left" class="card-separator mb-3" id="2">
 											<ng-template tabHeading>
-												<div class="d-flex"><i class="fa fa-paperclip"></i><span class="m-1">{{'attachments.title' | translate}}</span></div>
+												<div class="d-flex"><i class="fa fa-paperclip"></i><span class="m-1">{{project.attachments.length | json}} {{'attachments.title' | translate}}</span></div>
 											</ng-template>
 											<!-- Task Attachment -->
 											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 pr-0 pl-0">
@@ -280,7 +280,7 @@
 										</tab>
 										<tab customClass="text-left" class="card-separator mb-3" id="4">
 											<ng-template tabHeading>
-												<div class="d-flex"><i class="fa fa-list"></i><span class="m-1">{{'activities.title' | translate}}</span></div>
+												<div class="d-flex"><i class="fa fa-list"></i><span class="m-1">{{project.activities.length | json}} {{'activities.title' | translate}}</span></div>
 											</ng-template>
 											<app-project-activities [project]="project" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-project-activities>
 										</tab>
