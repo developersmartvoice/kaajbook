@@ -15,17 +15,22 @@
 						<tr>
 							<th>{{'tasks.columns.id' | translate }}</th>
 							<th>{{'tasks.columns.task_name' | translate }}</th>
+							<th>{{'tasks.columns.status' | translate }}</th>
 							<th>{{'tasks.columns.start_date' | translate }}</th>
 							<th>{{'tasks.columns.end_date' | translate }}</th>
 							<th>{{'tasks.columns.assigned' | translate }}</th>
 							<th>{{'tasks.columns.priority' | translate }}</th>
-							<th>{{'tasks.columns.status' | translate }}</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr *ngFor="let task of project.tasks">
 							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.generated_id}}</a></td>
 							<td>{{task.name}}</td>
+							<td class="budges-status">
+								<ng-container *ngFor="let status of ('tasks.status' | translate)">
+									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
+								</ng-container>
+							</td>
 							<td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
 							<td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
 							<td class="people-lists">
@@ -48,11 +53,7 @@
                                     </div>
                                 </ng-container>
                             </td>
-							<td class="budges-status">
-								<ng-container *ngFor="let status of ('tasks.status' | translate)">
-									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
-								</ng-container>
-							</td>
+							
 						</tr>
 					</tbody>
 				</table>

@@ -58,11 +58,11 @@
                                                 <th width="25px">{{'projects.columns.logo' | translate}}</th>
                                                 <th>{{'projects.columns.id' | translate}}</th>
                                                 <th>{{'projects.columns.project_name' | translate}}</th>
+                                                <th>{{'projects.columns.status' | translate}}</th>
                                                 <th>{{'projects.columns.duration' | translate}}</th>
                                                 <th>{{'projects.columns.progress' | translate}}</th>
                                                 <th>{{'projects.columns.creator' | translate}}</th>
                                                 <th>{{'projects.columns.assigned_To' | translate}}</th>
-                                                <th>{{'projects.columns.status' | translate}}</th>
                                                 <th>{{'projects.columns.actions' | translate}}</th>
                                             </tr>
                                         </thead>
@@ -80,6 +80,32 @@
                                                         <inline-edit-input [name]="'project_name'" [type]="'text'" [elementFor]="'projects.inline_edit.project_name' | translate" [fieldValue]="project.project_name" [isRequired]="'true'" (updateValue)="saveProjectDetail(i, 'project_name', $event);"></inline-edit-input>
                                                     </ng-container>
                                                     <ng-template #elseBlock2>{{project.project_name}}</ng-template>
+                                                </td>
+                                                <td class="status-dropdown">
+                                                    <div class="overdue-td">
+                                                        <div>
+                                                            <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock3;">
+                                                                <div class="btn-group" dropdown>
+                                                                    <button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(project.status) | translate}}&nbsp;<span class="caret"></span></button>
+                                                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+                                                                        <li role="menuitem" *ngFor="let status of ('projects.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': project.status == status.id}" (click)="changeProjectStatus([project.id], status);project.status = status.id">{{status.label}}</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                        <div>
+                                                            <ng-template #elseBlock3>
+                                                                <ng-container *ngFor="let status of ('projects.status' | translate)">
+                                                                    <div class="budges-status">
+                                                                        <span class="{{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </ng-template>
+                                                            <ng-container *ngIf="project.is_overdue">
+                                                                <i class="fa fa-clock-o overdue-icon" aria-hidden="true" tooltip="{{'common.overdue' | translate}} : {{project.is_overdue}} {{'common.days' | translate}}"></i>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td class="duration">
                                                     <p class="m-0">{{'projects.columns.start' | translate}}: <strong>{{ project.start_date | dateTimeFormatFilter: this.loginUser.settings.date_format}}</strong></p>
@@ -110,32 +136,7 @@
                                                         </ng-container>
                                                     </ng-template>
                                                 </td>
-                                                <td class="status-dropdown">
-                                                    <div class="overdue-td">
-                                                        <div>
-                                                            <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock3;">
-                                                                <div class="btn-group" dropdown>
-                                                                    <button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(project.status) | translate}}&nbsp;<span class="caret"></span></button>
-                                                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
-                                                                        <li role="menuitem" *ngFor="let status of ('projects.status' | translate)"><a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': project.status == status.id}" (click)="changeProjectStatus([project.id], status);project.status = status.id">{{status.label}}</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                        <div>
-                                                            <ng-template #elseBlock3>
-                                                                <ng-container *ngFor="let status of ('projects.status' | translate)">
-                                                                    <div class="budges-status">
-                                                                        <span class="{{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
-                                                                    </div>
-                                                                </ng-container>
-                                                            </ng-template>
-                                                            <ng-container *ngIf="project.is_overdue">
-                                                                <i class="fa fa-clock-o overdue-icon" aria-hidden="true" tooltip="{{'common.overdue' | translate}} : {{project.is_overdue}} {{'common.days' | translate}}"></i>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                
                                                 <td class="actions-dropdown">
                                                     <div class="btn-group" dropdown *ngIf="getCheckPermission(project, 'edit') || getCheckPermission(project, 'delete')">
                                                         <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
