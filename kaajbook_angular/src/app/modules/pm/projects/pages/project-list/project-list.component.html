@@ -76,10 +76,11 @@
                                                     <a [routerLink]="['/projects/detail', project.id]" tooltip="{{'common.view' | translate}}">{{project.generated_id}}</a>
                                                 </td>
                                                 <td>
-                                                    <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock2;">
+                                                    <!-- <ng-container *ngIf="getCheckPermission(project, 'edit') else elseBlock2;">
                                                         <inline-edit-input [name]="'project_name'" [type]="'text'" [elementFor]="'projects.inline_edit.project_name' | translate" [fieldValue]="project.project_name" [isRequired]="'true'" (updateValue)="saveProjectDetail(i, 'project_name', $event);"></inline-edit-input>
                                                     </ng-container>
-                                                    <ng-template #elseBlock2>{{project.project_name}}</ng-template>
+                                                    <ng-template #elseBlock2>{{project.project_name}}</ng-template> -->
+                                                    <a [routerLink]="['/projects/detail', project.id]" tooltip="{{'common.view' | translate}}">{{project.project_name}}</a>
                                                 </td>
                                                 <td class="status-dropdown">
                                                     <div class="overdue-td">

@@ -25,7 +25,7 @@
 					<tbody>
 						<tr *ngFor="let task of project.tasks">
 							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.generated_id}}</a></td>
-							<td>{{task.name}}</td>
+							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.name}}</a></td>
 							<td class="budges-status">
 								<ng-container *ngFor="let status of ('tasks.status' | translate)">
 									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
