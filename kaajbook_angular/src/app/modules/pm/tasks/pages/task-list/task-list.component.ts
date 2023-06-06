@@ -112,7 +112,7 @@ export class TaskListComponent implements OnInit {
 				},
 				{
 					'sortable': true,
-					'width': "8%",
+					'width': "10%",
 					'target': [3]
 				},
 				{
@@ -122,7 +122,7 @@ export class TaskListComponent implements OnInit {
 				},
 				{
 					'sortable': true,
-					'width': "10%",
+					'width': "8%",
 					'target': [5]
 				},
 				{

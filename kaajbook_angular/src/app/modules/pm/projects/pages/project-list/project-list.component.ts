@@ -123,12 +123,12 @@ export class ProjectListComponent implements OnInit {
 				},
 				{
 					'sortable': true,
-					'width': "22%",
+					'width': "10%",
 					'target': [3]
 				},
 				{
 					'sortable': true,
-					'width': "5%",
+					'width': "22%",
 					'target': [4]
 				},
 				{
@@ -138,12 +138,12 @@ export class ProjectListComponent implements OnInit {
 				},
 				{
 					'sortable': false,
-					'width': "17%",
+					'width': "5%",
 					'target': [6]
 				},
 				{
 					'sortable': true,
-					'width': "10%",
+					'width': "17%",
 					'target': [7]
 				},
 				{
