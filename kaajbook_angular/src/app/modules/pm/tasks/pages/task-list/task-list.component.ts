@@ -56,7 +56,11 @@ export class TaskListComponent implements OnInit {
 		ignoreBackdropClick: false,
 		class: "inmodal modal-dialog-centered animated fadeIn"
 	};
-
+	taskDetails: any ;
+	commentCounts: any[]=[{id:null }];
+	attachmentCounts: any[]=[{id:null }];
+	activityCounts: any[]=[{id:null }];
+ 
 	constructor(
 		public translate: TranslateService,
 		public ngxRolesService: NgxRolesService,
@@ -218,6 +222,12 @@ export class TaskListComponent implements OnInit {
 							recordsFiltered: resp.recordsFiltered,
 							data: [],
 						});
+						// to get total comment/activity/attachment length
+						this.tasks.forEach((task) => {
+							this.getTaskCommentLengthById(task.id);
+						});
+
+
 					});
 			}
 		};
@@ -326,4 +336,18 @@ export class TaskListComponent implements OnInit {
 			this.rerender();
 		});
 	}
+
+
+	// to get total comment/activity/attachment length
+	getTaskCommentLengthById(id) {	 
+		this.taskService.getById(id)
+			.subscribe(
+				data => {
+					this.taskDetails = data;
+					this.commentCounts[id] = this.taskDetails.comments.length;
+					this.activityCounts[id] = this.taskDetails.activities.length;
+					this.attachmentCounts[id] = this.taskDetails.attachments.length;
+ 				});
+	}
+
 }

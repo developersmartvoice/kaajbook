@@ -74,7 +74,8 @@
                                                 <th>{{'tasks.columns.status' | translate}}</th>
                                                 <th>{{'tasks.columns.start_date' | translate}}</th>
                                                 <th>{{'tasks.columns.end_date' | translate}}</th>
-                                                <th>{{'tasks.columns.hours' | translate}}</th>
+                                                <!-- <th>{{'tasks.columns.hours' | translate}}</th> -->
+                                                <th>{{'comments.title' | translate}}</th>
                                                 <th>{{'tasks.columns.assigned' | translate}}</th>
                                                 <th>{{'tasks.columns.priority' | translate}}</th>
                                                 <th>{{'tasks.columns.actions' | translate}}</th>
@@ -118,7 +119,16 @@
                                                 </td>
                                                 <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
                                                 <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
-                                                <td>{{task.actual_hours}}</td>
+                                                <!-- <td>{{task.actual_hours}}</td> -->
+                                                <td>
+                                                    <!-- task comment route -->
+                                                    <a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}"><i class="fa fa-commenting-o" aria-hidden="true">{{commentCounts[task.id]}} </i></a> 
+                                                    <!-- task attachment route -->
+                                                    <a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}"><i class="fa fa-paperclip" aria-hidden="true">{{attachmentCounts[task.id]}} </i></a>                                               
+                                                    <!-- task activity route -->
+                                                    <a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}"><i class="fa fa-history" aria-hidden="true">{{activityCounts[task.id]}} </i></a>
+
+                                                 </td>
                                                 <td class="people-lists">
                                                     <ng-container *ngIf="task.assign_to == null; else elseBlock3">
                                                         <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
