@@ -47,7 +47,7 @@ export class TaskCommentsComponent implements OnInit {
 	selectedFiles = [];
 	taskId = this.route.snapshot.params.id;
 	customClass = 'comment-collapse';
-	oneAtATime: boolean = true;
+	oneAtATime: boolean = false;
 
 	@ViewChild('commentdropzone', {static: false}) commentdropzone: ElementRef;
 	
@@ -189,6 +189,9 @@ export class TaskCommentsComponent implements OnInit {
 				this.taskData = data;
 				this.taskData.comments = this.getNestedChildren(this.taskData.comments, 0);
 				this.comments = this.taskData.comments;
+
+				//reverse all the comments
+				this.comments = this.comments.reverse();
 			});
 	}
 

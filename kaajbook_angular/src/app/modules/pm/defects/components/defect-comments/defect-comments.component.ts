@@ -41,7 +41,7 @@ export class DefectCommentsComponent implements OnInit {
 	selectedFiles = [];
 	defectId = this.route.snapshot.params.id;
 	customClass = 'comment-collapse';
-	oneAtATime: boolean = true;
+	oneAtATime: boolean = false;
 
 	@ViewChild('commentdropzone', { static: false }) commentdropzone: ElementRef;
 
@@ -183,6 +183,9 @@ export class DefectCommentsComponent implements OnInit {
 				this.defectData = data;
 				this.defectData.comments = this.getNestedChildren(this.defectData.comments, 0);
 				this.comments = this.defectData.comments;
+
+				//reverse all the comments
+				this.comments = this.comments.reverse();
 			});
 	}
 

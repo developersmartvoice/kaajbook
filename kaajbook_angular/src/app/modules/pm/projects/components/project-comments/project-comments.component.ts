@@ -47,7 +47,7 @@ export class ProjectCommentsComponent implements OnInit {
 	selectedFiles = [];
 	projectId = this.route.snapshot.params.id;
 	customClass = 'comment-collapse';
-	oneAtATime: boolean = true;
+	oneAtATime: boolean = false;
 
 	@ViewChild('commentdropzone', { static: false }) commentdropzone: ElementRef;
 
@@ -186,6 +186,9 @@ export class ProjectCommentsComponent implements OnInit {
 				this.projectData = data;
 				this.projectData.comments = this.getNestedChildren(this.projectData.comments, 0);
 				this.comments = this.projectData.comments;
+
+				//reverse all the comments
+				this.comments = this.comments.reverse();
 			});
 	}
 

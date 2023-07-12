@@ -39,7 +39,7 @@ export class IncidentCommentsComponent implements OnInit {
 	selectedFiles = [];
 	incidentId = this.route.snapshot.params.id;
 	customClass = 'comment-collapse';
-	oneAtATime: boolean = true;
+	oneAtATime: boolean = false;
 
 	@ViewChild('commentdropzone',{static: false}) commentdropzone: ElementRef;
 
@@ -181,6 +181,9 @@ export class IncidentCommentsComponent implements OnInit {
 				this.incidentData = data;
 				this.incidentData.comments = this.getNestedChildren(this.incidentData.comments, 0);
 				this.comments = this.incidentData.comments;
+
+				//reverse all the comments
+				this.comments = this.comments.reverse();
 			});
 	}
 

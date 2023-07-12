@@ -29,7 +29,7 @@
 		<div class="col-sm-12">
 			<accordion [closeOthers]="oneAtATime">
 				<ng-container *ngFor="let comment of comments">
-					<accordion-group [panelClass]="customClass">
+					<accordion-group [panelClass]="customClass" isOpen="true">
 						<button class="btn btn-link btn-block d-lg-flex justify-content-between" accordion-heading type="button">
 							<div class="">
 								<i class="fa fa-angle-down mr-1"></i>
