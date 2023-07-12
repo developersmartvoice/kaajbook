@@ -70,10 +70,12 @@
                                         <thead>
                                             <tr>
                                                 <th>{{'tasks.columns.id' | translate}}</th>
+                                                <th>{{'project name' | translate}}</th>
                                                 <th>{{'tasks.columns.task_name' | translate}}</th>
                                                 <th>{{'tasks.columns.status' | translate}}</th>
-                                                <th>{{'tasks.columns.start_date' | translate}}</th>
-                                                <th>{{'tasks.columns.end_date' | translate}}</th>
+                                                <!-- <th>{{'tasks.columns.start_date' | translate}}</th> -->
+                                                <!-- <th>{{'tasks.columns.end_date' | translate}}</th> -->
+                                                <th></th>
                                                 <!-- <th>{{'tasks.columns.hours' | translate}}</th> -->
                                                 <th>{{'comments.title' | translate}}</th>
                                                 <th>{{'tasks.columns.assigned' | translate}}</th>
@@ -86,6 +88,7 @@
                                                 <td>
                                                     <a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.generated_id}}</a>
                                                 </td>
+                                                <td>{{taskProjectName[task.project_id] }}</td>
                                                 <td>
                                                     <!-- <ng-container *ngIf="getCheckPermission(task, 'edit'); else elseBlock1">
                                                         <inline-edit-input [name]="'name'" [type]="'text'" [elementFor]="'tasks.inline_edit.task_name' | translate" [fieldValue]="task.name" [isRequired]="'true'" (updateValue)="saveTaskDetail(i, 'name', $event);"></inline-edit-input>
@@ -117,8 +120,9 @@
                                                         </ng-container>
                                                     </div>
                                                 </td>
-                                                <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
-                                                <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
+                                                <!-- <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td> -->
+                                                <!-- <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td> -->
+                                                <td></td>
                                                 <!-- <td>{{task.actual_hours}}</td> -->
                                                 <td>
                                                     <!-- task comment route -->

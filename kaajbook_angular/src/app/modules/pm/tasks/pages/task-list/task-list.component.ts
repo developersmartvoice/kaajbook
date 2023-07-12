@@ -60,6 +60,7 @@ export class TaskListComponent implements OnInit {
 	commentCounts: any[]=[{id:null }];
 	attachmentCounts: any[]=[{id:null }];
 	activityCounts: any[]=[{id:null }];
+	taskProjectName: any[]=[{project_id:null }];
  
 	constructor(
 		public translate: TranslateService,
@@ -106,13 +107,12 @@ export class TaskListComponent implements OnInit {
 					'target': [0]
 				},
 				{
-					'sortable': true,
-					'target': [1]
+					'sortable': false,
+					'target': [1],
 				},
 				{
 					'sortable': true,
-					'width': "8%",
-					'target': [2]
+ 					'target': [2],
 				},
 				{
 					'sortable': true,
@@ -120,8 +120,8 @@ export class TaskListComponent implements OnInit {
 					'target': [3]
 				},
 				{
-					'sortable': true,
-					'width': "8%",
+					'sortable': false,
+					'width': "0%",
 					'target': [4]
 				},
 				{
@@ -224,7 +224,7 @@ export class TaskListComponent implements OnInit {
 						});
 						// to get total comment/activity/attachment length
 						this.tasks.forEach((task) => {
-							this.getTaskCommentLengthById(task.id);
+							this.getTaskCommentLengthById(task.id, task.project_id);
 						});
 
 
@@ -339,7 +339,7 @@ export class TaskListComponent implements OnInit {
 
 
 	// to get total comment/activity/attachment length
-	getTaskCommentLengthById(id) {	 
+	getTaskCommentLengthById(id, project_id) {	 
 		this.taskService.getById(id)
 			.subscribe(
 				data => {
@@ -347,6 +347,7 @@ export class TaskListComponent implements OnInit {
 					this.commentCounts[id] = this.taskDetails.comments.length;
 					this.activityCounts[id] = this.taskDetails.activities.length;
 					this.attachmentCounts[id] = this.taskDetails.attachments.length;
+					this.taskProjectName[project_id] = this.taskDetails.project1.project_name;
  				});
 	}
 
