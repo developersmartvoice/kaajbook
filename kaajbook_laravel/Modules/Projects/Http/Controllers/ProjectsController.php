@@ -110,7 +110,7 @@ class ProjectsController extends Controller
 		$project = $this->projectRepo->create($request);
 
 		if ($project) {
-			return response()->json('success');
+			return response()->json($project);
 		} else {
 			return response()->json('error', 401);
 		}

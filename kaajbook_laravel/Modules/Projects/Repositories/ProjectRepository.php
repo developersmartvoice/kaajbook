@@ -455,7 +455,7 @@ class ProjectRepository
 
                 $this->_sendProjectStartReminder($project);
 
-                return true;
+                return $projects['id'];
             }
         } else {
             return false;
