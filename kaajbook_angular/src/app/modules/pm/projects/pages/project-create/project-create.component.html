@@ -32,6 +32,26 @@
 											<span class="badge badge-secondary">{{'projects.budges.version' | translate }}: 1.0, 1.1, 1.2</span>
 										</div>
 									</div>
+
+									<!-- create a new field name project type. -->
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="client_id">{{'projects.create.fields.project_template' | translate }}</label>
+											<ng-select [searchable]="true"
+												[items]="projectTemplateType"
+												[selectOnTab]="true"
+												bindLabel="name"
+												bindValue="id"
+												labelForId="projectTemplateType_id"
+												formControlName="projectTemplateType_id"
+												placeholder="{{'projects.create.placeholders.placeholder12' | translate }}">
+												<ng-template ng-option-tmp let-item="item">
+													{{item.name}}  
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+ 
 									<div class="col-md-6" *ngIf="!loginUser.is_client">
 										<div class="form-group">
 											<label for="client_id">{{'projects.create.fields.client_name' | translate }}</label>

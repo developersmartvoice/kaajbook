@@ -2413,6 +2413,7 @@
 				"project_id": "Project ID",
 				"project_logo": "Project Logo",
 				"project_name": "Project Name",
+				"project_template": "Project Template",
 				"start_date": "Start Date",
 				"status": "Status",
 				"version": "Version"
@@ -2428,7 +2429,8 @@
 				"placeholder6": "Unassigned",
 				"placeholder7": "Select Start Date",
 				"placeholder8": "Select End Date",
-				"placeholder9": "-- Select Billing Type --"
+				"placeholder9": "-- Select Billing Type --",
+				"placeholder12": "-- Select Template --"
 			}
 		},
 		"details": {
