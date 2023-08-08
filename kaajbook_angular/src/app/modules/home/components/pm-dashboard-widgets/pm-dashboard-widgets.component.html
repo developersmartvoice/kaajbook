@@ -67,7 +67,7 @@
             </div>
         </a>
     </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_defects_widget">
+    <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_defects_widget">
         <a [routerLink]="['/defects']">
             <div class="card green-tea-gradient card-icon">
                 <div class="card-body">
@@ -100,8 +100,8 @@
                 </div>
             </div>
         </a>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_incidents_widget">
+    </div> -->
+    <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_incidents_widget">
         <a [routerLink]="['/incidents']">
             <div class="card ibiza-sunset-gradient card-icon">
                 <div class="card-body">
@@ -134,7 +134,7 @@
                 </div>
             </div>
         </a>
-    </div>
+    </div> -->
     <ng-container *ngxPermissionsOnly="['admin', 'super_admin']">
         <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_estimates_widget">
             <a [routerLink]="['/estimates']">

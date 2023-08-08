@@ -17,14 +17,14 @@
                 <app-project-calendar [project]="project" [loginUser]="loginUser" *ngIf="getActiveProjectTab('3')"></app-project-calendar>
             </tab>
            
-            <tab customClass="text-left" class="card-separator" id="4" (selectTab)="setActiveProjectTab($event)">
+            <!-- <tab customClass="text-left" class="card-separator" id="4" (selectTab)="setActiveProjectTab($event)">
                 <ng-template tabHeading><div class="d-flex"><i class="fa fa-bug"></i><span class="mt-1 ml-1">{{'defects.title' | translate}}</span></div></ng-template>
                 <app-project-defects [project]="project" [loginUser]="loginUser" [apiUrl]="apiUrl" *ngIf="getActiveProjectTab('4')"></app-project-defects>
             </tab>
             <tab customClass="text-left" class="card-separator" id="5" (selectTab)="setActiveProjectTab($event)">
                 <ng-template tabHeading><div class="d-flex"><i class="fa fa-ticket"></i><span class="mt-1 ml-1">{{'incidents.title' | translate}}</span></div></ng-template>
                 <app-projects-incidents [project]="project" [loginUser]="loginUser" [apiUrl]="apiUrl" *ngIf="getActiveProjectTab('5')"></app-projects-incidents>
-            </tab>
+            </tab> -->
             <tab customClass="text-left" class="card-separator" id="6" (selectTab)="setActiveProjectTab($event)">
                 <ng-template tabHeading><div class="d-flex"><i class="fa fa-clock-o"></i><span class="mt-1 ml-1">{{'timesheet.title' | translate}}</span></div></ng-template>
                 <app-project-timesheet [project]="project" [loginUser]="loginUser" [apiUrl]="apiUrl" *ngIf="getActiveProjectTab('6')"></app-project-timesheet>
