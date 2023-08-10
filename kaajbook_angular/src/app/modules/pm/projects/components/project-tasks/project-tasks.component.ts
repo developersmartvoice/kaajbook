@@ -76,11 +76,11 @@ export class ProjectTasksComponent implements OnInit {
 			columnDefs: [
 				{ width: "8%", targets: [0] },
 				{ width: "42%", targets: [1] },
-				{ width: "10%", targets: [2] },
-				{ width: "10%", targets: [3] },
+				{ width: "20%", targets: [2] },
+				{ width: "20%", targets: [3] },
 				{ width: "10%", targets: [4] },
-				{ width: "10%", targets: [5] },
-				{ width: "10%", targets: [6] }
+				// { width: "10%", targets: [5] },
+				// { width: "10%", targets: [6] }
 			]
 		};
 	}

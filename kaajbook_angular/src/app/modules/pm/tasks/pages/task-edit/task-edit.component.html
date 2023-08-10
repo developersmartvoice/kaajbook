@@ -98,7 +98,7 @@
 							<div class="form-body">
 								<h4 class="form-section"><i class="fa ft-zap"></i> {{'tasks.headings.head4' | translate}}</h4>
 								<div class="row" *ngIf="task.parent_task_id == 0">
-									<div class="col-md-7">
+									<!-- <div class="col-md-7">
 										<div class="form-group" [ngClass]="{ 'is-invalid': isFormSubmitted && taskControl.project_id.errors }">
 											<label for="project_id">{{'tasks.create.fields.project_name' | translate }}&nbsp;<span class="text-danger">*</span></label>
 											<ng-select [searchable]="true"
@@ -119,7 +119,7 @@
 												<div *ngIf="taskControl.project_id.errors.required">{{'tasks.create.error_messages.message8' | translate }}</div>
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div class="col-md-5">
 										<div class="form-group">
 											<label for="project_version">{{'tasks.create.fields.project_version' | translate }}</label>

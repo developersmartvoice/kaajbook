@@ -16,8 +16,8 @@
 							<th>{{'tasks.columns.id' | translate }}</th>
 							<th>{{'tasks.columns.task_name' | translate }}</th>
 							<th>{{'tasks.columns.status' | translate }}</th>
-							<th>{{'tasks.columns.start_date' | translate }}</th>
-							<th>{{'tasks.columns.end_date' | translate }}</th>
+							<!-- <th>{{'tasks.columns.start_date' | translate }}</th>
+							<th>{{'tasks.columns.end_date' | translate }}</th> -->
 							<th>{{'tasks.columns.assigned' | translate }}</th>
 							<th>{{'tasks.columns.priority' | translate }}</th>
 						</tr>
@@ -31,8 +31,8 @@
 									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
 								</ng-container>
 							</td>
-							<td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
-							<td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+							<!-- <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+							<td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td> -->
 							<td class="people-lists">
                                 <ng-container *ngIf="task.assign_user == null; else elseBlock">
                                     <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
