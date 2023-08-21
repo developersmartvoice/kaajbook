@@ -89,7 +89,7 @@ export class TaskCreateComponent implements OnInit {
 				task_start_date: [null],
 				task_end_date: [null],
 				assign_to: [null],
-				status: [1, Validators.required],
+				status: [2, Validators.required],
 				priority: [4, Validators.required],
 				estimated_hours: ['', Validators.pattern(/^[0-9]+\:[0-5][0-9]$/)],
 				progress: [0],

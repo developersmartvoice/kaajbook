@@ -367,7 +367,7 @@ export class ProjectCreateComponent implements OnInit {
                     task_start_date: [null],
                     task_end_date: [null],
                     assign_to: task_assign_members,
-                    status: [1, Validators.required],
+                    status: [2, Validators.required],
                     priority: [4, Validators.required],
                     estimated_hours: [
                         "",
