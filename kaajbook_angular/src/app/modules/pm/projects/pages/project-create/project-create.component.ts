@@ -78,7 +78,7 @@ export class ProjectCreateComponent implements OnInit {
             "Deport accounts payments",
             "Document handover report table",
             "Container sealing",
-            "Consignment closed paper courier"
+            "Consignment closed paper courier",
         ],
         ["task_1", "task_2", "task3"],
     ];
@@ -342,6 +342,12 @@ export class ProjectCreateComponent implements OnInit {
         let selectedTemplate =
             this.createProjectForm.value.projectTemplateType_id;
 
+        // assigning first project member as task assign member
+        let task_assign_members = this.createProjectForm.value.assign_members;
+        if (task_assign_members != null && task_assign_members.length > 1) {
+            task_assign_members = task_assign_members[0];
+        }
+
         if (selectedTemplate != null) {
             for (
                 let Task = 0;
@@ -360,7 +366,7 @@ export class ProjectCreateComponent implements OnInit {
                     planned_end_date: [null],
                     task_start_date: [null],
                     task_end_date: [null],
-                    assign_to: [null],
+                    assign_to: task_assign_members,
                     status: [1, Validators.required],
                     priority: [4, Validators.required],
                     estimated_hours: [
