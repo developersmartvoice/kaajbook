@@ -4,7 +4,7 @@
 			<a *ngxPermissionsOnly="['admin', 'super_admin', 'invoices_edit']" [routerLink]="['/invoices/edit', invoice.id]" class="btn btn-create mb-0 " tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
 			<a href="{{apiUrl}}/invoices/download/{{invoice.secret_id}}/{{invoice.client.id}}" *ngIf="isDownloadable" type="button" class="btn btn-create mb-0 ml-1" tooltip="{{'invoices.view.download' | translate}}"><i class="ft-download mr-1"></i></a>
 			<ng-container *ngIf="invoice.status != 'paid'">
-				<button *ngxPermissionsOnly="['admin', 'super_admin', 'payments_create']" class="btn btn-create mb-0 ml-1" (click)="openPaymentCreateModal()"><i class="fa fa-plus"></i><span>{{'invoices.view.add_payment' | translate}}</span></button>
+				<button *ngxPermissionsOnly="['admin','client', 'super_admin', 'payments_create']" class="btn btn-create mb-0 ml-1" (click)="openPaymentCreateModal()"><i class="fa fa-plus"></i><span>{{'invoices.view.add_payment' | translate}}</span></button>
 			</ng-container>
 		</div>
 	</div>
