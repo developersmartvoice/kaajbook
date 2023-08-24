@@ -36,7 +36,7 @@ export class ProjectTasksComponent implements OnInit {
 			paging: true,
 			responsive: false,
 			autoWidth: false,
-			order: [0],
+			order: [[0, 'asc']],
 			buttons: [{
 				extend: 'csv',
 				title: this.translate.instant('tasks.title'),
