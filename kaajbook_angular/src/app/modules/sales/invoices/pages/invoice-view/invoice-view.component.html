@@ -193,7 +193,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="row mt-2 mt-sm-0 pt-3 border-top" *ngIf="invoice.status != 'paid'">
+							<div class="row mt-2 mt-sm-0 pt-3 border-top" *ngIf="invoice.status == ''">
 								<div class="col-md-12 col-12">
 									<h6><strong>{{'payments.columns.payment_mode' | translate}}</strong></h6>
 									<div class="row">
