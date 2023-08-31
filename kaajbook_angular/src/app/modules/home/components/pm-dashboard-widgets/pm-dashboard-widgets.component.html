@@ -135,8 +135,8 @@
             </div>
         </a>
     </div> -->
-    <ng-container *ngxPermissionsOnly="['admin', 'super_admin']">
-        <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_estimates_widget">
+    <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'client']">
+        <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_estimates_widget">
             <a [routerLink]="['/estimates']">
                 <div class="card celestial-gradient card-icon">
                     <div class="card-body">
@@ -169,7 +169,7 @@
                     </div>
                 </div>
             </a>
-        </div>
+        </div> -->
         <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_invoices_widget">
             <a [routerLink]="['/invoices']">
                 <div class="card deep-orange-orange-gradient card-icon">
@@ -238,7 +238,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_leaves_widget">
+        <!-- <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_leaves_widget">
             <a [routerLink]="['/leaves/request']">
                 <div class="card politics-gradient card-icon">
                     <div class="card-body">
@@ -271,7 +271,7 @@
                     </div>
                 </div>
             </a>
-        </div>
+        </div> -->
     </ng-container>
 </div>
 <div class="row" *ngIf="!loginUser.is_client">
