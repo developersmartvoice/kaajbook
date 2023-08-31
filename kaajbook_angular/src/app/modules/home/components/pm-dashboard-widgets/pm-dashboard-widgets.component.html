@@ -204,7 +204,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_payments_widget">
+        <div class="col-xl-3 col-lg-6 col-md-6 col-12" *ngIf="dashboardSettings.is_payments_widget && !loginUser.is_client">
             <a [routerLink]="['/payments']">
                 <div class="card red-pink-gradient card-icon">
                     <div class="card-body">
