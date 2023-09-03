@@ -7,7 +7,7 @@ environment = {
 	// use this apiUrl for live server "kaajbook.com"
 	apiUrl: 'http://kaajbook.com/kaajbook_laravel/public'
 
-	// use this apiUrl for live sub domain "laravelapi.kaajbook.com"
-	// apiUrl: 'http://laravelapi.kaajbook.com/abc_laravel/public'
+	// use this apiUrl for live sub domain "test.kaajbook.com"
+	// apiUrl: 'http://test.kaajbook.com/kaajbook_laravel/public'
 
 };
