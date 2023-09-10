@@ -209,9 +209,9 @@
             <tr>
                 <td class="align-left logo">
                     @if(!is_null($invoiceSetting->invoice_logo) && file_exists(public_path('uploads/invoice_logo/'.$invoiceSetting->invoice_logo)))
-                        <img src="{{ asset('uploads/invoice_logo/'.$invoiceSetting->invoice_logo) }}" alt="Logo" />
-                    @else
-                        <img src="{{ asset('img/favicon/vipspm-dark-logo.png') }}" alt="Logo" />
+                        <img src="{{ asset('uploads/invoice_logo/'.$invoiceSetting->invoice_logo) }}" alt="" />
+                    <!-- @else
+                        <img src="{{ asset('img/favicon/vipspm-dark-logo.png') }}" alt="Logo" /> -->
                     @endif
                 </td>
                 <td>
