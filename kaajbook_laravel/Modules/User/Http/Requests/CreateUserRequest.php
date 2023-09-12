@@ -37,7 +37,7 @@ class CreateUserRequest extends FormRequest
             'emp_id' => 'required|unique:'. config('core.acl.users_table').',emp_id,NULL,id,deleted_at,NULL',
             'firstname' => 'required|max:20',
             'lastname' => 'required|max:20',
-            'email' => 'required|email|unique:'.config('core.acl.users_table').',email,NULL,id,deleted_at,NULL',
+            'email' => 'required|email',
             'password' => [
                 'required',
                 'min:3',

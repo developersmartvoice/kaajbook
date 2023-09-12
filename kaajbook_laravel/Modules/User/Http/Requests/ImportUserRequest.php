@@ -17,7 +17,7 @@ class ImportUserRequest extends FormRequest
             'username' => 'required|min:3|max:30|regex:/^\S*$/|unique:'.config('core.acl.users_table').',username,NULL,id,deleted_at,NULL',
             'firstname' => 'required|max:20',
             'lastname' => 'required|max:20',
-            'email' => 'required|email|unique:'.config('core.acl.users_table').',email,NULL,id,deleted_at,NULL',
+            'email' => 'required|email',
             'department' => 'required|exists:'.config('core.acl.departments_table').',name',
             'role' => 'required|exists:'.config('core.acl.roles_table').',name',
             'emp_id' => 'required|unique:'. config('core.acl.users_table').',emp_id,NULL,id,deleted_at,NULL',

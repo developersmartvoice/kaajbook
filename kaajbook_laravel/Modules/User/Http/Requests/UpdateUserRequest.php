@@ -39,7 +39,7 @@ class UpdateUserRequest extends FormRequest
             'emp_id' => 'required|unique:'.config('core.acl.users_table').',emp_id,'.$id.',id,deleted_at,NULL',
             'firstname' => 'required|max:20',
             'lastname' => 'required|max:20',
-            'email' => 'required|email|unique:'.config('core.acl.users_table').',email,'.$id.',id,deleted_at,NULL',
+            'email' => 'required|email',
             'password' => [
                 'nullable',
                 'min:3',
