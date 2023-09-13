@@ -99,7 +99,7 @@ export class TaskListComponent implements OnInit {
 			serverSide: true,
 			processing: true,
 			dom: '<"html5buttons"B>ltfrtip',
-			order: [0],
+			order: [[0, 'asc']],
 			columns: [
 				{
 					'sortable': true,
