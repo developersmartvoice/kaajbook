@@ -17,7 +17,7 @@
         position: relative;
         width: 100%;
         height: auto;
-        margin: 0 auto;
+        margin: 12% auto;
         color: #333333;
         background: #FFFFFF;
         font-size: 14px;
@@ -210,8 +210,7 @@
                 <td class="align-left logo">
                     @if(!is_null($invoiceSetting->invoice_logo) && file_exists(public_path('uploads/invoice_logo/'.$invoiceSetting->invoice_logo)))
                         <img src="{{ asset('uploads/invoice_logo/'.$invoiceSetting->invoice_logo) }}" alt="" />
-                    <!-- @else
-                        <img src="{{ asset('img/favicon/vipspm-dark-logo.png') }}" alt="Logo" /> -->
+                    
                     @endif
                 </td>
                 <td>
