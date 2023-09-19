@@ -53,12 +53,20 @@
         text-align: center;
     }
 
+    .noo {
+        /* color: #FFFFFF; */
+        background: #BFC9CA;
+     }
+    table.custom-border td {
+            border: .5px solid #B2BABB; /* Set the border to 1 pixel width and red color (#ff0000) */
+        }
+
     table .desc {
         text-align: left;
     }
 
     table .unit {
-        background: #f3f3f3;
+        background: #EBF5FB;
     }
 
     table td.qty {
@@ -171,6 +179,10 @@
     .align-center {
         text-align: center;
     }
+    .align-right {
+        text-align: right;
+    }
+    
 
     .w-5 {
         width: 5%;
@@ -251,24 +263,24 @@
         <table>
             <thead>
                 <tr>
-                    <td class="align-center"><b>{{ trans('messages.invoices.invoice_date') }}: </b>{{ $invoice->invoice_date->format($setting->php_date_format) }}</td>
+                    <td class="align-left"><b>{{ trans('messages.invoices.invoice_date') }}: </b>{{ $invoice->invoice_date->format($setting->php_date_format) }}</td>
                     <td class="align-center"><b>{{ trans('messages.invoices.due_date') }}: </b>{{ $invoice->due_date->format($setting->php_date_format) }}</td>
                     @if($invoice->reference)
-                        <td class="align-center"><b>{{ trans('messages.invoices.reference') }} # </b>{{ $invoice->reference }}</td>
+                        <td class="align-right"><b>{{ trans('messages.invoices.reference') }} # </b>{{ $invoice->reference }}</td>
                     @endif
                 </tr>
             </thead>
         </table>
     </header>
     <main>
-        <table border="0" cellspacing="0" cellpadding="0">
+        <table class="custom-border" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th class="w-5 no">#</th>
-                    <th class="w-40">{{ trans('messages.invoices.item_name') }}</th>
-                    <th class="w-5 qty">{{ trans('messages.invoices.quantity') }}</th>
-                    <th class="w-15">{{ trans('messages.invoices.unit_price') }}</th>
-                    <th class="w-15">{{ trans('messages.invoices.tax') }}</th>
+                    <th class="w-5 noo">#</th>
+                    <th class="w-40 noo">{{ trans('messages.invoices.item_name') }}</th>
+                    <th class="w-5 qty noo">{{ trans('messages.invoices.quantity') }}</th>
+                    <th class="w-15 noo">{{ trans('messages.invoices.unit_price') }}</th>
+                    <th class="w-15 noo">{{ trans('messages.invoices.tax') }}</th>
                     <th class="w-20 unit">{{ trans('messages.invoices.total_item_amount') }}</th>
                 </tr>
             </thead>
@@ -351,12 +363,12 @@
             <tfoot>
                 <tr dontbreak="true" class="total">
                     <td colspan="5">{{ trans('messages.invoices.total') }}</td>
-                    <td>{!! htmlentities($currency->symbol) !!} {{ number_format($invoice->total_amount, 2) }}</td>
+                    <td>TK {{ number_format($invoice->total_amount, 2) }}</td>
                 </tr>
                 @if(!$invoice->payments->isEmpty())
                 <tr class="total">
                     <td colspan="5">{{ trans('messages.invoices.due') }}</td>
-                    <td>{!! htmlentities($currency->symbol) !!} {{ number_format($invoice->total_due_amount, 2) }}</td>
+                    <td>TK {{ number_format($invoice->total_due_amount, 2) }}</td>
                 </tr>
                 @endif
             </tfoot>
@@ -379,7 +391,7 @@
                             <td class="align-center">{{ $payment->receipt_number }}</td>
                             <td class="align-center">{{ $payment->payment_method }}</td>
                             <td class="align-center">{{ $payment->date->format($setting->php_date_time_format) }}</td>
-                            <td>{!! htmlentities($currency->symbol) !!} {{ number_format($payment->amount, 2) }}</td>
+                            <td>TK {{ number_format($payment->amount, 2) }}</td>
                         </tr>
                         @endif
                     @endforeach
