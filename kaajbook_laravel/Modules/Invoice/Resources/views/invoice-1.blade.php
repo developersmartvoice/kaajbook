@@ -277,11 +277,11 @@
             <thead>
                 <tr>
                     <th class="w-5 noo">#</th>
-                    <th class="w-40 noo">{{ trans('messages.invoices.item_name') }}</th>
+                    <th class="w-40 noo align-left">{{ trans('messages.invoices.item_name') }}</th>
                     <th class="w-5 qty noo">{{ trans('messages.invoices.quantity') }}</th>
                     <th class="w-15 noo">{{ trans('messages.invoices.unit_price') }}</th>
-                    <th class="w-15 noo">{{ trans('messages.invoices.tax') }}</th>
-                    <th class="w-20 unit">{{ trans('messages.invoices.total_item_amount') }}</th>
+                    <th class="w-15 noo">Others</th>
+                    <th class="w-20 unit align-right">{{ trans('messages.invoices.total_item_amount') }}</th>
                 </tr>
             </thead>
             <tbody>
