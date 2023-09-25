@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 
 import 'datatables.net';
 import 'datatables.net-bs4';
+import { TaskService } from 'src/app/core/services/task.service';
 
 @Component({
 	selector: 'app-project-tasks',
@@ -20,11 +21,24 @@ export class ProjectTasksComponent implements OnInit {
 	dtElement: DataTableDirective;
 	dtTrigger: Subject<any> = new Subject();
 	dtOptions: any = {};
+
+	taskDetails: any ;
+	commentCounts: any[]=[{id:null }];
+	attachmentCounts: any[]=[{id:null }];
+	activityCounts: any[]=[{id:null }];
+	taskProjectName: any[]=[{project_id:null }];
 	
-	constructor(public translate: TranslateService) {}
+	constructor(
+		public translate: TranslateService,
+		private taskService: TaskService) {}
 
 	ngOnInit() {
 		this.loadDatatable();
+		
+		// to get total comment/activity/attachment length
+		this.project.tasks.forEach((task) => {
+			this.getTaskCommentLengthById(task.id, task.project_id);
+		});
 	}
 
 	loadDatatable() {
@@ -92,4 +106,18 @@ export class ProjectTasksComponent implements OnInit {
 	ngOnDestroy(): void {
 		this.dtTrigger.unsubscribe();
 	}
+
+	// to get total comment/activity/attachment length
+	getTaskCommentLengthById(id, project_id) {	 
+		this.taskService.getById(id)
+			.subscribe(
+				data => {
+					this.taskDetails = data;
+					this.commentCounts[id] = this.taskDetails.comments.length;
+					this.activityCounts[id] = this.taskDetails.activities.length;
+					this.attachmentCounts[id] = this.taskDetails.attachments.length;
+					this.taskProjectName[project_id] = this.taskDetails.project1.project_name;
+ 				});
+	}
+
 }
