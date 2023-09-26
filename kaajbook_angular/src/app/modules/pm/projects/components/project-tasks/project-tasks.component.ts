@@ -6,6 +6,10 @@ import { Subject } from 'rxjs';
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { TaskService } from 'src/app/core/services/task.service';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { task_status_key_value } from 'src/app/core/helpers/pm-helper';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-project-tasks',
@@ -27,10 +31,22 @@ export class ProjectTasksComponent implements OnInit {
 	attachmentCounts: any[]=[{id:null }];
 	activityCounts: any[]=[{id:null }];
 	taskProjectName: any[]=[{project_id:null }];
+	permissions: any;
+	taskstatusKeyValue = task_status_key_value;
 	
 	constructor(
 		public translate: TranslateService,
-		private taskService: TaskService) {}
+		private taskService: TaskService,
+		private authenticationService: AuthenticationService,
+		private ngxPermissionsService: NgxPermissionsService,
+		private toastr: ToastrService,
+		public ngxRolesService: NgxRolesService) 
+		{
+			this.authenticationService.loginUser.subscribe(x => this.loginUser = x);
+			this.ngxPermissionsService.permissions$.subscribe((permissions) => {
+            this.permissions = permissions;
+        });
+		}
 
 	ngOnInit() {
 		this.loadDatatable();
@@ -118,6 +134,55 @@ export class ProjectTasksComponent implements OnInit {
 					this.attachmentCounts[id] = this.taskDetails.attachments.length;
 					this.taskProjectName[project_id] = this.taskDetails.project1.project_name;
  				});
+	}
+
+
+	getCheckPermission(task, action) {
+		if( ( action == 'edit' && this.permissions.tasks_edit ) || ( action == 'delete' && this.permissions.tasks_delete) ) {
+			let role = this.ngxRolesService.getRole('admin');
+			if ((role && role.name == 'admin') || this.loginUser.is_super_admin) {
+				return true;
+			} else if(task.assign_to == this.loginUser.id || task.created_by == this.loginUser.id) {
+				return true;
+			} 
+		}
+		return false;
+	}
+
+	getTranslateStatus(statusKey) {
+		return this.taskstatusKeyValue[statusKey];
+	}
+
+	getTaskStatus(status) {
+		return 'tasks.status' + status; 
+	}
+
+	changeTaskStatus(taskID: any, status: any) {
+		let changeTask = {
+			id: taskID,
+			status: status.id
+		}
+		this.taskService.changeStatus(changeTask)
+			.subscribe(
+				data => {
+					this.toastr.success(this.translate.instant('tasks.messages.status'), this.translate.instant('tasks.title'));
+					this.rerender();
+				});
+	}
+
+	rerender(): void {
+		this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+			dtInstance.destroy();
+			setTimeout(() => {
+				this.dtTrigger.next();
+
+				if(this.project.tasks.length > 0) {
+					$('.tfoot_dt').addClass('d-none');
+				} else {
+					$('.tfoot_dt').removeClass('d-none');
+				}
+			});
+		});
 	}
 
 }

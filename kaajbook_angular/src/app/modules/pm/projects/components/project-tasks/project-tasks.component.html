@@ -27,10 +27,34 @@
 						<tr *ngFor="let task of project.tasks">
 							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.generated_id}}</a></td>
 							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.name}}</a></td>
-							<td class="budges-status">
+							<!-- <td class="budges-status">
 								<ng-container *ngFor="let status of ('tasks.status' | translate)">
 									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
 								</ng-container>
+							</td> -->
+							<td class="status-dropdown">
+								<div class="overdue-td">
+									<ng-container *ngIf="getCheckPermission(task, 'edit'); else elseBlock2">
+										<div class="btn-group" dropdown>
+											<button dropdownToggle id="button-basic" type="button" class="btn dropdown-toggle select-btn-lg" aria-controls="dropdown-basic">{{getTranslateStatus(task.status) | translate}}&nbsp;<span class="caret"></span></button>
+											<ul id="dropdown-basic" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic">
+												<li role="menuitem" *ngFor="let status of (getTaskStatus(task.status) | translate)">
+													<a class="dropdown-item btn btn-sm {{status.class}}" [ngClass]="{'active': task.status == status.id}" (click)="changeTaskStatus([task.id], status);task.status = status.id">{{status.label}}</a>
+												</li>
+											</ul>
+										</div>
+									</ng-container>
+									<ng-template #elseBlock2>
+										<ng-container *ngFor="let status of (getTaskStatus(task.status) | translate)">
+											<div class="budges-status">
+												<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
+											</div>
+										</ng-container>
+									</ng-template>
+									<ng-container *ngIf="task.is_overdue">
+										<i class="fa fa-clock-o overdue-icon" aria-hidden="true" tooltip="{{'common.overdue' | translate}} : {{task.is_overdue}} {{'common.days' | translate}}"></i>
+									</ng-container>
+								</div>
 							</td>
 							<td>
 								<!-- task comment route -->
