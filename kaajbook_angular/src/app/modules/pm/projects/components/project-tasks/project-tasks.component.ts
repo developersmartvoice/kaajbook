@@ -10,6 +10,7 @@ import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { task_status_key_value } from 'src/app/core/helpers/pm-helper';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
 	selector: 'app-project-tasks',
@@ -106,11 +107,11 @@ export class ProjectTasksComponent implements OnInit {
 			columnDefs: [
 				{ width: "8%", targets: [0] },
 				{ width: "42%", targets: [1] },
-				{ width: "20%", targets: [2] },
-				{ width: "20%", targets: [3] },
-				{ width: "10%", targets: [4] },
-				// { width: "10%", targets: [5] },
-				// { width: "10%", targets: [6] }
+				{ width: "12%", targets: [2] },
+				{ width: "12%", targets: [3] },
+				{ width: "8%", targets: [4] },
+				{ width: "10%", targets: [5] },
+				{ width: "8%", targets: [6] }
 			]
 		};
 	}
@@ -182,6 +183,26 @@ export class ProjectTasksComponent implements OnInit {
 					$('.tfoot_dt').removeClass('d-none');
 				}
 			});
+		});
+	}
+
+	deleteTask(id) {
+		Swal.fire({
+			title: this.translate.instant('common.swal.title'),
+			text: this.translate.instant('common.swal.text'),
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: this.translate.instant('common.swal.confirmButtonText'),
+			cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
+		}).then((result) => {
+			if (result.value) {
+				this.taskService.delete(id)
+					.subscribe(
+						data => {
+							this.toastr.success(this.translate.instant('tasks.messages.delete'), this.translate.instant('tasks.title'));
+							this.rerender();
+						});
+			}
 		});
 	}
 
