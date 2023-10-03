@@ -417,7 +417,7 @@ class DepartmentRepository
     {
         $roles_table = config('core.acl.roles_table');
         $user = auth()->user();
-        if ($user->hasRole('admin')) {
+        if ($user->hasRole('admin' || 'project_manager')) {
             return Department::with([
                 'roles' => function ($q) use ($roles_table) {
                     $q->whereIn($roles_table.'.id', [3]);
