@@ -89,7 +89,7 @@ class ClientRepository
         $clients_table = config('core.acl.clients_table');
 
         $user = auth()->user();
-        if ($user->hasRole('admin') || $user->can_view_all_users) {
+        if ($user->hasRole('admin' || 'project_manager') || $user->can_view_all_users) {
             $clients = User::with(['roles.userdepartments', 'clients'])->where('is_client', true);
         }else{
             $clientIds = DepartmentRoleUser::whereIn('department_id', $user->departments->pluck('id'))->pluck('user_id');
