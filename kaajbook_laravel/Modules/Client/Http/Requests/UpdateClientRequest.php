@@ -39,7 +39,7 @@ class UpdateClientRequest extends FormRequest
             'firstname' => 'required|max:20',
             'lastname' => 'required|max:20',
             'username' => 'required|min:3|max:30|regex:/^\S*$/|unique:'.config('core.acl.users_table').',username,'.$id.',id,deleted_at,NULL',
-            'email' => 'required|email|unique:'.config('core.acl.users_table').',email,'.$id.',id,deleted_at,NULL',
+            'email' => 'required|email',
             'mobile' => ['nullable',new PhoneValidationRule],
             'phone' => ['nullable',new PhoneValidationRule],
             'department_roles' => 'required',

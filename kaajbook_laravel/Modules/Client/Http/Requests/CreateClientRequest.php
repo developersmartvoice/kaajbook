@@ -35,7 +35,7 @@ class CreateClientRequest extends FormRequest
             'firstname' => 'required|max:20',
             'lastname' => 'required|max:20',
             'username' => 'required|min:3|max:30|regex:/^\S*$/|unique:'.config('core.acl.users_table').',username,NULL,id,deleted_at,NULL',
-            'email' => 'required|email|unique:'.config('core.acl.users_table').',email,NULL,id,deleted_at,NULL',
+            'email' => 'required|email',
             'password' => 'required|min:3|max:30|confirmed',
             'user_generated_id' => 'required|unique:'.config('core.acl.users_table'),
             'mobile' => ['nullable',new PhoneValidationRule],
