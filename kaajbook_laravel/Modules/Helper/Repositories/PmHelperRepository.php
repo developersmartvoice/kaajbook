@@ -105,6 +105,9 @@ class PmHelperRepository
         $data['pending_tasks'] = Task::where(function ($query) use ($user) {
             $query->where('assign_to', $user->id)->orWhere('created_by', $user->id);
         })->whereNotIn('status', [5, 6])->count();
+        $data['total_tasks'] = Task::where(function ($query) use ($user) {
+            $query->where('assign_to', $user->id)->orWhere('created_by', $user->id);
+        })->whereIn('status', [1,2,3,4,5,6])->count();
         $data['in_progress_tasks'] = Task::where(function ($query) use ($user) {
             $query->where('assign_to', $user->id)->orWhere('created_by', $user->id);
         })->whereIn('status', [2])->count();
@@ -136,7 +139,8 @@ class PmHelperRepository
         $data['accepted_estimate'] = $estimates->where('status', 'accepted')->count();
         $data['declined_estimate'] = $estimates->where('status', 'declined')->count();
 
-        $data['paid_invoice'] = $invoices->where('status', 'paid')->count();
+        $paidInvoicesQuery = clone $invoices;
+        $data['paid_invoice'] = $paidInvoicesQuery->where('status', 'paid')->count();
         $data['unpaid_invoice'] = $invoices->where('status', 'unpaid')->count();
         // Current month due and received payments count.
         $data['due_payment'] = $invoices->whereDate('due_date', '>=', Carbon::now()->startOfMonth())
