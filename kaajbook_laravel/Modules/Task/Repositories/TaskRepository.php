@@ -614,6 +614,7 @@ class TaskRepository
         $task->status = $input['status'];
         if ($input['status'] == 6) {
             $task->progress = 100;
+            $task ->task_end_date = Carbon::now();
         }
         if ($task->save()) {
             // --

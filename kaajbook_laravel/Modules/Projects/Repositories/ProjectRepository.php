@@ -708,6 +708,7 @@ class ProjectRepository
             if ($statusId == 5) {
                 $this->_updateProjectTaskStatus($id);
                 $input['progress'] = 100;
+                $input['end_date'] = Carbon::now();
             }
 
             if ($project->fill($input)->save()) {
