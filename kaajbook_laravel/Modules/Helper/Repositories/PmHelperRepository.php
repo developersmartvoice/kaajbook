@@ -48,7 +48,7 @@ class PmHelperRepository
         $data['approved_leave'] = 0;
 
         if ($user->is_client) {
-            $data['total_projects'] = $user->projects()->whereNotIn('status', [4, 5])->count();
+            $data['total_projects'] = $user->projects()->whereNotIn('status', [ ])->count();
             $data['in_progress_projects'] = $user->projects()->whereIn('status', [2])->count();
             $data['overdue_projects'] = $user->projects()
                 ->whereIn('status', [1, 2, 3])
@@ -67,7 +67,7 @@ class PmHelperRepository
             $payments = Payment::where('client_id', $user->id);
 
         } else {
-            $data['total_projects'] = $user->projects(true)->whereNotIn('status', [4, 5])->count();
+            $data['total_projects'] = $user->projects(true)->whereNotIn('status', [ ])->count();
             $data['in_progress_projects'] = $user->projects(true)->whereIn('status', [2])->count();
             $data['overdue_projects'] = $user->projects(true)
                 ->whereIn('status', [1, 2, 3])
