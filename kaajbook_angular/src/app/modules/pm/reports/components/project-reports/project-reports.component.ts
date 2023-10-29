@@ -118,14 +118,14 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 					'sortable': true,
 					'target': [10]
 				},
-				{
-					'sortable': true,
-					'target': [11]
-				},
-				{
-					'sortable': true,
-					'target': [12]
-				}
+				// {
+				// 	'sortable': true,
+				// 	'target': [11]
+				// },
+				// {
+				// 	'sortable': true,
+				// 	'target': [12]
+				// }
 			],
 			buttons: [
 				{

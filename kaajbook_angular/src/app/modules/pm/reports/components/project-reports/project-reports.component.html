@@ -12,7 +12,7 @@
                         <tr class="display_all">
                             <th>{{'projects.columns.id' | translate}}</th>
                             <th>{{'projects.columns.project_name' | translate}}</th>
-                            <th>{{'projects.columns.version' | translate}}</th>
+                            <!-- <th>{{'projects.columns.version' | translate}}</th> -->
                             <th>{{'projects.columns.start' | translate}}</th>
                             <th>{{'projects.columns.end' | translate}}</th>
                             <th>{{'projects.columns.hours' | translate}}</th>
@@ -20,7 +20,7 @@
                             <th>{{'projects.columns.creator' | translate}}</th>
                             <th>{{'projects.columns.assigned_To' | translate}}</th>
                             <th>{{'projects.columns.status' | translate}}</th>
-                            <th>{{'projects.columns.billing' | translate}}</th>
+                            <!-- <th>{{'projects.columns.billing' | translate}}</th> -->
                             <th>{{'projects.columns.budget' | translate}}</th>
                             <th>{{'projects.columns.client' | translate}}</th>
                         </tr>
@@ -29,7 +29,7 @@
                         <tr *ngFor="let project of projects">
                             <td>{{project.generated_id}}</td>
                             <td>{{project.project_name}}</td>
-                            <td><span class="badge badge-secondary">{{project.project_version}}</span></td>
+                            <!-- <td><span class="badge badge-secondary">{{project.project_version}}</span></td> -->
                             <td>{{project.start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
                             <td>{{project.end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
                             <td>
@@ -63,14 +63,14 @@
                                     <span class="badge {{status.class}}" *ngIf="status.id == project.status">{{status.label}}</span>
                                 </ng-container>
                             </td>
-                            <td>
+                            <!-- <td>
                                 <ng-container *ngIf="project.billing_type; else elseBlock2;">
                                     <ng-container *ngFor="let type of ('projects.billing_types' | translate)">
                                         <span class="badge badge-secondary" *ngIf="type.id == project.billing_type">{{type.label}}</span>
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #elseBlock2>-</ng-template>
-                            </td>
+                            </td> -->
                             <td>
                                 <ng-container *ngIf="project.price_rate else elseBlock3;">{{project.price_rate}}</ng-container>
                                 <ng-template #elseBlock3>-</ng-template>
@@ -94,9 +94,9 @@
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.project_name' | translate}}" name="project_name" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.version' | translate}}" name="project_version" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.start' | translate}}" name="start_date" />
                             </th>
@@ -118,9 +118,9 @@
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.status' | translate}}" name="status" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.billing' | translate}}" name="billing" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.budget' | translate}}" name="budget" />
                             </th>
