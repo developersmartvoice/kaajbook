@@ -411,7 +411,7 @@ export class ProjectCreateComponent implements OnInit {
                     project_version: [null],
                     planned_start_date: [null],
                     planned_end_date: [null],
-                    task_start_date: [null],
+                    task_start_date: [new Date()],
                     task_end_date: [null],
                     assign_to: task_assign_members,
                     status: [2, Validators.required],

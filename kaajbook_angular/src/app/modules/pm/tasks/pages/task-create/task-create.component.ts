@@ -86,7 +86,7 @@ export class TaskCreateComponent implements OnInit {
 				project_version: [null],
 				planned_start_date: [null],
 				planned_end_date: [null],
-				task_start_date: [null],
+				task_start_date: [new Date()],
 				task_end_date: [null],
 				assign_to: [null],
 				status: [2, Validators.required],
@@ -199,7 +199,7 @@ export class TaskCreateComponent implements OnInit {
 		this.createTaskForm.patchValue({ assign_to: null });
 		this.createTaskForm.patchValue({ planned_start_date: null });
 		this.createTaskForm.patchValue({ planned_end_date: null });
-		this.createTaskForm.patchValue({ task_start_date: null });
+		this.createTaskForm.patchValue({ task_start_date: new Date()});
 		this.createTaskForm.patchValue({ task_end_date: null });
 
 		if (this.createTaskForm.value.project_id == undefined || this.createTaskForm.value.project_id == null || this.createTaskForm.value.project_id == '') {
