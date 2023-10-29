@@ -8,7 +8,7 @@
     </div> -->
     <app-dashboard-settings *ngIf="dashboardSettings" [dashboardSettings]="dashboardSettings"></app-dashboard-settings>
     <app-pm-dashboard-widgets [dashboardLists]="dashboardLists" [dashboardLists1]="dashboardLists1" [loginUser]="loginUser" [dashboardSettings]="dashboardSettings"></app-pm-dashboard-widgets>
-    <app-pm-dashboard-charts  *ngIf="!loginUser.is_client" [projectChartReport]="dashboardLists1.project_count_by_status" [taskReport]="dashboardLists1.task_count_by_status" [monthlyReport]="dashboardLists1.count_by_month" [dashboardSettings]="dashboardSettings"></app-pm-dashboard-charts>
+    <app-pm-dashboard-charts  [projectChartReport]="dashboardLists1.project_count_by_status" [taskReport]="dashboardLists1.task_count_by_status" [monthlyReport]="dashboardLists1.count_by_month" [dashboardSettings]="dashboardSettings"></app-pm-dashboard-charts>
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-sm-12 col-12">
             <div class="row">
