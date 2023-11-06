@@ -2414,6 +2414,7 @@
 				"project_logo": "Project Logo",
 				"project_name": "Project Name",
 				"project_template": "Project Template",
+				"create_project_template":"Create Project Template",
 				"start_date": "Start Date",
 				"status": "Status",
 				"version": "Version"
