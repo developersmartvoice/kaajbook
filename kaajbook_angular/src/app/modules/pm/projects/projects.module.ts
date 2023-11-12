@@ -47,6 +47,7 @@ import { CreateAttachmentModalComponent } from './components/create-attachment-m
 import { ProjectImportComponent } from './components/project-import/project-import.component';
 import { ProjectTimesheetComponent } from './components/project-timesheet/project-timesheet.component';
 import { ProjectTimesheetEditModalComponent } from './components/project-timesheet-edit-modal/project-timesheet-edit-modal.component';
+import { ProjectTemplateListComponent } from './pages/project-template-list/project-template-list.component';
 
 @NgModule({
 	declarations: [
@@ -65,7 +66,8 @@ import { ProjectTimesheetEditModalComponent } from './components/project-timeshe
 		CreateAttachmentModalComponent,
 		ProjectImportComponent,
 		ProjectTimesheetComponent,
-		ProjectTimesheetEditModalComponent
+		ProjectTimesheetEditModalComponent,
+		ProjectTemplateListComponent
 	],
 	imports: [
 		CommonModule,

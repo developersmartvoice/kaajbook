@@ -6,6 +6,7 @@ import { ProjectListComponent } from './pages/project-list/project-list.componen
 import { ProjectCreateComponent } from './pages/project-create/project-create.component';
 import { ProjectEditComponent } from './pages/project-edit/project-edit.component';
 import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
+import { ProjectTemplateListComponent } from './pages/project-template-list/project-template-list.component';
 
 const routes: Routes = [
 	{
@@ -58,6 +59,23 @@ const routes: Routes = [
 				data: {
 					breadcrumbs: {
 						text: "common.detail",
+						icon: "fa fa-product-hunt",
+						hasParams: true,
+						show: true,
+						isHome: true
+					},
+					permissions: {
+						only: ['admin', 'super_admin', 'projects_view']
+					}
+				}
+			},
+			{
+				path: 'template',
+				canActivate: [NgxPermissionsGuard],
+				component: ProjectTemplateListComponent,
+				data: {
+					breadcrumbs: {
+						text: "common.template",
 						icon: "fa fa-product-hunt",
 						hasParams: true,
 						show: true,
