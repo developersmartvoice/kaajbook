@@ -2434,7 +2434,8 @@
 				"placeholder7": "Select Start Date",
 				"placeholder8": "Select End Date",
 				"placeholder9": "-- Select Billing Type --",
-				"placeholder12": "-- Select Template --"
+				"placeholder12": "-- Select Template --",
+				"placeholder13": "Add fullstop (.) end of each task. \nEx: \nTask1. \nTask2. \nTask3. "
 			}
 		},
 		"details": {
