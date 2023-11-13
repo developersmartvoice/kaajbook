@@ -109,7 +109,7 @@ import { ProjectTemplateCreateComponent } from './pages/project-template-create/
 		TodoModule,
 		SharedModule
 	],
-	entryComponents: [CreateAttachmentModalComponent, ProjectImportComponent, ProjectTimesheetEditModalComponent]
+	entryComponents: [CreateAttachmentModalComponent, ProjectImportComponent, ProjectTimesheetEditModalComponent, ProjectTemplateCreateComponent]
 })
 
 export class ProjectsModule { }
