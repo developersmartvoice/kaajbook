@@ -48,6 +48,7 @@ import { ProjectImportComponent } from './components/project-import/project-impo
 import { ProjectTimesheetComponent } from './components/project-timesheet/project-timesheet.component';
 import { ProjectTimesheetEditModalComponent } from './components/project-timesheet-edit-modal/project-timesheet-edit-modal.component';
 import { ProjectTemplateListComponent } from './pages/project-template-list/project-template-list.component';
+import { ProjectTemplateCreateComponent } from './pages/project-template-create/project-template-create.component';
 
 @NgModule({
 	declarations: [
@@ -67,7 +68,8 @@ import { ProjectTemplateListComponent } from './pages/project-template-list/proj
 		ProjectImportComponent,
 		ProjectTimesheetComponent,
 		ProjectTimesheetEditModalComponent,
-		ProjectTemplateListComponent
+		ProjectTemplateListComponent,
+		ProjectTemplateCreateComponent
 	],
 	imports: [
 		CommonModule,

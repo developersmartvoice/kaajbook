@@ -2415,6 +2415,8 @@
 				"project_logo": "Project Logo",
 				"project_name": "Project Name",
 				"project_template": "Project Template",
+				"template_name": "Template Name",
+				"task_in_template": "Task In Template",
 				"create_project_template":"Create Project Template",
 				"start_date": "Start Date",
 				"status": "Status",
