@@ -45,8 +45,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 
 
 	onSubmit() {
-		console.log(this.createCustomTemplateForm.value);
-		
+
 		  // Mark all controls as touched
 		  this.createCustomTemplateForm.markAllAsTouched();
 
@@ -54,6 +53,14 @@ export class ProjectTemplateCreateComponent implements OnInit {
 			console.log('Form is invalid');
 			return;
 		  }
+
+		  const formData = {
+			templateName: this.createCustomTemplateForm.get('templateName').value,
+			tasks: this.createCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
+		  };
+		
+		//   console.log('Submitted data:', formData);
+		
 
 
 		// this.customFieldsService.create(this.createCustomTemplateForm.value)
