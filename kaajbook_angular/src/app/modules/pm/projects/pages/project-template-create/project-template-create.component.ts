@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
-import { CustomFieldsService } from 'src/app/core/services/custom-fields.service';
+import { CustomTemplateService } from 'src/app/core/services/custom-template.service';
 import { HelperService } from 'src/app/core/services/helper.service';
 import { ImportProjectService } from 'src/app/core/services/import-project.service';
 
@@ -26,7 +26,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 		public bsModalRef: BsModalRef,
 		private formBuilder: FormBuilder,
 		private toastr: ToastrService,
-		private customFieldsService: CustomFieldsService,
+		private customTemplateService: CustomTemplateService,
 		private helperService: HelperService
     ) { }
 
@@ -59,17 +59,17 @@ export class ProjectTemplateCreateComponent implements OnInit {
 			tasks: this.createCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
 		  };
 		
-		//   console.log('Submitted data:', formData);
+		  console.log('Submitted data:', formData);
 		
 
 
-		// this.customFieldsService.create(this.createCustomTemplateForm.value)
-		// 	.subscribe(
-		// 		data => {					
-		// 			this.toastr.success(this.translate.instant('settings.custom_fields.messages.create'), this.translate.instant('settings.custom_fields.title'));
-		// 			this.event.emit({ data: true });
-		// 			this.onCancel();
-		// 		});
+		this.customTemplateService.createTemplate(formData)
+			.subscribe(
+				data => {					
+					this.toastr.success(this.translate.instant('settings.custom_fields.messages.create'), this.translate.instant('settings.custom_fields.title'));
+					this.event.emit({ data: true });
+					this.onCancel();
+				});
 	}
 
 	onCancel() {
