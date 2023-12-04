@@ -55,9 +55,11 @@ export class ProjectTemplateCreateComponent implements OnInit {
 		  }
 
 		  const formData = {
-			templateName: this.createCustomTemplateForm.get('templateName').value,
-			tasks: this.createCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
-		  };
+			template_name: this.createCustomTemplateForm.get('templateName').value,
+			tasks: JSON.stringify(
+			  this.createCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
+			)
+		  };	  
 		
 		  console.log('Submitted data:', formData);
 		
@@ -66,10 +68,13 @@ export class ProjectTemplateCreateComponent implements OnInit {
 		this.customTemplateService.createTemplate(formData)
 			.subscribe(
 				data => {					
-					this.toastr.success(this.translate.instant('settings.custom_fields.messages.create'), this.translate.instant('settings.custom_fields.title'));
+					this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_create'), this.translate.instant('settings.custom_fields.title3'));
 					this.event.emit({ data: true });
 					this.onCancel();
-				});
+				},
+				error => {
+					console.log("template create error : "+error);
+				});	
 	}
 
 	onCancel() {

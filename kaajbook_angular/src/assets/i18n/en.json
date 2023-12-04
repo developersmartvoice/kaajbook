@@ -2729,12 +2729,14 @@
 			},
 			"messages": {
 				"create": "Custom field created successfully.",
+				"template_create": "Custom Template created successfully.",
 				"delete": "Custom field deleted successfully.",
 				"status": "Status changed successfully.",
 				"update": "Custom field updated successfully."
 			},
 			"title": "Custom Fields",
-			"title1": "custom field"
+			"title1": "custom field",
+			"title3": "Custom Template"
 		},
 		"dashboard_settings": {
 			"columns": {

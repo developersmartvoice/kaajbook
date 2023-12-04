@@ -12,8 +12,29 @@ export class CustomTemplateService {
 
   constructor(private http: HttpClient) { } 
 
-  createTemplate(data: any): Observable<any> {
-    // console.log('Data to be sent:', data);
-    return this.http.post(`${this.apiUrl}/templates`, data);
+   // Fetch all project templates
+   getAllTemplates(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/project-templates`);
+  }
+
+  // Create a new project template
+  createTemplate(templateData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/project-templates`, templateData);
+  }
+
+  // Get details of a specific project template by ID
+  getTemplateById(templateId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/project-templates/id/${templateId}`);
+  }
+
+  // Update a project template by ID
+  updateTemplate(templateId: number, templateData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/api/project-templates/${templateId}`, templateData);
+  }
+
+  // Delete a project template by ID
+  deleteTemplate(templateId: number): Observable<any> {
+    console.log(templateId);
+    return this.http.delete<any>(`${this.apiUrl}/api/project-templates/${templateId}`);
   }
 }

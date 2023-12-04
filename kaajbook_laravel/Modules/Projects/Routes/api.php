@@ -26,4 +26,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('projects/my', 'ProjectsController@getMyProjects');
     Route::get('projects/getbyid/{id}', 'ProjectsController@getProjectById');
     Route::resource('projects', 'ProjectsController', ['except' => ['destroy']]);
+
+     // Add routes for Project Template
+     Route::apiResource('project-templates', ProjectTemplateController::class);
+ 
 });

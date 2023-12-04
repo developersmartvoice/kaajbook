@@ -16,3 +16,7 @@ Route::prefix('projects')->group(
         Route::get('/', 'ProjectsController@index');
     }
 );
+
+Route::prefix('project-templates')->group(function () {
+    Route::get('/', 'ProjectTemplateController@index');
+});
