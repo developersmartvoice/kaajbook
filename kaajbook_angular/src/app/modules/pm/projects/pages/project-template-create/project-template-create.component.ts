@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -23,6 +24,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 
   constructor(
     public translate: TranslateService,
+	private router: Router,
 		public bsModalRef: BsModalRef,
 		private formBuilder: FormBuilder,
 		private toastr: ToastrService,
@@ -71,6 +73,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 					this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_create'), this.translate.instant('settings.custom_fields.title3'));
 					this.event.emit({ data: true });
 					this.onCancel();
+					// this.router.navigate(["projects/template"]);
 				},
 				error => {
 					console.log("template create error : "+error);

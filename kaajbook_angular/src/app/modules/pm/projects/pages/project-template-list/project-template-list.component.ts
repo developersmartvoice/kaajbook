@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { ProjectTemplateCreateComponent } from "../project-template-create/project-template-create.component";
+import { CustomTemplateService } from "src/app/core/services/custom-template.service";
+import { TranslateService } from "@ngx-translate/core";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: "app-project-template-list",
@@ -9,7 +12,6 @@ import { ProjectTemplateCreateComponent } from "../project-template-create/proje
 })
 export class ProjectTemplateListComponent implements OnInit {
     public modalRef: BsModalRef;
-
     modalConfigs = {
 		animated: true,
 		keyboard: true,
@@ -17,69 +19,55 @@ export class ProjectTemplateListComponent implements OnInit {
 		ignoreBackdropClick: false,
 		class: "inmodal modal-dialog-centered animated fadeIn"
 	};
-    customFields = [
-        {
-            field_label: "Create Template",
-            task_in_template: 6,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 2,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 8,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 5,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 13,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 8,
-        },
-        {
-            field_label: "Create Template",
-            task_in_template: 6,
-        },
-        {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-      {
-          field_label: "Create Template",
-          task_in_template: 6,
-      },
-    ];
+
+    customTemplateList = [];
     constructor(
-        private modalService: BsModalService
+        public translate: TranslateService,
+        private modalService: BsModalService,
+        private customTemplateService: CustomTemplateService,
+        private toastr: ToastrService,
+
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getCustomTemplateList();
+    }
+
+
+    getCustomTemplateList() {
+        this.customTemplateService.getAllTemplates().subscribe(
+            (data) => {
+                this.customTemplateList = data;
+                console.log(data);
+             },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+
+    removeCustomTemplate(id) {
+        this.customTemplateService.deleteTemplate(id).subscribe(
+            (data) => {
+                this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_delete'), this.translate.instant('settings.custom_fields.title3'));
+                 this.getCustomTemplateList();
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+
+      // Method to parse the string and return the length
+        getTasksLength(tasksString: string): number {
+            try {
+            const tasksArray = JSON.parse(tasksString) || [];
+            return tasksArray.length;
+            } catch (error) {
+            console.error('Error parsing tasks:', error);
+            return 0;
+            }
+        }
 
     openCustomFieldCreateModal() {
 		this.modalRef = this.modalService.show(ProjectTemplateCreateComponent, this.modalConfigs);

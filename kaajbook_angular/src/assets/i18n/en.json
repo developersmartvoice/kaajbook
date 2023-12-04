@@ -2730,6 +2730,7 @@
 			"messages": {
 				"create": "Custom field created successfully.",
 				"template_create": "Custom Template created successfully.",
+				"template_delete": "Custom Template delete successfully.",
 				"delete": "Custom field deleted successfully.",
 				"status": "Status changed successfully.",
 				"update": "Custom field updated successfully."

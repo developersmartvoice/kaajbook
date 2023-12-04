@@ -16,11 +16,11 @@
               <th>{{'settings.custom_fields.columns.actions' | translate}}</th>
             </tr>
           </thead>
-          <tbody *ngIf="customFields?.length != 0">
-            <tr *ngFor="let customField of customFields; index as i">
+          <tbody *ngIf="customTemplateList?.length != 0">
+            <tr *ngFor="let customTemplate of customTemplateList; index as i">
               <td>{{i + 1}}</td>
-              <td>{{customField.field_label}}</td>
-              <td>{{customField.task_in_template}}</td>
+              <td>{{customTemplate.template_name}}</td>
+              <td>{{getTasksLength(customTemplate.tasks)}}</td>
               <td class="actions-dropdown">
                 <div class="btn-group" dropdown>
                   <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
@@ -29,7 +29,7 @@
                       <a (click)="openCustomFieldEditModal(customField)" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}" placement="top"><i class="fa fa-pencil-square-o"></i></a>
                     </li>
                     <li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'customfields_delete']">
-                      <a (click)="removeCustomField(customField.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}" placement="top"><i class="fa fa-trash-o"></i></a>
+                      <a (click)="removeCustomTemplate(customTemplate.id)" class="dropdown-item btn btn-delete btn-raised" tooltip="{{'common.delete' | translate}}" placement="top"><i class="fa fa-trash-o"></i></a>
                     </li>
                   </ul>
                 </div>
