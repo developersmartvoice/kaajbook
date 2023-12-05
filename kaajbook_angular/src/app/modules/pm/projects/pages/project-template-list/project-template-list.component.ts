@@ -4,6 +4,7 @@ import { ProjectTemplateCreateComponent } from "../project-template-create/proje
 import { CustomTemplateService } from "src/app/core/services/custom-template.service";
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
+import { ProjectTemplateEditComponent } from "../project-template-edit/project-template-edit.component";
 
 @Component({
     selector: "app-project-template-list",
@@ -19,7 +20,7 @@ export class ProjectTemplateListComponent implements OnInit {
 		ignoreBackdropClick: false,
 		class: "inmodal modal-dialog-centered animated fadeIn"
 	};
-
+    ProjectTemplateCreateComponent
     customTemplateList = [];
     constructor(
         public translate: TranslateService,
@@ -71,6 +72,14 @@ export class ProjectTemplateListComponent implements OnInit {
 
     openCustomFieldCreateModal() {
 		this.modalRef = this.modalService.show(ProjectTemplateCreateComponent, this.modalConfigs);
+		// this.modalRef.content.event.subscribe(data => {
+		// 	this.rerender();
+		// });
+	}
+
+    openCustomTemplateEditModal(customTemplate) {
+        console.log(customTemplate);
+		this.modalRef = this.modalService.show(ProjectTemplateEditComponent, this.modalConfigs);
 		// this.modalRef.content.event.subscribe(data => {
 		// 	this.rerender();
 		// });

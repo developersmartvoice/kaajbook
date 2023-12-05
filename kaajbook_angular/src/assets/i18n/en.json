@@ -2418,6 +2418,7 @@
 				"template_name": "Template Name",
 				"task_in_template": "Task In Template",
 				"create_project_template":"Create Project Template",
+				"update_project_template":"Update Project Template",
 				"start_date": "Start Date",
 				"status": "Status",
 				"version": "Version"
@@ -2731,6 +2732,7 @@
 				"create": "Custom field created successfully.",
 				"template_create": "Custom Template created successfully.",
 				"template_delete": "Custom Template delete successfully.",
+				"template_update": "Custom Template update successfully.",
 				"delete": "Custom field deleted successfully.",
 				"status": "Status changed successfully.",
 				"update": "Custom field updated successfully."
