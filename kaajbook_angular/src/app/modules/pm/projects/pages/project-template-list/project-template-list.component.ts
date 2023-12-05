@@ -5,6 +5,7 @@ import { CustomTemplateService } from "src/app/core/services/custom-template.ser
 import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { ProjectTemplateEditComponent } from "../project-template-edit/project-template-edit.component";
+import Swal from "sweetalert2";
 
 @Component({
     selector: "app-project-template-list",
@@ -47,17 +48,29 @@ export class ProjectTemplateListComponent implements OnInit {
         );
     }
 
+    
     removeCustomTemplate(id) {
-        this.customTemplateService.deleteTemplate(id).subscribe(
-            (data) => {
-                this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_delete'), this.translate.instant('settings.custom_fields.title3'));
-                 this.getCustomTemplateList();
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
-    }
+		Swal.fire({
+			title: this.translate.instant('common.swal.title'),
+			text: this.translate.instant('common.swal.text5'),
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: this.translate.instant('common.swal.confirmButtonText'),
+			cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
+		}).then((result) => {
+			if (result.value) {
+				this.customTemplateService.deleteTemplate(id).subscribe(
+                    (data) => {
+                        this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_delete'), this.translate.instant('settings.custom_fields.title3'));
+                         this.getCustomTemplateList();
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+			}
+		});
+	}
 
       // Method to parse the string and return the length
         getTasksLength(tasksString: string): number {

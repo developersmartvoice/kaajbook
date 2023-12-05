@@ -735,6 +735,7 @@
 			"text2": "You will not be able to recover this user!. Before delete, make sure that you have remove user from teams, projects, tasks, defects and incidents etc..",
 			"text3": "You will not be able to recover this client!. Before delete, make sure that you have remove client from teams, projects, tasks, defects and incidents etc..",
 			"text4": "You will not be able to recover this project!. Before delete, make sure that you have deleted all tasks, defects and incidents related to this project.",
+			"text5": "You will not be able to recover this project Template!.",
 			"title": "Are you sure?"
 		},
 		"switch_to_calendar": "Switch to Calendar",

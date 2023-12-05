@@ -63,7 +63,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 			)
 		  };	  
 		
-		  console.log('Submitted data:', formData);
+		//   console.log('Submitted data:', formData);
 		
 
 
