@@ -39,7 +39,7 @@ export class ProjectTemplateListComponent implements OnInit {
         this.customTemplateService.getAllTemplates().subscribe(
             (data) => {
                 this.customTemplateList = data;
-                console.log(data);
+                // console.log(data);
              },
             (error) => {
                 console.log(error);
@@ -75,13 +75,28 @@ export class ProjectTemplateListComponent implements OnInit {
 		// this.modalRef.content.event.subscribe(data => {
 		// 	this.rerender();
 		// });
+
+        this.modalRef.content.event.subscribe(data => {
+            // Handle the event if needed
+            // console.log(data);
+            this.getCustomTemplateList(); // Refresh the list after an update if needed
+          });
 	}
 
     openCustomTemplateEditModal(customTemplate) {
-        console.log(customTemplate);
-		this.modalRef = this.modalService.show(ProjectTemplateEditComponent, this.modalConfigs);
-		// this.modalRef.content.event.subscribe(data => {
-		// 	this.rerender();
-		// });
-	}
+        this.modalRef = this.modalService.show(ProjectTemplateEditComponent, this.modalConfigs);
+        
+        // Pass data to the modal component using componentInstance
+        this.modalRef.content.customTemplate = customTemplate;
+      
+        this.modalRef.content.event.subscribe(data => {
+          // Handle the event if needed
+        //   console.log(data);
+          this.getCustomTemplateList(); // Refresh the list after an update if needed
+        });
+      }
+
+      
+      
+      
 }

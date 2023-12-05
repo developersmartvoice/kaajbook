@@ -2,14 +2,14 @@
 	<h2 class="modal-title font-weight-normal"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;{{'projects.create.fields.update_project_template' | translate}}</h2>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
 </div>
-<form [formGroup]="createCustomTemplateForm" (ngSubmit)="onSubmit()" class="bs4-forms">
+<form [formGroup]="updateCustomTemplateForm" (ngSubmit)="onSubmit()" class="bs4-forms">
 	<div class="modal-body">
 		<div class="form-body">
 			<div class="row">
 				<div class="col-md-12 form-group">
  					<label for="form_id">{{'projects.create.fields.template_name' | translate}}</label>&nbsp;<span class="text-danger">*</span>
 					 <input type="text" placeholder="{{'projects.create.fields.template_name' | translate}}" class="form-control" id="templateName" formControlName="templateName"/>
-					 <div *ngIf="createCustomTemplateForm.get('templateName').hasError('required') && createCustomTemplateForm.get('templateName').touched" class="text-danger">
+					 <div *ngIf="updateCustomTemplateForm.get('templateName').hasError('required') && updateCustomTemplateForm.get('templateName').touched" class="text-danger">
 						{{'settings.custom_fields.create.error_messages.message6' | translate}}
 					  </div>
 											
@@ -18,7 +18,7 @@
 				<div class="col-md-12">
 					<label for="field_type">{{'projects.create.fields.task_in_template' | translate}}</label>&nbsp;<span class="text-danger">*</span>
 					<textarea type="text" placeholder="{{'projects.create.placeholders.placeholder13' | translate}}" class="form-control" id="taskInTemplate" formControlName="taskInTemplate" rows="10"></textarea>
-					<div *ngIf="createCustomTemplateForm.get('taskInTemplate').hasError('required') && createCustomTemplateForm.get('taskInTemplate').touched" class="text-danger">
+					<div *ngIf="updateCustomTemplateForm.get('taskInTemplate').hasError('required') && updateCustomTemplateForm.get('taskInTemplate').touched" class="text-danger">
 						{{'settings.custom_fields.create.error_messages.message6' | translate}}
 					  </div>					  
 				</div>
