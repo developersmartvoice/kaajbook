@@ -54,7 +54,8 @@ export class ProjectTemplateEditComponent implements OnInit {
 
       this.updateCustomTemplateForm.patchValue({
         templateName: this.customTemplate.template_name,
-        taskInTemplate: tasksArray.join('.\n')
+        // taskInTemplate: tasksArray.join('.\n')
+        taskInTemplate: `${tasksArray.join('.\n')}.`
       });
       
     }

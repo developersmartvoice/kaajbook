@@ -2418,6 +2418,7 @@
 				"project_template": "Project Template",
 				"template_name": "Template Name",
 				"task_in_template": "Task In Template",
+				"template_id": "ID",
 				"create_project_template":"Create Project Template",
 				"update_project_template":"Update Project Template",
 				"start_date": "Start Date",

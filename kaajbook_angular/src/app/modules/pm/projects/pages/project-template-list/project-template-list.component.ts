@@ -40,7 +40,8 @@ export class ProjectTemplateListComponent implements OnInit {
         this.customTemplateService.getAllTemplates().subscribe(
             (data) => {
                 this.customTemplateList = data;
-                // console.log(data);
+                this.customTemplateList.reverse();
+                console.log(data);
              },
             (error) => {
                 console.log(error);
