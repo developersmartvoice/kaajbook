@@ -7,7 +7,7 @@
   <div class="card-content pl-2 pr-2 pb-2">
     <div class="card-body">
       <div class="table-responsive-xs table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-hover b4-datatable" id="custom_field_table" width="100%">
+        <table datatable  class="table table-bordered table-hover b4-datatable" id="custom_field_table" width="100%">
           <thead>
             <tr>
               <th>{{'projects.create.fields.template_id' | translate}}</th>
@@ -36,7 +36,7 @@
               </td>
             </tr>
           </tbody>
-          <tfoot *ngIf="customFields?.length == 0" class="tfoot_dt">
+          <tfoot  class="tfoot_dt">
             <tr>
               <td colspan="6" class="no-data-available text-center">{{'common.datatable.sEmptyTable' | translate}}</td>
             </tr>
