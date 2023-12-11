@@ -1,9 +1,9 @@
 <div class="row charts-box">
 	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_monthly_report_chart">
-		<app-pm-dashboard-chart5-yearly [monthlyReport]="monthlyReport"></app-pm-dashboard-chart5-yearly>
+		<app-pm-dashboard-chart4-monthly [monthlyReport]="monthlyReport"></app-pm-dashboard-chart4-monthly>
 	</div>
 	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_monthly_report_chart">
-		<app-pm-dashboard-chart4-monthly [monthlyReport]="monthlyReport"></app-pm-dashboard-chart4-monthly>
+		<app-pm-dashboard-chart5-yearly [monthlyReport]="monthlyReport"></app-pm-dashboard-chart5-yearly>
 	</div>
 	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_monthly_report_chart">
 		<app-pm-dashboard-chart3 [monthlyReport]="monthlyReport"></app-pm-dashboard-chart3>

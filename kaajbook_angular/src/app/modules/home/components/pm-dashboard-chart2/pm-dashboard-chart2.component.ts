@@ -72,8 +72,8 @@ export class PmDashboardChart2Component implements OnInit {
 		}
 
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('Projects') },
-			{ data: this.defects, label: this.translate.instant('Total Cost (in million)') },
+			{ data: this.tasks, label: this.translate.instant('tasks.title') },
+			{ data: this.defects, label: this.translate.instant('defects.title') },
 			// { data: this.incidents, label: this.translate.instant('incidents.title') }
 		];
 	}

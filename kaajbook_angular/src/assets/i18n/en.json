@@ -790,6 +790,9 @@
 		"chart1": "Tasks Status",
 		"chart2": "Project Status",
 		"chart3": "Monthly Report",
+		"monthly": "Monthly Report",
+		"yearly": "Yearly Report",
+		"client": "Client Report",
 		"estimate": "Estimates",
 		"invoices": "Due Invoices",
 		"widgets": {
@@ -2499,6 +2502,7 @@
 			}
 		],
 		"title": "Projects",
+		"title_cost": "Total Cost (in million)",
 		"title1": "Create Project",
 		"title2": "Update Project",
 		"title3": "Import Project"

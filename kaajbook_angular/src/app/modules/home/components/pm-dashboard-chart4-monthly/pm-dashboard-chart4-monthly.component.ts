@@ -68,13 +68,13 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 		for(let iRow in this.monthlyReport) {
 			this.tasks.push(this.monthlyReport[iRow].tasks);
 			this.defects.push(this.monthlyReport[iRow].defects);
-			this.incidents.push(this.monthlyReport[iRow].incidents);
+			// this.incidents.push(this.monthlyReport[iRow].incidents);
 		}
 
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('Projects') },
-			{ data: this.defects, label: this.translate.instant('Total Cost (in million)') },
-			{ data: this.incidents, label: this.translate.instant('incidents.title') }
+			{ data: this.tasks, label: this.translate.instant('projects.title') },
+			{ data: this.defects, label: this.translate.instant('projects.title_cost') },
+			// { data: this.incidents, label: this.translate.instant('incidents.title') }
 		];
 	}
 
