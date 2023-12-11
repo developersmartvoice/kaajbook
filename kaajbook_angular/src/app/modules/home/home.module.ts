@@ -47,7 +47,6 @@ import { DashboardSettingsComponent } from './components/dashboard-settings/dash
 import { PmDashboardInvoicesComponent } from './components/pm-dashboard-invoices/pm-dashboard-invoices.component';
 import { PmDashboardEstimatesComponent } from './components/pm-dashboard-estimates/pm-dashboard-estimates.component';
 import { PmDashboardChart3Component } from './components/pm-dashboard-chart3/pm-dashboard-chart3.component';
-import { PmDashboardChart4Component } from './components/pm-dashboard-chart4/pm-dashboard-chart4.component';
 import { PmDashboardChart4MonthlyComponent } from './components/pm-dashboard-chart4-monthly/pm-dashboard-chart4-monthly.component';
 import { PmDashboardChart5YearlyComponent } from './components/pm-dashboard-chart5-yearly/pm-dashboard-chart5-yearly.component';
 
@@ -74,7 +73,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		PmDashboardInvoicesComponent,
 		PmDashboardEstimatesComponent,
 		PmDashboardChart3Component,
-		PmDashboardChart4Component,
 		PmDashboardChart4MonthlyComponent,
 		PmDashboardChart5YearlyComponent
 	],
