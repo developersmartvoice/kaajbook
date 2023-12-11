@@ -1,0 +1,20 @@
+<div class="card card-height-chart">
+	<div class="card-header">
+		<h4 class="card-title">Yearly Report {{currentDate | dateTimeFormatFilter: 'YYYY'}}</h4>
+	</div>
+	<div class="card-body">
+		<div class="card-block">
+			<div id="bar-bar1" class="height-300">
+				<canvas baseChart
+					class="chart"
+					[datasets]="barChartData"
+					[labels]="barChartLabels"
+					[options]="barChartOptions"
+					[colors]="barChartColors"
+					[legend]="barChartLegend"
+					[chartType]="barChartType">
+				</canvas>
+			</div>
+		</div>
+	</div>
+</div>

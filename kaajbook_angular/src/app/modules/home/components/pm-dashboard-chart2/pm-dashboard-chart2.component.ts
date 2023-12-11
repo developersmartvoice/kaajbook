@@ -21,7 +21,23 @@ export class PmDashboardChart2Component implements OnInit {
 	barChartOptions: any = {
 		scaleShowVerticalLines: false,
 		responsive: true,
-		maintainAspectRatio: false
+		maintainAspectRatio: false,
+
+		tooltips: {
+			callbacks: {
+			  label: function (tooltipItem, data) {
+				let label = data.datasets[tooltipItem.datasetIndex].label || '';
+		
+				if (label === 'Price') {
+				  label += ': $' + tooltipItem.yLabel;
+				} else {
+				  label += ': ' + tooltipItem.yLabel;
+				}
+		
+				return label;
+			  }
+			}
+		  }
 	};
 	barChartColors: Array<any> = [{
 			backgroundColor: 'rgba(255, 141, 96, 0.8)',
@@ -31,7 +47,7 @@ export class PmDashboardChart2Component implements OnInit {
 			pointHoverBackgroundColor: '#fff',
 			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
 		}, {
-			backgroundColor: 'rgba(0, 157, 160, 0.8)',
+			backgroundColor: 'rgba(92, 184, 92, 0.7)',
 			borderColor: 'rgba(148,159,177,1)',
 			pointBackgroundColor: 'rgba(148,159,177,1)',
 			pointBorderColor: '#fff',
@@ -52,13 +68,13 @@ export class PmDashboardChart2Component implements OnInit {
 		for(let iRow in this.monthlyReport) {
 			this.tasks.push(this.monthlyReport[iRow].tasks);
 			this.defects.push(this.monthlyReport[iRow].defects);
-			this.incidents.push(this.monthlyReport[iRow].incidents);
+			// this.incidents.push(this.monthlyReport[iRow].incidents);
 		}
 
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('tasks.title') },
-			{ data: this.defects, label: this.translate.instant('defects.title') },
-			{ data: this.incidents, label: this.translate.instant('incidents.title') }
+			{ data: this.tasks, label: this.translate.instant('Projects') },
+			{ data: this.defects, label: this.translate.instant('Total Cost (in million)') },
+			// { data: this.incidents, label: this.translate.instant('incidents.title') }
 		];
 	}
 
