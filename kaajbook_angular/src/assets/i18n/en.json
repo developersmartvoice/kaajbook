@@ -792,7 +792,8 @@
 		"chart3": "Monthly Report",
 		"monthly": "Monthly Report",
 		"yearly": "Yearly Report",
-		"client": "Client Report",
+		"client_yearly": "Client Yearly Report",
+		"client_yearly_bill": "Client Yearly Bill Report",
 		"estimate": "Estimates",
 		"invoices": "Due Invoices",
 		"widgets": {
@@ -2502,6 +2503,8 @@
 			}
 		],
 		"title": "Projects",
+		"title_bill": "Bill Amount (in million)",
+		"title_due": "Due Amount (in million)",
 		"title_cost": "Total Cost (in million)",
 		"title1": "Create Project",
 		"title2": "Update Project",

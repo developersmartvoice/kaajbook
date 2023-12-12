@@ -15,7 +15,7 @@ export class PmDashboardChart1Component implements OnInit {
 	polarAreaChartData: number[] = [0, 0, 0];
 	polarAreaLegend = true;
 	ploarChartColors: any[] = [{
-		backgroundColor: ["#1cbcd8", "#ffb136", "#2ecc71"]
+		backgroundColor: ["rgba(28, 188, 216, 0.6)", "rgba(255, 177, 54, 0.6)", "rgba(46, 204, 113, 0.7)"]
 	}];
 	polarAreaChartType = 'polarArea';
 	polarChartOptions: any = {

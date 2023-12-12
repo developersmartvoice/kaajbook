@@ -3,11 +3,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
-  selector: 'app-pm-dashboard-chart3',
-  templateUrl: './pm-dashboard-chart3.component.html',
-  styleUrls: ['./pm-dashboard-chart3.component.scss']
+  selector: 'app-pm-dashboard-chart3-client',
+  templateUrl: './pm-dashboard-chart3-client.component.html',
+  styleUrls: ['./pm-dashboard-chart3-client.component.scss']
 })
-export class PmDashboardChart3Component implements OnInit {
+export class PmDashboardChart3ClientComponent implements OnInit {
+
 
 	@Input() monthlyReport: any;
 	barChartLabels: string[] = [];
@@ -57,7 +58,9 @@ export class PmDashboardChart3Component implements OnInit {
 	];
 
 	constructor(public translate: TranslateService) {
-		this.barChartLabels = this.translate.instant('months');
+		// this.barChartLabels = this.translate.instant('months');
+		this.barChartLabels = ['client1', 'client2', 'client3', 'client4', 'client5', 'client6', 'client7', 'client8', 'client9', 'client10', 'client11', 'client12'];
+
 	}
 
 	ngOnInit() {
