@@ -27,6 +27,7 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 			yAxes: [{
 			  type: 'logarithmic', // Set the y-axis scale to logarithmic
 			  ticks: {
+				maxTicksLimit: 10, 
 				callback: function (value, index, values) {
 				  return Number(value.toString()); // Necessary to display values as numbers on the axis
 				}

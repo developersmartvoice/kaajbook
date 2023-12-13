@@ -166,8 +166,9 @@ class PmHelperRepository
                 ->get();
         }
 
-        // Task, Defect, Incident count by month.
+        // Task, Defect, Incident, project count by month.
         $data['count_by_month'] = $this->_getCountByMonths();
+        $data['count_by_year'] = $this->_getCountByYear();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -366,4 +367,72 @@ class PmHelperRepository
 
         return $result;
     }
+
+
+    public function _getCountByYear()
+    {
+        $user = Auth::user();
+        $result = [];
+
+        // Yearly report initialization
+        $yearlyProjects = [];
+        for ($i = date('Y'); $i >= date('Y') - 9; $i--) {
+            $yearlyProjects[$i] = [
+                "projects" => 0,
+                "project_bill" => 0,
+            ];
+        }
+
+        // Yearly project report processing
+        $projects = Project::select(
+            DB::raw('count(id) as `count`'),
+            DB::raw('YEAR(created_at) year')
+        );
+
+        $invoices = Invoice::select(
+            DB::raw('SUM(total_amount) as total_bill'),
+            DB::raw('YEAR(created_at) year')
+        );
+
+        if ($user->hasRole('admin') || $user->is_super_admin) {
+            // No additional conditions for admin
+        } else {
+            // Add conditions for non-admin users
+            $projects->where('user_id', $user->id);
+            $invoices->whereHas('project', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
+        // Yearly projects
+        $yearlyProjectsData = $projects->whereBetween('created_at', [
+            now()->subYears(9)->startOfYear(),
+            now()->endOfYear()
+        ])->groupBy(
+            DB::raw('YEAR(created_at)')
+        )->get();
+
+        foreach ($yearlyProjectsData as $key => $value) {
+            $yearlyProjects[$value->year]['projects'] = $value->count;
+        }
+
+        // Yearly project bill
+        $yearlyInvoicesData = $invoices->whereBetween('created_at', [
+            now()->subYears(9)->startOfYear(),
+            now()->endOfYear()
+        ])->groupBy(
+            DB::raw('YEAR(created_at)')
+        )->get();
+
+        foreach ($yearlyInvoicesData as $key => $value) {
+            $yearlyProjects[$value->year]['project_bill'] = $value->total_bill;
+        }
+
+        // Combine monthly and yearly reports
+        // $result['yearly'] = $yearlyProjects;
+ 
+        // return $result;
+        return $yearlyProjects;
+    }
+
 }

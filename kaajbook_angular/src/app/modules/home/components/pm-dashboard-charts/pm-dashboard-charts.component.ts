@@ -27,6 +27,7 @@ export class PmDashboardChartsComponent implements OnInit {
 	@Input() taskReport: any;
 	@Input() projectChartReport: any;
 	@Input() monthlyReport: any;
+	@Input() yearlyReport: any;
 	@Input() dashboardSettings;
 	taskChartData: any = [0, 0, 0, 0, 0, 0];
 	totalPercetangeValue = 0;

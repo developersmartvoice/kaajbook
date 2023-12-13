@@ -9,7 +9,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 })
 export class PmDashboardChart5YearlyComponent implements OnInit {
 
-  @Input() monthlyReport: any;
+  @Input() yearlyReport: any;
 	barChartLabels: string[] = [];
 	currentDate : Date = new Date();
 	barChartType = 'bar';
@@ -22,6 +22,17 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 		scaleShowVerticalLines: false,
 		responsive: true,
 		maintainAspectRatio: false,
+
+		scales: {
+			yAxes: [{
+			  type: 'logarithmic', // Set the y-axis scale to logarithmic
+			  ticks: {
+				callback: function (value, index, values) {
+				  return Number(value.toString()); // Necessary to display values as numbers on the axis
+				}
+			  }
+			}]
+		  },
 
 		tooltips: {
 			callbacks: {
@@ -58,19 +69,20 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 
 	constructor(public translate: TranslateService) {
 		// this.barChartLabels = this.translate.instant('months');
-    this.barChartLabels = ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022','2023', '2024', '2025'];
+    // this.barChartLabels = ['2014', '2015', '2016','2017', '2018', '2019', '2020', '2021', '2022','2023', '2024', '2025'];
 
 	}
 
 	ngOnInit() {
+		this.barChartLabels = Object.keys(this.yearlyReport);
 		this.renderChart();
 	}
 
 	renderChart() {
-		for(let iRow in this.monthlyReport) {
-			this.tasks.push(this.monthlyReport[iRow].tasks);
-			this.defects.push(this.monthlyReport[iRow].defects);
-			// this.incidents.push(this.monthlyReport[iRow].incidents);
+		for(let iRow in this.yearlyReport) {
+			this.tasks.push(this.yearlyReport[iRow].projects);
+			this.defects.push(this.yearlyReport[iRow].project_bill);
+			// this.incidents.push(this.yearlyReport[iRow].incidents);
 		}
 
 		this.barChartData = [
