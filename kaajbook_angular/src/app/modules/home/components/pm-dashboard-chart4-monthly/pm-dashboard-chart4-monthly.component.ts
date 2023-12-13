@@ -23,6 +23,17 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 		responsive: true,
 		maintainAspectRatio: false,
 
+		scales: {
+			yAxes: [{
+			  type: 'logarithmic', // Set the y-axis scale to logarithmic
+			  ticks: {
+				callback: function (value, index, values) {
+				  return Number(value.toString()); // Necessary to display values as numbers on the axis
+				}
+			  }
+			}]
+		  },
+
 		tooltips: {
 			callbacks: {
 			  label: function (tooltipItem, data) {
@@ -66,8 +77,8 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 
 	renderChart() {
 		for(let iRow in this.monthlyReport) {
-			this.tasks.push(this.monthlyReport[iRow].tasks);
-			this.defects.push(this.monthlyReport[iRow].defects);
+			this.tasks.push(this.monthlyReport[iRow].projects);
+			this.defects.push(this.monthlyReport[iRow].project_bill);
 			// this.incidents.push(this.monthlyReport[iRow].incidents);
 		}
 

@@ -275,10 +275,12 @@ class PmHelperRepository
             $result[$month] = [
                 "tasks" => 0,
                 "defects" => 0,
-                "incidents" => 0
+                "incidents" => 0,
+                "projects" => 0, // Add project count for each month
+                "project_bill" => 0, 
             ];
         }
-        
+
         $tasks = Task::select(
             DB::raw('count(id) as `count`'),
             DB::raw('YEAR(task_start_date) year'),
@@ -297,12 +299,28 @@ class PmHelperRepository
             DB::raw('MONTH(start_date) month')
         );
 
+        $projects = Project::select(
+            DB::raw('count(id) as `count`'),
+            DB::raw('YEAR(created_at) year'),
+            DB::raw('MONTH(created_at) month')
+        );
+
+        $invoices = Invoice::select(
+            DB::raw('SUM(total_amount) as total_bill'),
+            DB::raw('YEAR(created_at) year'),
+            DB::raw('MONTH(created_at) month')
+        );
+    
+
         if ($user->hasRole('admin') || $user->is_super_admin) {
-            
-        }else{
+        } else {
             $tasks->where('assign_to', $user->id);
             $defects->where('assign_member', $user->id);
             $incidents->where('assign_to', $user->id);
+            $projects->where('user_id', $user->id); // Adjust this based on your project user assignment logic
+            $invoices->whereHas('project', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
         }
 
         // Tasks
@@ -328,6 +346,23 @@ class PmHelperRepository
         foreach ($incidents as $key => $value) {
             $result[$value->month]['incidents'] = $value->count;
         }
+
+        // Projects
+        $projects = $projects->whereYear('created_at', date('Y'))
+            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+            ->get();
+        foreach ($projects as $key => $value) {
+            $result[$value->month]['projects'] = $value->count;
+        }
+
+         // Project Bill
+        $invoices = $invoices->whereYear('created_at', date('Y'))
+        ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+        ->get();
+        foreach ($invoices as $key => $value) {
+            $result[$value->month]['project_bill'] = $value->total_bill;
+        }
+
 
         return $result;
     }
