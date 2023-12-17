@@ -13,6 +13,7 @@ use Modules\Leave\Models\Leave;
 use Modules\Payment\Models\Payment;
 use Modules\Projects\Models\Project;
 use Modules\Task\Models\Task;
+use Modules\User\Models\User\User;
 
 /**
  * Class PmHelperRepository
@@ -169,6 +170,7 @@ class PmHelperRepository
         // Task, Defect, Incident, project count by month.
         $data['count_by_month'] = $this->_getCountByMonths();
         $data['count_by_year'] = $this->_getCountByYear();
+        $data['all_invoice'] = $this->getAllInvoices();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -433,6 +435,47 @@ class PmHelperRepository
  
         // return $result;
         return $yearlyProjects;
+    }
+
+
+    public function getAllInvoices()
+    {
+        $user = Auth::user();
+
+        $invoices = Invoice::select(
+            'project_id',
+            'client_id',
+            'total_amount',
+            'total_due_amount', // Add any other fields you need
+        );
+
+        if (!($user->hasRole('admin') || $user->is_super_admin)) {
+            // Add conditions for non-admin users
+            $invoices->whereHas('project', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
+        $allUsers = [];
+
+        // Add condition to retrieve all users if admin or super admin
+        if ($user->hasRole('admin') || $user->is_super_admin) {
+            // You may customize this condition based on your user structure
+            $allUsers = User::select(
+                'id',
+                'username',
+                'email', // Add any other fields you need
+            )->where('is_client', 1) // Add condition for is_client = 1
+
+                ->get();
+        }
+
+
+        $result = [
+            'all_invoices' => $invoices->get(),
+            'all_users' => $allUsers,
+        ];
+        return $result;
     }
 
 }
