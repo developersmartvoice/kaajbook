@@ -170,7 +170,7 @@ class PmHelperRepository
         // Task, Defect, Incident, project count by month.
         $data['count_by_month'] = $this->_getCountByMonths();
         $data['count_by_year'] = $this->_getCountByYear();
-        $data['all_invoice'] = $this->getAllInvoices();
+        $data['all_invoice_client_'] = $this->getAllInvoiceandClient();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -277,10 +277,11 @@ class PmHelperRepository
             $month = date('n', mktime(0, 0, 0, $i, 1));
             $result[$month] = [
                 "tasks" => 0,
-                "defects" => 0,
-                "incidents" => 0,
+                // "defects" => 0,
+                // "incidents" => 0,
                 "projects" => 0, // Add project count for each month
                 "project_bill" => 0, 
+                "project_id" => [], 
             ];
         }
 
@@ -290,22 +291,23 @@ class PmHelperRepository
             DB::raw('MONTH(task_start_date) month')
         );
 
-        $defects = Defect::select(
-            DB::raw('count(id) as `count`'),
-            DB::raw('YEAR(start_date) year'),
-            DB::raw('MONTH(start_date) month')
-        );
+        // $defects = Defect::select(
+        //     DB::raw('count(id) as `count`'),
+        //     DB::raw('YEAR(start_date) year'),
+        //     DB::raw('MONTH(start_date) month')
+        // );
 
-        $incidents = Incident::select(
-            DB::raw('count(id) as `count`'),
-            DB::raw('YEAR(start_date) year'),
-            DB::raw('MONTH(start_date) month')
-        );
+        // $incidents = Incident::select(
+        //     DB::raw('count(id) as `count`'),
+        //     DB::raw('YEAR(start_date) year'),
+        //     DB::raw('MONTH(start_date) month')
+        // );
 
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
             DB::raw('YEAR(created_at) year'),
-            DB::raw('MONTH(created_at) month')
+            DB::raw('MONTH(created_at) month'),
+            DB::raw('GROUP_CONCAT(id) as project_id'),
         );
 
         $invoices = Invoice::select(
@@ -318,8 +320,8 @@ class PmHelperRepository
         if ($user->hasRole('admin') || $user->is_super_admin) {
         } else {
             $tasks->where('assign_to', $user->id);
-            $defects->where('assign_member', $user->id);
-            $incidents->where('assign_to', $user->id);
+            // $defects->where('assign_member', $user->id);
+            // $incidents->where('assign_to', $user->id);
             $projects->where('user_id', $user->id); // Adjust this based on your project user assignment logic
             $invoices->whereHas('project', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -334,21 +336,21 @@ class PmHelperRepository
             $result[$value->month]['tasks'] = $value->count;
         }
 
-        // Defects
-        $defects = $defects->whereYear('start_date', date('Y'))
-            ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
-            ->get();
-        foreach ($defects as $key => $value) {
-            $result[$value->month]['defects'] = $value->count;
-        }
+        // // Defects
+        // $defects = $defects->whereYear('start_date', date('Y'))
+        //     ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
+        //     ->get();
+        // foreach ($defects as $key => $value) {
+        //     $result[$value->month]['defects'] = $value->count;
+        // }
 
-        // Incidents
-        $incidents = $incidents->whereYear('start_date', date('Y'))
-            ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
-            ->get();
-        foreach ($incidents as $key => $value) {
-            $result[$value->month]['incidents'] = $value->count;
-        }
+        // // Incidents
+        // $incidents = $incidents->whereYear('start_date', date('Y'))
+        //     ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
+        //     ->get();
+        // foreach ($incidents as $key => $value) {
+        //     $result[$value->month]['incidents'] = $value->count;
+        // }
 
         // Projects
         $projects = $projects->whereYear('created_at', date('Y'))
@@ -356,6 +358,7 @@ class PmHelperRepository
             ->get();
         foreach ($projects as $key => $value) {
             $result[$value->month]['projects'] = $value->count;
+            $result[$value->month]['project_id'] = explode(',', $value->project_id);
         }
 
          // Project Bill
@@ -382,12 +385,15 @@ class PmHelperRepository
             $yearlyProjects[$i] = [
                 "projects" => 0,
                 "project_bill" => 0,
+                "project_id" => [], // Add the new field
+
             ];
         }
 
         // Yearly project report processing
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
+            DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
             DB::raw('YEAR(created_at) year')
         );
 
@@ -416,6 +422,8 @@ class PmHelperRepository
 
         foreach ($yearlyProjectsData as $key => $value) {
             $yearlyProjects[$value->year]['projects'] = $value->count;
+            $yearlyProjects[$value->year]['project_id'] = explode(',', $value->project_id);
+
         }
 
         // Yearly project bill
@@ -438,7 +446,7 @@ class PmHelperRepository
     }
 
 
-    public function getAllInvoices()
+    public function getAllInvoiceandClient()
     {
         $user = Auth::user();
 
