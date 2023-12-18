@@ -168,9 +168,10 @@ class PmHelperRepository
         }
 
         // Task, Defect, Incident, project count by month.
-        $data['count_by_month'] = $this->_getCountByMonths();
-        $data['count_by_year'] = $this->_getCountByYear();
-        $data['all_invoice_client_'] = $this->getAllInvoiceandClient();
+        $data['count_by_month']['monthly_project'] = $this->_getCountByMonths();
+        $data['count_by_month']['all_invoice_client'] = $this->getAllInvoiceandClient();
+        $data['count_by_year']['yearly_project'] = $this->_getCountByYear();
+        $data['count_by_year']['all_invoice_client'] = $this->getAllInvoiceandClient();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -481,7 +482,7 @@ class PmHelperRepository
 
         $result = [
             'all_invoices' => $invoices->get(),
-            'all_users' => $allUsers,
+            'all_clients' => $allUsers,
         ];
         return $result;
     }

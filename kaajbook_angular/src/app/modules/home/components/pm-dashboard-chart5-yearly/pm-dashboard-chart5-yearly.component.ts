@@ -14,8 +14,8 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 	currentDate : Date = new Date();
 	barChartType = 'bar';
 	barChartLegend = true;
-	tasks = [];
-	defects = [];
+	project = [];
+	project_bill = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
@@ -27,6 +27,7 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 			yAxes: [{
 			  type: 'logarithmic', // Set the y-axis scale to logarithmic
 			  ticks: {
+				maxTicksLimit: 10, 
 				callback: function (value, index, values) {
 				  return Number(value.toString()); // Necessary to display values as numbers on the axis
 				}
@@ -40,7 +41,7 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 				let label = data.datasets[tooltipItem.datasetIndex].label || '';
 		
 				if (label === 'Price') {
-				  label += ': $' + tooltipItem.yLabel;
+				  label += ': ৳' + tooltipItem.yLabel;
 				} else {
 				  label += ': ' + tooltipItem.yLabel;
 				}
@@ -74,23 +75,31 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.barChartLabels = Object.keys(this.yearlyReport);
+		this.barChartLabels = Object.keys(this.yearlyReport.yearly_project);
 		this.renderChart();
 	}
 
 	renderChart() {
-		for(let iRow in this.yearlyReport) {
-			this.tasks.push(this.yearlyReport[iRow].projects);
-			this.defects.push(this.yearlyReport[iRow].project_bill);
-			// this.incidents.push(this.yearlyReport[iRow].incidents);
+		for (let iRow in this.yearlyReport.yearly_project) {
+			let projectCostForCurrentProject = 0;  // Initialize the project cost for the current project_id
+	
+			this.yearlyReport.yearly_project[iRow].project_id.forEach(project_id => {
+				this.yearlyReport.all_invoice_client.all_invoices.forEach(invoice => {
+					if (invoice.project_id == project_id) {
+						projectCostForCurrentProject += invoice.total_amount; // Accumulate project cost
+					}
+				});
+			});
+	
+			this.project.push(this.yearlyReport.yearly_project[iRow].project_id.length);
+			this.project_bill.push(projectCostForCurrentProject); // Push accumulated project cost for the current project_id
 		}
-
+	
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('projects.title') },
-			{ data: this.defects, label: this.translate.instant('projects.title_cost') },
-			// { data: this.incidents, label: this.translate.instant('incidents.title') }
+			{ data: this.project, label: this.translate.instant('projects.title') },
+			{ data: this.project_bill, label: this.translate.instant('projects.title_cost') },
 		];
-	}
+	}	
 
 
 }
