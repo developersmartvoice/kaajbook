@@ -14,8 +14,8 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 	currentDate : Date = new Date();
 	barChartType = 'bar';
 	barChartLegend = true;
-	tasks = [];
-	defects = [];
+	project = [];
+	project_bill = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
@@ -41,7 +41,7 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 				let label = data.datasets[tooltipItem.datasetIndex].label || '';
 		
 				if (label === 'Price') {
-				  label += ': $' + tooltipItem.yLabel;
+				  label += ': ৳' + tooltipItem.yLabel;
 				} else {
 				  label += ': ' + tooltipItem.yLabel;
 				}
@@ -77,16 +77,25 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 	}
 
 	renderChart() {
-		for(let iRow in this.monthlyReport) {
-			this.tasks.push(this.monthlyReport[iRow].projects);
-			this.defects.push(this.monthlyReport[iRow].project_bill);
-			// this.incidents.push(this.monthlyReport[iRow].incidents);
+
+		for (let iRow in this.monthlyReport.monthly_project) {
+			let projectCostForCurrentProject = 0;  // Initialize the project cost for the current project_id
+	
+			this.monthlyReport.monthly_project[iRow].project_id.forEach(project_id => {
+				this.monthlyReport.all_invoice_client.all_invoices.forEach(invoice => {
+					if (invoice.project_id == project_id) {
+						projectCostForCurrentProject += invoice.total_amount; // Accumulate project cost
+					}
+				});
+			});
+	
+			this.project.push(this.monthlyReport.monthly_project[iRow].project_id.length);
+			this.project_bill.push(projectCostForCurrentProject); // Push accumulated project cost for the current project_id
 		}
 
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('projects.title') },
-			{ data: this.defects, label: this.translate.instant('projects.title_cost') },
-			// { data: this.incidents, label: this.translate.instant('incidents.title') }
+			{ data: this.project, label: this.translate.instant('projects.title') },
+			{ data: this.project_bill, label: this.translate.instant('projects.title_cost') },
 		];
 	}
 

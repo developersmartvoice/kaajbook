@@ -2503,9 +2503,9 @@
 			}
 		],
 		"title": "Projects",
-		"title_bill": "Bill Amount (in million)",
-		"title_due": "Due Amount (in million)",
-		"title_cost": "Total Cost (in million)",
+		"title_bill": "Bill Amount",
+		"title_due": "Due Amount",
+		"title_cost": "Price",
 		"title1": "Create Project",
 		"title2": "Update Project",
 		"title3": "Import Project"
