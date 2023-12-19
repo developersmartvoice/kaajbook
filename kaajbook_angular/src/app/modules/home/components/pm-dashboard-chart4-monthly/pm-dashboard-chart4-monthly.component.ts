@@ -84,13 +84,13 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 			this.monthlyReport.monthly_project[iRow].project_id.forEach(project_id => {
 				this.monthlyReport.all_invoice_client.all_invoices.forEach(invoice => {
 					if (invoice.project_id == project_id) {
-						projectCostForCurrentProject += invoice.total_amount; // Accumulate project cost
+						projectCostForCurrentProject += Number(invoice.total_amount); // Accumulate project cost
 					}
 				});
 			});
 	
 			this.project.push(this.monthlyReport.monthly_project[iRow].project_id.length);
-			this.project_bill.push(projectCostForCurrentProject); // Push accumulated project cost for the current project_id
+			this.project_bill.push(Number(projectCostForCurrentProject)); // Push accumulated project cost for the current project_id
 		}
 
 		this.barChartData = [
