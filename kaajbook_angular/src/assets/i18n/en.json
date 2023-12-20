@@ -2506,6 +2506,7 @@
 		"title_bill": "Bill Amount",
 		"title_due": "Due Amount",
 		"title_cost": "Cost",
+		"title_invoice": "Invoice",
 		"title1": "Create Project",
 		"title2": "Update Project",
 		"title3": "Import Project"
