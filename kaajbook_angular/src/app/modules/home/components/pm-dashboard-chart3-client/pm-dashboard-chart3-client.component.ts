@@ -10,19 +10,32 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 export class PmDashboardChart3ClientComponent implements OnInit {
 
 
-	@Input() monthlyReport: any;
+	@Input() yearlyReport: any;
 	barChartLabels: string[] = [];
 	currentDate : Date = new Date();
 	barChartType = 'bar';
 	barChartLegend = true;
-	tasks = [];
-	defects = [];
+	invoice = [];
+	invoice_bill = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
 		scaleShowVerticalLines: false,
 		responsive: true,
 		maintainAspectRatio: false,
+
+		scales: {
+			yAxes: [{
+			  type: 'logarithmic', // Set the y-axis scale to logarithmic
+			  ticks: {
+				min: .9,
+				maxTicksLimit: 10, 
+				callback: function (value, index, values) {
+				  return Number(value.toString()); // Necessary to display values as numbers on the axis
+				}
+			  }
+			}]
+		  },
 
 		tooltips: {
 			callbacks: {
@@ -59,7 +72,7 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 
 	constructor(public translate: TranslateService) {
 		// this.barChartLabels = this.translate.instant('months');
-		this.barChartLabels = ['client1', 'client2', 'client3', 'client4', 'client5', 'client6', 'client7', 'client8', 'client9', 'client10', 'client11', 'client12'];
+		// this.barChartLabels = [ 'client4', 'client5', 'client6', 'client7', 'client8', 'client9', 'client10', 'client11', 'client12'];
 
 	}
 
@@ -68,18 +81,55 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 	}
 
 	renderChart() {
-		for(let iRow in this.monthlyReport) {
-			this.tasks.push(this.monthlyReport[iRow].tasks);
-			this.defects.push(this.monthlyReport[iRow].defects);
-			// this.incidents.push(this.monthlyReport[iRow].incidents);
-		}
+		let clientData = [];
+		// Get the keys (years) of yearly_project
+		const yearlyProjectKeys = Object.keys(this.yearlyReport.yearly_project);
 
+		// Get the last year dynamically
+		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
+
+		this.yearlyReport.yearly_project[thisYear].project_id.forEach(project_id => {
+			this.yearlyReport.all_invoice_client.all_invoices.forEach(invoice => {
+				if (invoice.project_id == project_id) {
+
+					// Update clientData for the current client_id
+					const existingClientIndex = clientData.findIndex(client => client.client_id === invoice.client_id);
+
+					if (existingClientIndex === -1) {
+						// If the client with the given client_id doesn't exist, add it
+						clientData.push({
+							client_id: invoice.client_id,
+							total_amount: Number(invoice.total_amount),
+							total_due_amount: Number(invoice.total_due_amount),
+							total_invoice: 1 
+						});
+					} else {
+						// If the client with the given client_id already exists, update its values
+						clientData[existingClientIndex].total_amount += Number(invoice.total_amount);
+						clientData[existingClientIndex].total_due_amount += Number(invoice.total_due_amount);
+						clientData[existingClientIndex].total_invoice += 1; 
+					}		
+				}
+			});
+		});
+
+		clientData.forEach(element => {
+			this.invoice.push(Number(element.total_invoice));
+			this.invoice_bill.push(Number(element.total_amount)); 
+
+			this.yearlyReport.all_invoice_client.all_clients.forEach(client => {
+				if (client.id == element.client_id) {
+					this.barChartLabels.push(client.username); 
+				}
+ 			});
+
+		});
+			
 		this.barChartData = [
-			{ data: this.tasks, label: this.translate.instant('projects.title') },
-			{ data: this.defects, label: this.translate.instant('projects.title_cost') },
-			// { data: this.incidents, label: this.translate.instant('incidents.title') }
-		];
-	}
+ 			{ data: this.invoice, label: this.translate.instant('projects.title_invoice') },
+			{ data: this.invoice_bill, label: this.translate.instant('projects.title_bill') },
+ 		];
+	}	
 
 
 }
