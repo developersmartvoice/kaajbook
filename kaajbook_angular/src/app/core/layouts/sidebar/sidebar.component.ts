@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	menuItems: Array<any>;
 	loginUser: User;
 	isSettingsLoad: boolean;
+	public versionNumber: string = '1.0.0' // Access version directly from environment file
 
 	constructor(
 		private route: ActivatedRoute,

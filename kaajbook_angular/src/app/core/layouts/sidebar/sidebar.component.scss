@@ -1,3 +1,23 @@
 .ps .ps__rail-x:hover, .ps .ps__rail-y:hover, .ps .ps__rail-x:focus, .ps .ps__rail-y:focus, .ps .ps__rail-x.ps--clicking, .ps .ps__rail-y.ps--clicking {
     background-color: transparent !important;
 }
+
+/* Existing styles for the sidebar */
+
+.version-number {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    color: #fff; /* White text color for better readability */
+    background: linear-gradient(90deg, #fdfdfd, #bb4af0);
+     -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  
+  
