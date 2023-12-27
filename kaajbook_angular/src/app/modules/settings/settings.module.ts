@@ -43,6 +43,7 @@ import { EstimateSettingsComponent } from './components/estimate-settings/estima
 import { InvoiceSettingsComponent } from './components/invoice-settings/invoice-settings.component';
 import { SlackSettingsComponent } from './components/slack-settings/slack-settings.component';
 import { PaypalGatewayComponent } from './components/paypal-gateway/paypal-gateway.component';
+import { VersionComponent } from './components/version/version.component';
 
 @NgModule({
 	declarations: [
@@ -66,7 +67,8 @@ import { PaypalGatewayComponent } from './components/paypal-gateway/paypal-gatew
 		EstimateSettingsComponent,
 		InvoiceSettingsComponent,
 		SlackSettingsComponent,
-		PaypalGatewayComponent
+		PaypalGatewayComponent,
+		VersionComponent
 	],
 	imports: [
 		CommonModule,
