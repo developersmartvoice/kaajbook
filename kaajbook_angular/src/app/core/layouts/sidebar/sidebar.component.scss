@@ -3,8 +3,7 @@
 }
 
 /* Existing styles for the sidebar */
-
-.version-number {
+  .version-number a {
     position: absolute;
     bottom: 10px;
     left: 0;
@@ -13,10 +12,12 @@
     font-size: 14px;
     font-weight: bold;
     font-style: italic;
-    color: #fff; /* White text color for better readability */
-    background: linear-gradient(90deg, #fdfdfd, #bb4af0);
-     -webkit-background-clip: text;
-    color: transparent;
+    color: #463f3aaa; 
+    text-decoration: none; /* Remove the default underline */
+    }
+  
+  .version-number a:hover {
+    color: #14213d; /* Set the desired text color on hover */
   }
   
   

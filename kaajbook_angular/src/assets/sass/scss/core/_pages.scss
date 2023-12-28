@@ -1846,6 +1846,148 @@ Project Planner
     }
 }
 
+.version-timeline-complete {
+    .card {
+        // height: 562px;
+        box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
+        margin-top: 0 !important;
+
+        .user-profile {
+            width: 30px;
+            height: 30px;
+            background-color: #fef6fb;
+            border-color: #fef6fb;
+            border-radius: 50%;
+        }
+
+        .badge {
+            padding: 6px 10px;
+            font-size: 70%;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+
+        }
+
+        .activity-user {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .activity-date {
+            font-size: 14px;
+            padding-right: 10px;
+        }
+
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+
+            &:before {
+                content: ' ';
+                background: #d4d9df;
+                display: inline-block;
+                position: absolute;
+                left: 18px;
+                width: 2px;
+                height: 100%;
+                z-index: 400;
+            }
+
+            >li {
+                margin: 20px 0;
+                padding-left: 4px;
+                line-height: 2;
+
+                &:before {
+                    content: url('/assets/img/complete.png'); /* Replace with the actual path to your tick mark image */
+                    display: inline-block;
+                    position: absolute;
+                    left: 11px;
+                    width: 8px; /* Adjust the width to your desired size */
+                    height: 8px; /* Adjust the height to your desired size */
+                    z-index: 400;
+                    background: none; /* Remove background color */
+                    border: none; 
+                }
+
+                p {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+.version-timeline-upcoming {
+    .card {
+        // height: 562px;
+        box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
+        margin-top: 0 !important;
+
+        .user-profile {
+            width: 30px;
+            height: 30px;
+            background-color: #fef6fb;
+            border-color: #fef6fb;
+            border-radius: 50%;
+        }
+
+        .badge {
+            padding: 6px 10px;
+            font-size: 70%;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+
+        }
+
+        .activity-user {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .activity-date {
+            font-size: 14px;
+            padding-right: 10px;
+        }
+
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+
+            &:before {
+                content: ' ';
+                background: #d4d9df;
+                display: inline-block;
+                position: absolute;
+                left: 18px;
+                width: 2px;
+                height: 100%;
+                z-index: 400;
+            }
+
+            >li {
+                margin: 20px 0;
+                padding-left: 4px;
+                line-height: 2;
+
+                &:before {
+                    content: url('/assets/img/upcoming.png'); /* Replace with the actual path to your tick mark image */
+                    display: inline-block;
+                    position: absolute;
+                    left: 11px;
+                    width: 8px; /* Adjust the width to your desired size */
+                    height: 8px; /* Adjust the height to your desired size */
+                    z-index: 400;
+                    background: none; /* Remove background color */
+                    border: none; 
+                }
+
+                p {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
 .overdue-icon {
     font-size: 20px;
     color: red
