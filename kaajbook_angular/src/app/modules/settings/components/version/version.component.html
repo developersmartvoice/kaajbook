@@ -1,18 +1,14 @@
-<div *ngFor="let activity of task.activities; index as i">
-    <div [ngClass]="{'version-timeline-upcoming': activity.id === 375 }" class="version-timeline-complete">
+<div *ngFor="let activity of versionLog.activities; index as i">
+    <div [ngClass]="{'version-timeline-upcoming': activity.released === false }" class="version-timeline-complete">
         <div class="card overflow-hidden shadow-none p-2">
             <div class="card-body"  >
                 <ul class="timeline pr-2">
                     <li class="d-flex flex-column">
                         <div class="d-flex flex-column flex-md-row justify-content-start justify-content-md-between">
-                            <a [routerLink]="['/users/profile', activity.user.id]" placement="top" tooltip="{{activity.user.firstname}} {{activity.user.lastname}}">
-                                <img src="../assets/img/profile_small.jpg" class="user-profile" alt="Profile Photo" *ngIf="!activity.user.avatar" />
-                                <!-- <img src="{{apiUrl}}/uploads/profile/{{activity.user.avatar}}" class="user-profile" alt="Profile Photo" *ngIf="activity.user.avatar" /> -->
-                                <span class="ml-1 activity-user">{{activity.user.firstname}} {{activity.user.lastname}}</span>
-                            </a>
-                            <a class="float-left activity-date" href="javascript:void(0)">
-                                <span class="badge badge-secondary">{{activity.diff_for_humans}}</span>
-                                <!-- {{activity.created_at | dateTimeFormatFilter: loginUser.settings.date_time_format }} -->
+                            <a >
+                                <img src="../assets/img/git.png" class="user-profile" alt="" *ngIf="activity.released" />
+                                <img src="../assets/img/git1.png" class="user-profile" alt="" *ngIf="!activity.released" />
+                                <span class="ml-1 activity-user">{{activity.version}} {{activity.releaseDate}}</span>
                             </a>
                         </div>
                         <p [innerHTML]="activity.description"></p>

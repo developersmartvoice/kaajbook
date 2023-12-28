@@ -1852,6 +1852,14 @@ Project Planner
         box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
         margin-top: 0 !important;
 
+        transition: transform 0.3s ease-in-out; // Adjust the duration and easing function
+
+        &:hover {
+            transform: scale(1.01); // Increase the scale factor for more zoom
+            box-shadow: 0 5px 10px rgba(233, 90, 178, 0.1) !important; // Add visible box shadow on hover
+
+          }
+
         .user-profile {
             width: 30px;
             height: 30px;
@@ -1870,7 +1878,8 @@ Project Planner
 
         .activity-user {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 100;
+            color: gray;
         }
 
         .activity-date {
@@ -1884,7 +1893,7 @@ Project Planner
 
             &:before {
                 content: ' ';
-                background: #d4d9df;
+                background: #fe7f2d;
                 display: inline-block;
                 position: absolute;
                 left: 18px;
@@ -1911,7 +1920,7 @@ Project Planner
                 }
 
                 p {
-                    font-size: 12px;
+                    font-size: 14px;
                 }
             }
         }
@@ -1922,6 +1931,14 @@ Project Planner
         // height: 562px;
         box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
         margin-top: 0 !important;
+
+        transition: transform 0.3s ease-in-out; // Adjust the duration and easing function
+
+        &:hover {
+            transform: scale(1.01); // Increase the scale factor for more zoom
+            box-shadow: 0 5px 10px rgba(233, 90, 178, 0.1) !important; // Add visible box shadow on hover
+
+          }
 
         .user-profile {
             width: 30px;
@@ -1941,7 +1958,8 @@ Project Planner
 
         .activity-user {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 100;
+            color: gray;
         }
 
         .activity-date {
@@ -1982,7 +2000,7 @@ Project Planner
                 }
 
                 p {
-                    font-size: 12px;
+                    font-size: 14px;
                 }
             }
         }
