@@ -9,6 +9,8 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 import { SettingService } from 'src/app/core/services/setting.service';
 
 import { environment } from 'src/environments/environment';
+import versionLog from 'src/assets/version';
+
 
 @Component({
 	selector: 'app-login',
@@ -18,6 +20,7 @@ import { environment } from 'src/environments/environment';
 
 export class LoginComponent implements OnInit {
 	private apiUrl = environment.apiUrl;
+	private currentVersion = versionLog.currentVersion;
 	loginForm: FormGroup;
 	settings: any;
 	isSettingsLoad: boolean;

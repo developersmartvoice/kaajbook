@@ -8,6 +8,8 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 
 import { sidebarCollpasedMenu } from '../../../core/helpers/app.helper';
 import { environment } from '../../../../environments/environment';
+import versionLog from 'src/assets/version';
+
 
 @Component({
 	selector: 'app-sidebar',
@@ -22,7 +24,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 	menuItems: Array<any>;
 	loginUser: User;
 	isSettingsLoad: boolean;
-	public versionNumber: string = '1.0.0' // Access version directly from environment file
+	public currentVersion: string = versionLog.currentVersion // Access version directly from environment file
 
 	constructor(
 		private route: ActivatedRoute,
