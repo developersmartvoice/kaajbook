@@ -1,16 +1,37 @@
 <div class="card card-height-chart">
 	<div class="card-header">
-		<h4 class="card-title">{{'dashboard.monthly' | translate}} {{currentDate | dateTimeFormatFilter: 'YYYY'}}</h4>
+		<h4 class="card-title">{{'dashboard.monthly_project' | translate}} {{currentDate | dateTimeFormatFilter: 'YYYY'}}</h4>
 	</div>
 	<div class="card-body">
 		<div class="card-block">
 			<div id="bar-bar1" class="height-300">
 				<canvas baseChart
 					class="chart"
-					[datasets]="barChartData"
+					[datasets]="barChartDataProject"
 					[labels]="barChartLabels"
 					[options]="barChartOptions"
-					[colors]="barChartColors"
+					[colors]="barChartColorsProject"
+					[legend]="barChartLegend"
+					[chartType]="barChartType">
+				</canvas>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-height-chart">
+	<div class="card-header">
+		<h4 class="card-title">{{'dashboard.monthly_cost' | translate}} {{currentDate | dateTimeFormatFilter: 'YYYY'}}</h4>
+	</div>
+	<div class="card-body">
+		<div class="card-block">
+			<div id="bar-bar1" class="height-300">
+				<canvas baseChart
+					class="chart"
+					[datasets]="barChartDataProjectBill"
+					[labels]="barChartLabels"
+					[options]="barChartOptions"
+					[colors]="barChartColorsProjectBill"
 					[legend]="barChartLegend"
 					[chartType]="barChartType">
 				</canvas>

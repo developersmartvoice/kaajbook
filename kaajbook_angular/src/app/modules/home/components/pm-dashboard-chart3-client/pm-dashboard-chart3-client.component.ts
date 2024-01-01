@@ -17,6 +17,7 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 	barChartLegend = true;
 	invoice = [];
 	invoice_bill = [];
+	invoice_due = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
@@ -115,7 +116,9 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 
 		clientData.forEach(element => {
 			this.invoice.push(Number(element.total_invoice));
-			this.invoice_bill.push(Number(element.total_amount)); 
+			this.invoice_bill.push(Number(element.total_amount));
+			this.invoice_due.push(Number(element.total_due_amount));
+ 
 
 			this.yearlyReport.all_invoice_client.all_clients.forEach(client => {
 				if (client.id == element.client_id) {
@@ -128,6 +131,8 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 		this.barChartData = [
  			{ data: this.invoice, label: this.translate.instant('projects.title_invoice') },
 			{ data: this.invoice_bill, label: this.translate.instant('projects.title_bill') },
+			{ data: this.invoice_due, label: this.translate.instant('projects.title_due') },
+
  		];
 	}	
 

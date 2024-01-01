@@ -17,7 +17,8 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 	project = [];
 	project_bill = [];
 	incidents = [];
-	barChartData: any[] = [];
+	barChartDataProject: any[] = [];
+	barChartDataProjectBill: any[] = [];
 	barChartOptions: any = {
 		scaleShowVerticalLines: false,
 		responsive: true,
@@ -51,15 +52,8 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 			}
 		  }
 	};
-	barChartColors: Array<any> = [{
+	barChartColorsProject: Array<any> = [{
 			backgroundColor: 'rgba(255, 141, 96, 0.8)',
-			borderColor: 'rgba(148,159,177,1)',
-			pointBackgroundColor: 'rgba(148,159,177,1)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-		}, {
-			backgroundColor: 'rgba(92, 184, 92, 0.7)',
 			borderColor: 'rgba(148,159,177,1)',
 			pointBackgroundColor: 'rgba(148,159,177,1)',
 			pointBorderColor: '#fff',
@@ -67,6 +61,16 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
 		}
 	];
+
+	barChartColorsProjectBill: Array<any> = [{
+		backgroundColor: 'rgba(92, 184, 92, 0.7)',
+		borderColor: 'rgba(148,159,177,1)',
+		pointBackgroundColor: 'rgba(148,159,177,1)',
+		pointBorderColor: '#fff',
+		pointHoverBackgroundColor: '#fff',
+		pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+	}
+];
 
 	constructor(public translate: TranslateService) {
 		// this.barChartLabels = this.translate.instant('months');
@@ -94,8 +98,12 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 			this.project.push(this.yearlyReport.yearly_project[iRow].project_id.length);
 			this.project_bill.push(Number(projectCostForCurrentProject)); // Push accumulated project cost for the current project_id
 		}
-		this.barChartData = [
+		this.barChartDataProject = [
 			{ data: this.project, label: this.translate.instant('projects.title') },
+			// { data: this.project_bill, label: this.translate.instant('projects.title_cost') },
+		];
+		this.barChartDataProjectBill = [
+			// { data: this.project, label: this.translate.instant('projects.title') },
 			{ data: this.project_bill, label: this.translate.instant('projects.title_cost') },
 		];
 	}	
