@@ -7,7 +7,7 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.1.8",
+    currentVersion: "1.1.9",
     activities: [
         {
             released: false,
