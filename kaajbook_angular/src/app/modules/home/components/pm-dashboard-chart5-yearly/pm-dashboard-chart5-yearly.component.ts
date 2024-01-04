@@ -96,7 +96,7 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 			});
 	
 			this.project.push(this.yearlyReport.yearly_project[iRow].project_id.length);
-			this.project_bill.push(Number(projectCostForCurrentProject)); // Push accumulated project cost for the current project_id
+			this.project_bill.push(Number(projectCostForCurrentProject.toFixed(2))); // Push accumulated project cost for the current project_id
 		}
 		this.barChartDataProject = [
 			{ data: this.project, label: this.translate.instant('projects.title') },

@@ -116,8 +116,8 @@ export class PmDashboardChart3ClientComponent implements OnInit {
 
 		clientData.forEach(element => {
 			this.invoice.push(Number(element.total_invoice));
-			this.invoice_bill.push(Number(element.total_amount));
-			this.invoice_due.push(Number(element.total_due_amount));
+			this.invoice_bill.push(Number(element.total_amount.toFixed(2)));
+			this.invoice_due.push(Number(element.total_due_amount.toFixed(2)));
  
 
 			this.yearlyReport.all_invoice_client.all_clients.forEach(client => {
