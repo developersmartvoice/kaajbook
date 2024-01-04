@@ -382,7 +382,7 @@ class PmHelperRepository
 
         // Yearly report initialization
         $yearlyProjects = [];
-        for ($i = date('Y'); $i >= date('Y') - 9; $i--) {
+        for ($i = date('Y'); $i >= date('Y') - 4; $i--) {
             $yearlyProjects[$i] = [
                 "projects" => 0,
                 "project_bill" => 0,

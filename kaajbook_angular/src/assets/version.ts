@@ -7,17 +7,35 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.1.9",
+    currentVersion: "1.2.0",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.0 -",
+            version: "VERSION 1.2.1 -",
             releaseDate: "RELEASED ---",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
               <li>Visual task report status</li>
+              <li>Client wise Monthly Project open and complete report on dashboard</li>
+              <li>Put figure name on graph</li>
+              <li>Instead of client yearly bill, Make it client till date bill report</li>
+              <li>In Task status, Here place Project Manager wise yearly Project open and complete report</li>
+            </ul>
+          `,
+        },
+        {
+            released: true,
+            version: "VERSION 1.2.0 -",
+            releaseDate: "RELEASED 04-01-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>Remove year from dashboard heading & data precision for 2 decimal</li>
+              <li>Project and cost graph order change to horizontal</li>
+              <li>Project graph show last 5 year data</li>
             </ul>
           `,
         },
