@@ -306,8 +306,8 @@ class PmHelperRepository
 
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
-            DB::raw('YEAR(created_at) year'),
-            DB::raw('MONTH(created_at) month'),
+            DB::raw('YEAR(start_date) year'),
+            DB::raw('MONTH(start_date) month'),
             DB::raw('GROUP_CONCAT(id) as project_id'),
         );
 
@@ -354,8 +354,8 @@ class PmHelperRepository
         // }
 
         // Projects
-        $projects = $projects->whereYear('created_at', date('Y'))
-            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+        $projects = $projects->whereYear('start_date', date('Y'))
+            ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
             ->get();
         foreach ($projects as $key => $value) {
             $result[$value->month]['projects'] = $value->count;
@@ -395,7 +395,7 @@ class PmHelperRepository
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
-            DB::raw('YEAR(created_at) year')
+            DB::raw('YEAR(start_date) year')
         );
 
         $invoices = Invoice::select(
@@ -414,11 +414,11 @@ class PmHelperRepository
         }
 
         // Yearly projects
-        $yearlyProjectsData = $projects->whereBetween('created_at', [
+        $yearlyProjectsData = $projects->whereBetween('start_date', [
             now()->subYears(9)->startOfYear(),
             now()->endOfYear()
         ])->groupBy(
-            DB::raw('YEAR(created_at)')
+            DB::raw('YEAR(start_date)')
         )->get();
 
         foreach ($yearlyProjectsData as $key => $value) {
