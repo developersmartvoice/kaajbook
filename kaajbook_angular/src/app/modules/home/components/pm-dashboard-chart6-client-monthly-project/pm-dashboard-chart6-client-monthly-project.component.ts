@@ -87,6 +87,7 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 
 		// Get the last year dynamically
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
+		console.log(this.yearlyReport);
 
 		this.yearlyReport.yearly_project[thisYear].project_id.forEach(project_id => {
 			this.yearlyReport.all_invoice_client.all_invoices.forEach(invoice => {

@@ -387,6 +387,7 @@ class PmHelperRepository
                 "projects" => 0,
                 "project_bill" => 0,
                 "project_id" => [], // Add the new field
+                "project_status" => [],
 
             ];
         }
@@ -395,7 +396,8 @@ class PmHelperRepository
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
-            DB::raw('YEAR(start_date) year')
+            DB::raw('YEAR(start_date) year'),
+            DB::raw('GROUP_CONCAT(status) as project_status')
         );
 
         $invoices = Invoice::select(
@@ -424,6 +426,7 @@ class PmHelperRepository
         foreach ($yearlyProjectsData as $key => $value) {
             $yearlyProjects[$value->year]['projects'] = $value->count;
             $yearlyProjects[$value->year]['project_id'] = explode(',', $value->project_id);
+            $yearlyProjects[$value->year]['project_status'] = explode(',', $value->project_status);
 
         }
 
