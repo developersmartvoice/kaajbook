@@ -89,7 +89,7 @@ export class PmDashboardChart7ClientYearlyProjectComponent implements OnInit {
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
 
 		this.yearlyReport.yearly_project[thisYear].project_id.forEach(project_id => {
-			this.yearlyReport.all_invoice_client.all_invoices.forEach(invoice => {
+			this.yearlyReport.all_invoice_client_user.all_invoices.forEach(invoice => {
 				if (invoice.project_id == project_id) {
 
 					// Update clientData for the current client_id
@@ -119,7 +119,7 @@ export class PmDashboardChart7ClientYearlyProjectComponent implements OnInit {
 			this.invoice_due.push(Number(element.total_due_amount.toFixed(2)));
  
 
-			this.yearlyReport.all_invoice_client.all_clients.forEach(client => {
+			this.yearlyReport.all_invoice_client_user.all_clients.forEach(client => {
 				if (client.id == element.client_id) {
 					this.barChartLabels.push(client.username); 
 				}

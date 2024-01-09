@@ -169,9 +169,9 @@ class PmHelperRepository
 
         // Task, Defect, Incident, project count by month.
         $data['count_by_month']['monthly_project'] = $this->_getCountByMonths();
-        $data['count_by_month']['all_invoice_client'] = $this->getAllInvoiceandClient();
+        $data['count_by_month']['all_invoice_client_user'] = $this->getAllInvoiceClientUser();
         $data['count_by_year']['yearly_project'] = $this->_getCountByYear();
-        $data['count_by_year']['all_invoice_client'] = $this->getAllInvoiceandClient();
+        $data['count_by_year']['all_invoice_client_user'] = $this->getAllInvoiceClientUser();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -388,6 +388,7 @@ class PmHelperRepository
                 "project_bill" => 0,
                 "project_id" => [], // Add the new field
                 "project_status" => [],
+                "project_user" => [],
 
             ];
         }
@@ -397,7 +398,8 @@ class PmHelperRepository
             DB::raw('count(id) as `count`'),
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
             DB::raw('YEAR(start_date) year'),
-            DB::raw('GROUP_CONCAT(status) as project_status')
+            DB::raw('GROUP_CONCAT(status) as project_status'),
+            DB::raw('GROUP_CONCAT(user_id) as project_user')
         );
 
         $invoices = Invoice::select(
@@ -427,6 +429,7 @@ class PmHelperRepository
             $yearlyProjects[$value->year]['projects'] = $value->count;
             $yearlyProjects[$value->year]['project_id'] = explode(',', $value->project_id);
             $yearlyProjects[$value->year]['project_status'] = explode(',', $value->project_status);
+            $yearlyProjects[$value->year]['project_user'] = explode(',', $value->project_user);
 
         }
 
@@ -450,7 +453,7 @@ class PmHelperRepository
     }
 
 
-    public function getAllInvoiceandClient()
+    public function getAllInvoiceClientUser()
     {
         $user = Auth::user();
 
@@ -468,12 +471,12 @@ class PmHelperRepository
             });
         }
 
-        $allUsers = [];
+        $all_clients = [];
 
         // Add condition to retrieve all users if admin or super admin
         if ($user->hasRole('admin') || $user->is_super_admin) {
             // You may customize this condition based on your user structure
-            $allUsers = User::select(
+            $all_clients = User::select(
                 'id',
                 'username',
                 'email', // Add any other fields you need
@@ -482,10 +485,24 @@ class PmHelperRepository
                 ->get();
         }
 
+        $all_users = [];
+
+        // Add condition to retrieve all users if admin or super admin
+        if ($user->hasRole('admin') || $user->is_super_admin) {
+            // You may customize this condition based on your user structure
+            $all_users = User::select(
+                'id',
+                'username',
+                'email', // Add any other fields you need
+            )
+                ->get();
+        }
+
 
         $result = [
             'all_invoices' => $invoices->get(),
-            'all_clients' => $allUsers,
+            'all_clients' => $all_clients,
+            'all_users' => $all_users,
         ];
         return $result;
     }

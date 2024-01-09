@@ -86,7 +86,7 @@ export class PmDashboardChart4MonthlyComponent implements OnInit {
 			let projectCostForCurrentProject = 0;  // Initialize the project cost for the current project_id
 	
 			this.monthlyReport.monthly_project[iRow].project_id.forEach(project_id => {
-				this.monthlyReport.all_invoice_client.all_invoices.forEach(invoice => {
+				this.monthlyReport.all_invoice_client_user.all_invoices.forEach(invoice => {
 					if (invoice.project_id == project_id) {
 						projectCostForCurrentProject += Number(invoice.total_amount); // Accumulate project cost
 					}
