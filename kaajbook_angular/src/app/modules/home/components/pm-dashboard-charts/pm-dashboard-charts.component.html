@@ -17,6 +17,9 @@
 	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_monthly_report_chart">
 		<app-pm-dashboard-chart3-client-bill [yearlyReport]="yearlyReport"></app-pm-dashboard-chart3-client-bill>
 	</div>
+	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_monthly_report_chart">
+		<app-pm-dashboard-chart8-yearly-project [yearlyReport]="yearlyReport"></app-pm-dashboard-chart8-yearly-project>
+	</div>
 	<div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_projects_status_chart">
 		<app-pm-dashboard-chart1 [projectChartReport]="projectChartReport"></app-pm-dashboard-chart1>
 	</div>

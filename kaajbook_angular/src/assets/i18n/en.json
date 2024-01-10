@@ -799,6 +799,7 @@
 		"client_yearly_bill": "Client Yearly Bill Report",
 		"client_monthly_project": "Client Monthly Project",
 		"client_yearly_project": "Client Yearly Project",
+		"pm_yearly_project": "Pm Yearly Project",
 		"estimate": "Estimates",
 		"invoices": "Due Invoices",
 		"widgets": {
@@ -2510,6 +2511,8 @@
 		"title": "Projects",
 		"title_bill": "Bill Amount",
 		"title_due": "Due Amount",
+		"project_open": "Project Open",
+		"project_complete": "Project Complete",
 		"title_cost": "Cost",
 		"title_invoice": "Invoice",
 		"title1": "Create Project",

@@ -52,6 +52,7 @@ import { PmDashboardChart3ClientComponent } from './components/pm-dashboard-char
 import { PmDashboardChart3ClientBillComponent } from './components/pm-dashboard-chart3-client-bill/pm-dashboard-chart3-client-bill.component';
 import { PmDashboardChart6ClientMonthlyProjectComponent } from './components/pm-dashboard-chart6-client-monthly-project/pm-dashboard-chart6-client-monthly-project.component';
 import { PmDashboardChart7ClientYearlyProjectComponent } from './components/pm-dashboard-chart7-client-yearly-project/pm-dashboard-chart7-client-yearly-project.component';
+import { PmDashboardChart8YearlyProjectComponent } from './components/pm-dashboard-chart8-yearly-project/pm-dashboard-chart8-yearly-project.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 	suppressScrollX: true
@@ -80,7 +81,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		PmDashboardChart3ClientComponent,
 		PmDashboardChart3ClientBillComponent,
 		PmDashboardChart6ClientMonthlyProjectComponent,
-		PmDashboardChart7ClientYearlyProjectComponent
+		PmDashboardChart7ClientYearlyProjectComponent,
+		PmDashboardChart8YearlyProjectComponent
 	],
 	imports: [
 		CommonModule,
