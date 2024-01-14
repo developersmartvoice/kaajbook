@@ -399,7 +399,7 @@ class PmHelperRepository
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
             DB::raw('YEAR(start_date) year'),
             DB::raw('GROUP_CONCAT(status) as project_status'),
-            DB::raw('GROUP_CONCAT(user_id) as project_user')
+            DB::raw('GROUP_CONCAT(SUBSTRING_INDEX(assign_members, ",", 1)) as project_user')
         );
 
         $invoices = Invoice::select(

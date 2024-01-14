@@ -89,6 +89,14 @@ export class PmDashboardChart8YearlyProjectComponent implements OnInit {
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
     console.log(this.yearlyReport);
 
+	// add dummy user for unassigned project
+	this.yearlyReport.all_invoice_client_user.all_users.push( {
+        "id": "Unassign",
+        "username": "Unassigned",
+        "email": "elias@smart-voice.biz",
+        "full_name": " "
+    },);
+
 		this.yearlyReport.yearly_project[thisYear].project_id.forEach((project_id, index) => {
 
       let current_project_status = this.yearlyReport.yearly_project[thisYear].project_status[index];
