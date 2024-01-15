@@ -172,6 +172,7 @@ class PmHelperRepository
         $data['count_by_month']['all_invoice_client_user'] = $this->getAllInvoiceClientUser();
         $data['count_by_year']['yearly_project'] = $this->_getCountByYear();
         $data['count_by_year']['all_invoice_client_user'] = $this->getAllInvoiceClientUser();
+        $data['count_by_year']['current_month_project'] = $this->_getCountByMonthlyProject();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -374,6 +375,51 @@ class PmHelperRepository
         return $result;
     }
 
+    public function _getCountByMonthlyProject()
+    {
+        $user = Auth::user();
+        $result = [];
+
+        // Monthly report initialization
+        $monthlyProjects = [];
+
+        // Initialize only for the current month
+        $currentMonth = now()->month;
+        $monthlyProjects[$currentMonth] = [
+            "project_id" => [],
+            "project_status" => [],
+            "project_user" => [],
+            "project_client" => [],
+        ];
+
+        // Monthly project report processing
+        $projects = Project::select(
+            DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
+            DB::raw('GROUP_CONCAT(status) as project_status'),
+            DB::raw('GROUP_CONCAT(SUBSTRING_INDEX(assign_members, ",", 1)) as project_user'),
+            DB::raw('GROUP_CONCAT(COALESCE(client_id, "Unassign")) as project_client')
+        );
+
+        if ($user->hasRole('admin') || $user->is_super_admin) {
+            // No additional conditions for admin
+        } else {
+            // Add conditions for non-admin users
+            $projects->where('user_id', $user->id);
+        }
+
+        // Monthly projects
+        $monthlyProjectsData = $projects->whereMonth('start_date', '=', $currentMonth)->get();
+
+        foreach ($monthlyProjectsData as $value) {
+            $monthlyProjects[$currentMonth]['project_id'] = explode(',', $value->project_id);
+            $monthlyProjects[$currentMonth]['project_status'] = explode(',', $value->project_status);
+            $monthlyProjects[$currentMonth]['project_user'] = explode(',', $value->project_user);
+            $monthlyProjects[$currentMonth]['project_client'] = explode(',', $value->project_client);
+        }
+
+        // return $result;
+        return $monthlyProjects;
+    }
 
     public function _getCountByYear()
     {

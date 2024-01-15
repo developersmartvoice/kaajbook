@@ -15,8 +15,8 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 	barChartType = 'bar';
 	barChartLegend = true;
 	invoice = [];
-	invoice_bill = [];
-	invoice_due = [];
+	project_open = [];
+	project_complete = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
@@ -81,59 +81,70 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 	}
 
 	renderChart() {
-		let clientData = [];
+		let pmData = [];
 		// Get the keys (years) of yearly_project
-		const yearlyProjectKeys = Object.keys(this.yearlyReport.yearly_project);
+		const yearlyProjectKeys = Object.keys(this.yearlyReport.current_month_project);
 
 		// Get the last year dynamically
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
-		// console.log(this.yearlyReport);
 
-		this.yearlyReport.yearly_project[thisYear].project_id.forEach(project_id => {
-			this.yearlyReport.all_invoice_client_user.all_invoices.forEach(invoice => {
-				if (invoice.project_id == project_id) {
+		// add dummy user for unassigned project
+		this.yearlyReport.all_invoice_client_user.all_users.push( {
+			"id": "Unassign",
+			"username": "Unassigned",
+			"email": " ",
+			"full_name": " "
+		},);
 
-					// Update clientData for the current client_id
-					const existingClientIndex = clientData.findIndex(client => client.client_id === invoice.client_id);
+		this.yearlyReport.current_month_project[thisYear].project_id.forEach((project_id, index) => {
 
-					if (existingClientIndex === -1) {
-						// If the client with the given client_id doesn't exist, add it
-						clientData.push({
-							client_id: invoice.client_id,
-							total_amount: Number(invoice.total_amount),
-							total_due_amount: Number(invoice.total_due_amount),
-							total_invoice: 1 
+		let current_project_status = this.yearlyReport.current_month_project[thisYear].project_status[index];
+		let current_project_client = this.yearlyReport.current_month_project[thisYear].project_client[index];
+		
+ 		this.yearlyReport.all_invoice_client_user.all_users.forEach(user => {
+			if (user.id == current_project_client) {
+
+		// Update pmData for the current user_id
+		const existingUserIndex = pmData.findIndex(user => user.user_id === current_project_client);
+          let project_complete_count = 0;
+            if (current_project_status == 5) {
+              project_complete_count = 1;
+            }
+
+					if (existingUserIndex === -1) {
+						// If the user with the given user_id doesn't exist, add it
+            
+						pmData.push({
+							user_id: current_project_client,
+							project_open: 1,
+							project_complete: project_complete_count,
 						});
 					} else {
-						// If the client with the given client_id already exists, update its values
-						clientData[existingClientIndex].total_amount += Number(invoice.total_amount);
-						clientData[existingClientIndex].total_due_amount += Number(invoice.total_due_amount);
-						clientData[existingClientIndex].total_invoice += 1; 
+						// If the user with the given user_id already exists, update its values
+						pmData[existingUserIndex].project_open += 1;
+						pmData[existingUserIndex].project_complete += project_complete_count;
 					}		
 				}
 			});
 		});
 
-		clientData.forEach(element => {
-			this.invoice.push(Number(element.total_invoice));
-			this.invoice_bill.push(Number(element.total_amount.toFixed(2)));
-			this.invoice_due.push(Number(element.total_due_amount.toFixed(2)));
+		pmData.forEach(element => {
+			this.project_open.push(Number(element.project_open.toFixed(2)));
+			this.project_complete.push(Number(element.project_complete.toFixed(2)));
  
 
-			this.yearlyReport.all_invoice_client_user.all_clients.forEach(client => {
-				if (client.id == element.client_id) {
-					this.barChartLabels.push(client.username); 
+			this.yearlyReport.all_invoice_client_user.all_users.forEach(user => {
+				if (user.id == element.user_id) {
+					this.barChartLabels.push(user.username); 
 				}
  			});
 
 		});
 			
 		this.barChartData = [
- 			{ data: this.invoice, label: this.translate.instant('projects.title_invoice') },
-			{ data: this.invoice_bill, label: this.translate.instant('projects.title_bill') },
-			{ data: this.invoice_due, label: this.translate.instant('projects.title_due') },
+			{ data: this.project_open, label: this.translate.instant('projects.project_open') },
+			{ data: this.project_complete, label: this.translate.instant('projects.project_complete') },
 
  		];
-	}	
-
+	}
 }
