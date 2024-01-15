@@ -389,6 +389,7 @@ class PmHelperRepository
                 "project_id" => [], // Add the new field
                 "project_status" => [],
                 "project_user" => [],
+                "project_client" => [],
 
             ];
         }
@@ -399,7 +400,8 @@ class PmHelperRepository
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
             DB::raw('YEAR(start_date) year'),
             DB::raw('GROUP_CONCAT(status) as project_status'),
-            DB::raw('GROUP_CONCAT(SUBSTRING_INDEX(assign_members, ",", 1)) as project_user')
+            DB::raw('GROUP_CONCAT(SUBSTRING_INDEX(assign_members, ",", 1)) as project_user'),
+            DB::raw('GROUP_CONCAT(COALESCE(client_id, "Unassign")) as project_client')
         );
 
         $invoices = Invoice::select(
@@ -430,6 +432,7 @@ class PmHelperRepository
             $yearlyProjects[$value->year]['project_id'] = explode(',', $value->project_id);
             $yearlyProjects[$value->year]['project_status'] = explode(',', $value->project_status);
             $yearlyProjects[$value->year]['project_user'] = explode(',', $value->project_user);
+            $yearlyProjects[$value->year]['project_client'] = explode(',', $value->project_client);
 
         }
 

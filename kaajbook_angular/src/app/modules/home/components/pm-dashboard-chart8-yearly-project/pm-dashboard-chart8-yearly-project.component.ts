@@ -93,7 +93,7 @@ export class PmDashboardChart8YearlyProjectComponent implements OnInit {
 	this.yearlyReport.all_invoice_client_user.all_users.push( {
         "id": "Unassign",
         "username": "Unassigned",
-        "email": "elias@smart-voice.biz",
+        "email": "",
         "full_name": " "
     },);
 
