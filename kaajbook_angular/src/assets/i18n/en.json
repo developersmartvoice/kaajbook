@@ -797,6 +797,7 @@
 		"yearly_cost": "Yearly Cost Report",
 		"client_yearly": "Client Yearly Report",
 		"client_yearly_bill": "Client Yearly Bill Report",
+		"client_tilldate_bill": "Client Till Date Bill Report",
 		"client_monthly_project": "Client Monthly Project",
 		"client_yearly_project": "Client Yearly Project",
 		"pm_yearly_project": "Pm Yearly Project",

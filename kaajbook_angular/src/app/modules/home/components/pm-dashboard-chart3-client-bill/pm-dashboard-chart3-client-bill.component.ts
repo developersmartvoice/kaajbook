@@ -81,13 +81,8 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 
 	renderChart() {
 		let clientData = [];
-		// Get the keys (years) of yearly_project
-		const yearlyProjectKeys = Object.keys(this.yearlyReport.yearly_project);
-
-		// Get the last year dynamically
-		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
-
-		this.yearlyReport.yearly_project[thisYear].project_id.forEach(project_id => {
+	
+		this.yearlyReport.till_date_project.project_id.forEach(project_id => {
 			this.yearlyReport.all_invoice_client_user.all_invoices.forEach(invoice => {
 				if (invoice.project_id == project_id) {
 

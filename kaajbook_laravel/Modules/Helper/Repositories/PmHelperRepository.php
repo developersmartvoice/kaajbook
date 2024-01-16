@@ -173,6 +173,7 @@ class PmHelperRepository
         $data['count_by_year']['yearly_project'] = $this->_getCountByYear();
         $data['count_by_year']['all_invoice_client_user'] = $this->getAllInvoiceClientUser();
         $data['count_by_year']['current_month_project'] = $this->_getCountByMonthlyProject();
+        $data['count_by_year']['till_date_project'] = $this->_getCountByTillDateProject();
 
         // Projects.
         $data['projects'] = $projects->whereNotIn('status', [4, 5])->orderBy('created_at', 'DESC')
@@ -421,6 +422,38 @@ class PmHelperRepository
         return $monthlyProjects;
     }
 
+    public function _getCountByTillDateProject()
+    {
+        $user = Auth::user();
+        $result = [];
+
+        // Initialize for all projects
+        $allProjects = [
+            "project_id" => [],
+        ];
+
+        // All project report processing
+        $projects = Project::select(
+            DB::raw('GROUP_CONCAT(id) as project_id') // Concatenate project IDs
+        );
+
+        if ($user->hasRole('admin') || $user->is_super_admin) {
+            // No additional conditions for admin
+        } else {
+            // Add conditions for non-admin users
+            $projects->where('user_id', $user->id);
+        }
+
+        // All projects
+        $allProjectsData = $projects->get();
+
+        foreach ($allProjectsData as $value) {
+            $allProjects['project_id'] = explode(',', $value->project_id);
+        }
+
+        // return $result;
+        return $allProjects;
+    }
     public function _getCountByYear()
     {
         $user = Auth::user();
