@@ -2373,6 +2373,7 @@
 			"actions": "Actions",
 			"assigned_To": "Assigned To",
 			"billing": "Billing",
+			"bill_amount": "Bill Amount",
 			"budget": "Budget",
 			"client": "Client",
 			"completion": "Completion",
