@@ -64,9 +64,9 @@
                                 </ng-container>
                             </td>
                             <td>
-                                <ng-container *ngIf="project.billing_type; else elseBlock2;">
-                                    <ng-container *ngFor="let type of ('projects.billing_types' | translate)">
-                                        <span class="badge badge-secondary" *ngIf="type.id == project.billing_type">{{type.label}}</span>
+                                <ng-container *ngIf="project.total_amount; else elseBlock2;">
+                                    <ng-container>
+                                        <span class="badge badge-secondary">{{project.total_amount}}</span>
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #elseBlock2>-</ng-template>

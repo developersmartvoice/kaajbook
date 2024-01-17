@@ -18,6 +18,8 @@ use Modules\Team\Models\Team;
 use Modules\UserActivity\Models\UserActivity;
 use Modules\User\Models\User\User;
 use Storage;
+use Modules\Invoice\Models\Invoice;
+
 
 /**
  * Class ProjectRepository
@@ -1220,12 +1222,47 @@ class ProjectRepository
             ->orderBy($order, $dir)
             ->get();
 
-        return array(
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
+        // Retrieve all invoices for the user
+        $invoices = Invoice::select(
+            'project_id',
+            'client_id',
+            'total_amount',
+            'total_due_amount'
         );
+
+        // if (!($user->hasRole('admin') || $user->is_super_admin)) {
+        //     // Add conditions for non-admin users
+        //     $invoices->whereHas('project', function ($query) use ($user) {
+        //         $query->where('user_id', $user->id);
+        //     });
+        // }
+
+        $allInvoices = $invoices->get();
+
+        // Initialize sum variables
+        $totalAmountSum = 0;
+        $totalDueAmountSum = 0;
+
+       // Iterate over each project in the $data collection
+        $data->each(function ($project) use ($allInvoices, &$totalAmountSum, &$totalDueAmountSum) {
+            // Filter invoices based on the project_id
+            $matchingInvoices = $allInvoices->where('project_id', $project->id);
+
+            // Calculate the sum of 'total_amount' and 'total_due_amount'
+            $totalAmountSum = $matchingInvoices->sum('total_amount');
+            $totalDueAmountSum = $matchingInvoices->sum('total_due_amount');
+
+            // Add additional fields to the existing project object
+            $project->total_amount = $totalAmountSum;
+            $project->total_due_amount = $totalDueAmountSum;
+        });
+
+            return array(
+                "draw" => intval($request->input('draw')),
+                "recordsTotal" => intval($totalData),
+                "recordsFiltered" => intval($totalFiltered),
+                "data" => $data,
+            );
     }
 
     /**
