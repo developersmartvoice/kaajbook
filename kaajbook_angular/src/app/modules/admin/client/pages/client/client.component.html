@@ -18,6 +18,7 @@
 										<th>{{'clients.columns.username' | translate}}</th>
 										<th>{{'clients.columns.company_name' | translate}}</th>
 										<th>{{'clients.columns.company_email' | translate}}</th>
+										<th>Login</th>
 										<th>{{'clients.columns.status' | translate}}</th>
 										<th>{{'clients.columns.departments_roles' | translate}}</th>
 										<th>{{'clients.columns.actions' | translate}}</th>
@@ -50,6 +51,11 @@
 										</td>
 										<td>{{client.clients.company_name}}</td>
 										<td>{{client.clients.company_email}}</td>
+										<td class="people-lists">
+											<a  (click)="loginToAnyUser(client.username)" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="Login to {{client.firstname}} {{client.lastname}}">
+ 												<img src="../assets/img/login.png" class="img-sm rounded-circle" alt="Profile" />
+											</a>									
+										</td>
 										<td class="text-center">
 											<div *ngxPermissionsOnly="['admin', 'super_admin', 'clients_edit']; else elseBlock; then thenBlock"></div>
 											<ng-template #elseBlock>

@@ -137,6 +137,22 @@ class AuthController extends Controller
 	 */
 	public function login(LoginUserRequest $request)
 	{
+
+    // Check if the currently logged-in user is a super admin
+    $currentUser = auth()->user();
+
+	// super admin can login as any user
+    if ($currentUser && $currentUser->is_super_admin) {
+        // Attempt to log in the other user
+        $userToLogin = User::where('username', $request->get('email'))->first();
+
+        if ($userToLogin && $userToLogin->is_active) {
+            $token = auth()->login($userToLogin);
+            return $this->respondWithToken($token);
+        } else {
+            return response()->json(['error' => 'User not found or not active'], 400);
+        }
+    }  	
 		// --
 		// Credentials
 		$credentials = $this->credentials($request);

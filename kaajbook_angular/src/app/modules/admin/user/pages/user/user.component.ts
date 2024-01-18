@@ -15,6 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxRolesService, NgxPermissionsService } from 'ngx-permissions';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { first } from 'rxjs/operators';
+
 
 import { UserService } from '../../../../../core/services/user.service';
 import { AuthenticationService } from '../../../../../core/services/authentication.service';
@@ -119,13 +121,18 @@ export class UserComponent implements OnInit {
 				},
 				{
 					'sortable': false,
-					'width': "30%",
+					'width': "5%",
 					'target': [5]
 				},
 				{
 					'sortable': false,
-					'width': "5%",
+					'width': "30%",
 					'target': [6]
+				},
+				{
+					'sortable': false,
+					'width': "5%",
+					'target': [7]
 				}
 			],
 			buttons: [
@@ -379,5 +386,19 @@ export class UserComponent implements OnInit {
 					this.toastr.success(this.translate.instant('users.messages.update'), this.translate.instant('users.title'));
 					this.rerender();
 				});
+	}
+
+	loginToAnyUser(username) {
+		if(this.loginUser.is_super_admin) {
+			this.authenticationService.login(username, username)
+			.pipe(first())
+			.subscribe(
+				data => {
+					this.router.navigate(['dashboard']);
+				});
+		}
+		else {
+			this.router.navigate(['login']);
+		}
 	}
 }

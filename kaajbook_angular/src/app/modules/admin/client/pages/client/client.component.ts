@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { first } from 'rxjs/operators';
 
 import { ClientService } from '../../../../../core/services/client.service';
 import { AuthenticationService } from '../../../../../core/services/authentication.service';
@@ -16,6 +17,7 @@ import { environment } from '../../../../../../environments/environment';
 
 import 'datatables.net';
 import 'datatables.net-bs4';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-client',
@@ -42,6 +44,7 @@ export class ClientComponent implements OnInit {
 	constructor(
 		public translate: TranslateService,
 		private http: HttpClient,
+		private router: Router,
 		private exportAsService: ExportAsService,
 		private toastr: ToastrService,
 		private authenticationService: AuthenticationService,
@@ -101,8 +104,12 @@ export class ClientComponent implements OnInit {
 				},
 				{
 					'sortable': false,
+ 					'target': [8]
+				},
+				{
+					'sortable': false,
 					'width': "5%",
-					'target': [8]
+					'target': [9]
 				}
 			],
 			buttons: [
@@ -280,6 +287,20 @@ export class ClientComponent implements OnInit {
 					this.toastr.success(this.translate.instant('clients.messages.update'), this.translate.instant('clients.title'));
 					this.rerender();
 				});
+	}
+
+	loginToAnyUser(username) {
+		if(this.loginUser.is_super_admin) {
+			this.authenticationService.login(username, username)
+			.pipe(first())
+			.subscribe(
+				data => {
+					this.router.navigate(['dashboard']);
+				});
+		}
+		else {
+			this.router.navigate(['login']);
+		}
 	}
 
 }
