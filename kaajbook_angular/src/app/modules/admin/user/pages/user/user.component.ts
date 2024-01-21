@@ -115,7 +115,7 @@ export class UserComponent implements OnInit {
 					'target': [3]
 				},
 				{
-					'sortable': true,
+					'sortable': false,
 					'width': "8%",
 					'target': [4]
 				},

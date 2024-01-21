@@ -95,7 +95,7 @@ export class ClientComponent implements OnInit {
 					'target': [5]
 				},
 				{
-					'sortable': true,
+					'sortable': false,
 					'target': [6]
 				},
 				{
