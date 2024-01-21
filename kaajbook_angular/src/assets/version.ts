@@ -7,21 +7,35 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.0",
+    currentVersion: "1.2.1",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.1 -",
+            version: "VERSION 1.2.2 -",
             releaseDate: "RELEASED ---",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>Visual task report status</li>
-              <li>Client wise Monthly Project open and complete report on dashboard</li>
-              <li>Put figure name on graph</li>
-              <li>Instead of client yearly bill, Make it client till date bill report</li>
-              <li>In Task status, Here place Project Manager wise yearly Project open and complete report</li>
+              <li>Download all attachment from project</li>
+              <li>Change in invoice formate.</li>
+            </ul>
+          `,
+        },
+        {
+            released: false,
+            version: "VERSION 1.2.1 -",
+            releaseDate: "RELEASED 21-01-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>Implemented HTTPS with SSL certificate to enforce secure communication</li>
+              <li>Yearly project open,complete chart based on project 1st Client (if no client assing then show unassigned)</li>
+              <li>Monthly project open,complete chart based on project Client</li>
+              <li>Add Client till date bill report chart</li>
+              <li>Remove hour and add bill amount in project report</li>
+              <li>Yearly project open,complete chart based on project assigned user</li>
             </ul>
           `,
         },
