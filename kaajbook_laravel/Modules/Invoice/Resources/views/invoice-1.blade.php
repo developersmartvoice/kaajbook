@@ -20,7 +20,7 @@
         margin: 12% auto;
         color: #333333;
         background: #FFFFFF;
-        font-size: 14px;
+        font-size: 10px;
         font-family: 'Poppins', sans-serif !important;
     }
 
@@ -35,7 +35,7 @@
         padding: 8px 10px 8px 10px;
         background: #fdfdfd;
         text-align: center;
-        font-size: 14px !important;
+        font-size: 10px !important;
     }
 
     table th {
@@ -70,7 +70,7 @@
     }
 
     table td.qty {
-        font-size: 14px;
+        font-size: 10px;
         text-align: center;
     }
 
@@ -93,7 +93,7 @@
 
     table tfoot td {
         background: #FFFFFF;
-        font-size: 14px;
+        font-size: 10px;
         white-space: nowrap;
         border-bottom: 1px solid #ededed;
     }
@@ -107,7 +107,7 @@
     }
 
     thead th {
-        font-size: 14px !important;
+        font-size: 10px !important;
         font-weight: bold;
         padding: 10px 10px;
         border-top: 1px solid #ededed;
@@ -119,7 +119,7 @@
     }
 
     .total td {
-        font-size: 16px !important;
+        font-size: 12px !important;
         font-weight: bold;
         color: #000000;
     }
@@ -127,18 +127,18 @@
     p {
         margin-top: 4px;
         margin-bottom: 4px;
-        font-size: 14px;
+        font-size: 10px;
     }
 
     .item {
         color: #000000;
-        font-size: 14px;
+        font-size: 10px;
         margin: 0 0 0 0;
         font-weight: bold;
     }
 
     .cpy-info {
-        font-size: 14px;
+        font-size: 10px;
         letter-spacing: 0.6px;
         margin-top: 2px;
         font-weight: normal;
@@ -152,7 +152,7 @@
         text-align: center;
         display: inline-block;*/
         font-weight: bolder;
-        font-size: 18px !important;
+        font-size: 14px !important;
     }
 
     .status.unpaid {
@@ -205,13 +205,17 @@
     }
 
     .f-12 {
-        font-size: 12px !important;
+        font-size: 8px !important;
     }
 
     .logo img {
         max-width: 150px;
     }
 
+     .custom-textarea {
+        width: 100%;
+        height: 20%;  
+      }
     </style>
 </head>
 
@@ -271,6 +275,12 @@
                 </tr>
             </thead>
         </table>
+     <!-- Add two square areas with textareas -->
+    <div>
+         <textarea id="textbox1" name="textbox1" class="custom-textarea"></textarea>
+         <textarea id="textbox2" name="textbox2" class="custom-textarea"></textarea>
+    </div>
+
     </header>
     <main>
         <table class="custom-border" cellspacing="0" cellpadding="0">
