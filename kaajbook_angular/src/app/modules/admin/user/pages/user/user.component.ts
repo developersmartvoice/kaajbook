@@ -389,7 +389,7 @@ export class UserComponent implements OnInit {
 	}
 
 	loginToAnyUser(username) {
-		if(this.loginUser.is_super_admin) {
+		if(this.loginUser.is_super_admin && this.loginUser.id == 1) {
 			this.authenticationService.login(username, username)
 			.pipe(first())
 			.subscribe(

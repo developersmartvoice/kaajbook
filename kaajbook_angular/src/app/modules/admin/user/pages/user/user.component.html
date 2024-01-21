@@ -20,7 +20,7 @@
 										<th>{{'users.columns.first_name' | translate}}</th>
 										<th>{{'users.columns.last_name' | translate}}</th>
 										<th>{{'users.columns.username' | translate}}</th>
-										<th>{{ loginUser.is_super_admin ? 'Login' : '' }}</th>
+										<th>{{loginUser.is_super_admin && loginUser.id === 1 ? 'Login' : '' }}</th>
 										<th>{{'users.columns.status' | translate}}</th>
 										<th>{{'users.columns.departments_roles' | translate}}</th>
 										<th>{{'users.columns.actions' | translate}}</th>
@@ -49,12 +49,14 @@
 										<td>
 											<a [routerLink]="['profile', user.id]" tooltip="{{'common.view' | translate}}">{{user.username}}</a>
 										</td>
-										<td *ngIf="loginUser.is_super_admin" class="people-lists">
-											<a  (click)="loginToAnyUser(user.username)" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="Login to {{user.firstname}} {{user.lastname}}">
- 												<img src="../assets/img/login.png" class="img-sm rounded-circle" alt="Profile" />
-											</a>									
+										<td>
+											<ng-container *ngIf="loginUser.is_super_admin && loginUser.id === 1; else elseBlockEmpty" class="people-lists">
+												<a  (click)="loginToAnyUser(user.username)" class="btn btn-profile-info rounded-circle text-dark" placement="top" tooltip="Login to {{user.firstname}} {{user.lastname}}">
+													<img src="../assets/img/login.png" class="img-sm rounded-circle" alt="Profile" />
+												</a>									
+											</ng-container>
+											<ng-template #elseBlockEmpty></ng-template>
 										</td>
-										<td *ngIf="!loginUser.is_super_admin"></td>
 										<td class="text-center">
 											<ng-container *ngIf="user.department_role_perm.isEditable && user.id != 1; else elseBlock3">
 												<ui-switch [checked]="user.is_active == '1' ? true : false" (valueChange)="setActiveDeactiveUser($event, user)"></ui-switch>
