@@ -87,7 +87,7 @@ export class PmDashboardChart8YearlyProjectComponent implements OnInit {
 
 		// Get the last year dynamically
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
-    console.log(this.yearlyReport);
+    // console.log(this.yearlyReport);
 
 	// add dummy user for unassigned project
 	this.yearlyReport.all_invoice_client_user.all_users.push( {
