@@ -72,6 +72,14 @@ export class TaskReportsComponent implements OnInit {
 					'sortable': true,
 					'target': [1]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [2]
+				// },
+				// {
+				// 	'sortable': true,
+				// 	'target': [3]
+				// },
 				{
 					'sortable': true,
 					'target': [2]
@@ -80,46 +88,38 @@ export class TaskReportsComponent implements OnInit {
 					'sortable': true,
 					'target': [3]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [6]
+				// },
 				{
 					'sortable': true,
 					'target': [4]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [8]
+				// },
 				{
 					'sortable': true,
 					'target': [5]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [10]
+				// },
+				// {
+				// 	'sortable': true,
+				// 	'target': [11]
+				// },
 				{
 					'sortable': true,
 					'target': [6]
-				},
-				{
-					'sortable': true,
-					'target': [7]
-				},
-				{
-					'sortable': true,
-					'target': [8]
-				},
-				{
-					'sortable': true,
-					'target': [9]
-				},
-				{
-					'sortable': true,
-					'target': [10]
-				},
-				{
-					'sortable': true,
-					'target': [11]
-				},
-				{
-					'sortable': true,
-					'target': [12]
-				},
-				{
-					'sortable': true,
-					'target': [13]
-				}
+				}//,
+				// {
+				// 	'sortable': true,
+				// 	'target': [13]
+				// }
 			],
 			buttons: [
 				{

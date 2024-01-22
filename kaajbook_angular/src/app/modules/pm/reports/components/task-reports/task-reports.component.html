@@ -12,41 +12,42 @@
                         <tr class="display_all">
                             <th>{{'tasks.columns.id' | translate}}</th>
                             <th>{{'tasks.columns.task_name' | translate}}</th>
-                            <th>{{'tasks.columns.planned_start' | translate}}</th>
-                            <th>{{'tasks.columns.planned_end' | translate}}</th>
+                            <!-- <th>{{'tasks.columns.planned_start' | translate}}</th>
+                            <th>{{'tasks.columns.planned_end' | translate}}</th> -->
                             <th>{{'tasks.columns.start_date' | translate}}</th>
                             <th>{{'tasks.columns.end_date' | translate}}</th>
-                            <th>{{'tasks.columns.hours' | translate}}</th>
+                            <!-- <th>{{'tasks.columns.hours' | translate}}</th> -->
                             <th>{{'tasks.columns.progress' | translate}}</th>
-                            <th>{{'tasks.columns.creator' | translate}}</th>
+                            <!-- <th>{{'tasks.columns.creator' | translate}}</th> -->
                             <th>{{'tasks.columns.assigned' | translate}}</th>
-                            <th>{{'tasks.columns.priority' | translate}}</th>
-                            <th>{{'tasks.columns.status' | translate}}</th>
+                            <!-- <th>{{'tasks.columns.priority' | translate}}</th>
+                            <th>{{'tasks.columns.status' | translate}}</th> -->
                             <th>{{'tasks.columns.project' | translate}}</th>
-                            <th>{{'tasks.columns.project_version' | translate}}</th>
+                            <!-- <th>{{'tasks.columns.project_version' | translate}}</th> -->
                         </tr>
                     </thead>
                     <tbody *ngIf="tasks?.length != 0">
                         <tr *ngFor="let task of tasks">
                             <td>{{task.generated_id}}</td>
                             <td>{{task.name}}</td>
-                            <td>{{task.planned_start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
-                            <td>{{task.planned_end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <!-- <td>{{task.planned_start_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td>
+                            <td>{{task.planned_end_date | dateTimeFormatFilter: loginUser.settings.date_format }}</td> -->
                             <td>{{task.task_start_date | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
                             <td>{{task.task_end_date | dateTimeFormatFilter: loginUser.settings.date_time_format }}</td>
-                            <td>
+                            <!-- <td>
                                 <ng-container *ngIf="task.actual_hours else elseBlock1;">{{task.actual_hours}}</ng-container>
                                 <ng-template #elseBlock1>-</ng-template>
-                            </td>
+                            </td> -->
                             <td>{{task.progress}}%</td>
-                            <td class="people-lists">
+                            <!-- <td class="people-lists">
                                 <a [routerLink]="['/users/profile', task.created_by]" class="btn btn-profile-danger rounded-circle text-dark" tooltip="{{task.created_firstname}} {{task.created_lastname}}">
                                     <img *ngIf="task.created_avatar" src="{{apiUrl}}/uploads/profile/{{task.created_avatar}}" class="img-sm rounded-circle" alt="Profile" />
                                     <img *ngIf="!task.created_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
                                 </a>
-                            </td>
-                            <td class="people-lists">
-                                <ng-container *ngIf="task.assign_to == null; else elseBlock2">
+                            </td> -->
+                            <td class="people-lists">                                
+                                {{task.assign_firstname}} {{task.assign_lastname}}
+                                <!-- <ng-container *ngIf="task.assign_to == null; else elseBlock2">
                                     <a href="javascript:void(0);" class="btn btn-profile-danger rounded-circle text-dark" placement="top" tooltip="{{'common.unassigned' | translate}}">
                                         <img src="../assets/img/unassign.jpg" class="img-sm rounded-circle" alt="Profile" />
                                     </a>
@@ -56,9 +57,9 @@
                                         <img *ngIf="task.assign_avatar" src="{{apiUrl}}/uploads/profile/{{task.assign_avatar}}" class="img-sm rounded-circle" alt="Profile" />
                                         <img *ngIf="!task.assign_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
                                     </a>
-                                </ng-template>
+                                </ng-template> -->
                             </td>
-                            <td class="budges-status">
+                            <!-- <td class="budges-status">
                                 <ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
                                     <span class="badge {{priority.class}}" *ngIf="priority.id == task.priority">{{priority.label}}</span>
                                 </ng-container>
@@ -67,9 +68,9 @@
                                 <ng-container *ngFor="let status of ('tasks.status' | translate)">
                                     <span class="badge {{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
                                 </ng-container>
-                            </td>
+                            </td> -->
                             <td>{{task.project_name}}</td>
-                            <td><span class="badge badge-secondary">{{task.project_version}}</span></td>
+                            <!-- <td><span class="badge badge-secondary">{{task.project_version}}</span></td> -->
                         </tr>
                     </tbody>
                     <tfoot>
@@ -80,42 +81,42 @@
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.task_name' | translate}}" name="name" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.planned_start' | translate}}" name="planned_start" />
                             </th>
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.planned_end' | translate}}" name="planned_end" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.actual_start' | translate}}" name="actual_start_date" />
                             </th>
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.actual_end' | translate}}" name="actual_end_date" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.hours' | translate}}" name="actual_hours" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.progress' | translate}}" name="progress" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.creator' | translate}}" name="task_created" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.assigned' | translate}}" name="assigned" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.priority' | translate}}" name="priority" />
                             </th>
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.status' | translate}}" name="status" />
-                            </th>
+                            </th> -->
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.project' | translate}}" name="project" />
                             </th>
-                            <th>
+                            <!-- <th>
                                 <input type="text" class="form-control" placeholder="{{'tasks.columns.project_version' | translate}}" name="project_version" />
-                            </th>
+                            </th> -->
                         </tr>
                     </tfoot>
                     <tfoot *ngIf="tasks?.length == 0" class="tfoot_dt">
