@@ -35,7 +35,31 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 		this.loginUser = this.route.snapshot.data.sidebarMenu.loginUser;
 	}
 
-	ngOnInit() {}
+	ngOnInit() {
+
+		// Add a new menu item
+		// badge-pill float-right  mr-1 mt-1
+	
+		const versionMenuItem = {
+			"id": 17,  // Use a unique ID for the new item
+			"parent_menu_id": 0,
+			"module": "setting",  // Specify the module
+			"label": "/settings/version",
+			"text": "Version "+ this.currentVersion,
+			"link": "/settings/version",
+			"icon": "fa fa-code-fork",  // Specify the icon class
+			"order": 14,  // Adjust the order as needed
+			"subscription": 1,
+			"status": 1,
+			"class": "",  // Additional CSS classes if needed
+			"badge": "new",
+			"badgeClass": "badge badge-pill badge-warning mt-1",
+			"isExternalLink": false,
+			"submenu": []  // You can add submenus if needed
+		};
+		
+ 		this.menuItems.push(versionMenuItem);
+	}
 
 	ngAfterViewInit() {
 		setTimeout(() => {
