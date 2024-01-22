@@ -80,10 +80,26 @@ export class DefectReportsComponent implements OnInit {
 					'sortable': true,
 					'target': [3]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [4]
+				// },
+				// {
+				// 	'sortable': true,
+				// 	'target': [5]
+				// },
 				{
 					'sortable': true,
 					'target': [4]
 				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [7]
+				// },
+				// {
+				// 	'sortable': true,
+				// 	'target': [8]
+				// },
 				{
 					'sortable': true,
 					'target': [5]
@@ -92,26 +108,10 @@ export class DefectReportsComponent implements OnInit {
 					'sortable': true,
 					'target': [6]
 				},
-				{
-					'sortable': true,
-					'target': [7]
-				},
-				{
-					'sortable': true,
-					'target': [8]
-				},
-				{
-					'sortable': true,
-					'target': [9]
-				},
-				{
-					'sortable': true,
-					'target': [10]
-				},
-				{
-					'sortable': true,
-					'target': [11]
-				}
+				// {
+				// 	'sortable': true,
+				// 	'target': [11]
+				// }
 			],
 			buttons: [
 				{
