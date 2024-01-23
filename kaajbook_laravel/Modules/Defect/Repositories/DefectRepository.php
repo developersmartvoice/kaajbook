@@ -635,6 +635,7 @@ class DefectRepository
     {
         $input = $request->all();
         $defect = Defect::findOrFail($id);
+        $user = Auth::user();
 
         if ($defect->fill($input)->save()) {
             // --
@@ -938,14 +939,14 @@ class DefectRepository
             1 => $defects_table . '.defect_name',
             2 => $defects_table . '.start_date',
             3 => $defects_table . '.end_date',
-            4 => $defects_table . '.actual_hours',
-            5 => DB::raw("CONCAT($user_table.firstname,' ',$user_table.lastname)"),
-            6 => DB::raw("CONCAT(defect_assigned.firstname,' ',defect_assigned.lastname)"),
-            7 => $defects_table . '.defect_type',
-            8 => $defects_table . '.severity',
-            9 => $defects_table . '.status',
-            10 => $project_table . '.project_name',
-            11 => $defects_table . '.project_version',
+            // 4 => $defects_table . '.actual_hours',
+            // 5 => DB::raw("CONCAT($user_table.firstname,' ',$user_table.lastname)"),
+            4 => DB::raw("CONCAT(defect_assigned.firstname,' ',defect_assigned.lastname)"),
+            // 7 => $defects_table . '.defect_type',
+            // 8 => $defects_table . '.severity',
+            5 => $defects_table . '.status',
+            6 => $project_table . '.project_name',
+           // 11 => $defects_table . '.project_version',
         );
 
         $input = $request->input();
