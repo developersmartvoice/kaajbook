@@ -88,13 +88,18 @@ export class PmDashboardChart7ClientYearlyProjectComponent implements OnInit {
 		// Get the last year dynamically
 		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
 
-		// add dummy user for unassigned project
-		this.yearlyReport.all_invoice_client_user.all_users.push( {
-			"id": "Unassign",
-			"username": "Unassigned",
-			"email": " ",
-			"full_name": " "
-		},);
+		// Check if there is no user with the ID "Unassign"
+		const unassignUserExists = this.yearlyReport.all_invoice_client_user.all_users.some(user => user.id === "Unassign");
+
+		// If the user with the ID "Unassign" doesn't exist, push the dummy user
+		if (!unassignUserExists) {
+			this.yearlyReport.all_invoice_client_user.all_users.push({
+				"id": "Unassign",
+				"username": "Unassigned",
+				"email": "Unassigned",
+				"full_name": "Unassigned"
+			});
+		}
 
 		this.yearlyReport.yearly_project[thisYear].project_id.forEach((project_id, index) => {
 
