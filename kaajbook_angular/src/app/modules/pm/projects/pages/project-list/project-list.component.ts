@@ -9,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import * as JSZip from 'jszip';
+import { forkJoin } from 'rxjs';
 
 import { User } from './../../../../../shared/models/user.model';
 
@@ -24,6 +26,8 @@ import { environment } from '../../../../../../environments/environment';
 
 import 'datatables.net';
 import 'datatables.net-bs4';
+import { TaskAttachmentService } from 'src/app/core/services/task-attachment.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-project-list',
@@ -72,6 +76,7 @@ export class ProjectListComponent implements OnInit {
 		private toastr: ToastrService,
 		private projectService: ProjectService,
 		private userService: UserService,
+		private taskAttachmentService: TaskAttachmentService,
 		private authenticationService: AuthenticationService,
 		private ngxPermissionsService: NgxPermissionsService
 	) {
@@ -328,4 +333,81 @@ export class ProjectListComponent implements OnInit {
 					this.rerender();
 				});
 	}
+	
+	getAllProjectAndTaskAttachment(project_id) {
+		let projectAndTaskAttachments: any[] = [];
+		let projectsAllTaskId: any;
+	  
+		this.projectService.getById(project_id).subscribe(
+		  (projectData: any) => {
+			projectsAllTaskId = projectData.tasks.map(task => task.id);
+			this.isPageLoaded = true;
+	  
+			// Create an array of observables for each task attachment request
+			const taskAttachmentRequests = projectsAllTaskId.map(taskId =>
+			  this.taskAttachmentService.getAllAttachmentById(taskId)
+			);
+	  
+			// Use forkJoin to make parallel requests for all task attachments
+			forkJoin(taskAttachmentRequests).subscribe(
+			  (attachmentsArray: any[]) => {
+				// Flatten the array of arrays
+				const taskAttachments = attachmentsArray.reduce((acc, curr) => acc.concat(curr), []);
+	  
+				// Merge project and task attachments using concat
+				projectAndTaskAttachments = projectData.attachments.concat(taskAttachments);
+	  
+				// console.log('Merged Attachments:', projectAndTaskAttachments);
+				this.zipAndDownloadAllAttachment(projectAndTaskAttachments, projectData.project_name);
+			  },
+			  error => {
+				console.error('Error fetching task attachments:', error);
+			  }
+			);
+		  },
+		  error => {
+			console.error('Error fetching project data:', error);
+		  }
+		);
+	  }
+	  
+
+	  zipAndDownloadAllAttachment(attachments, project_name) {
+		if (attachments.length === 0)
+		return this.toastr.error(
+			this.translate.instant("common.error_messages.message7"),
+			this.translate.instant("common.errors_keys.key5")
+		);
+		
+		// console.log(attachments);
+		const zip = new JSZip();
+		const downloadObservables = [];
+	  
+		for (const attachment of attachments) {
+		  const isTaskAttachment = attachment.hasOwnProperty('task_id');
+		  const attachmentTypeFolder = isTaskAttachment ? 'task_attachment' : 'project_attachment';
+	  
+		  const downloadURL = this.apiUrl + `/uploads/${attachmentTypeFolder}/${attachment.file_hash}`;
+		//   console.log(downloadURL);
+		  downloadObservables.push(this.http.get(downloadURL, { responseType: 'blob' }));
+		}
+	  
+		forkJoin(downloadObservables).subscribe((blobs: Blob[]) => {
+		  for (let i = 0; i < blobs.length; i++) {
+			const fileName = attachments[i].file_name;
+			zip.file(fileName, blobs[i], { binary: true });
+		  }
+	  
+		  zip.generateAsync({ type: 'blob' }).then(content => {
+			const url = window.URL.createObjectURL(content);
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `${project_name}_attachments.zip`);
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+		  });
+		});
+	}
+
 }

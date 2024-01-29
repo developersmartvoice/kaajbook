@@ -143,6 +143,9 @@
                                                     <div class="btn-group" dropdown *ngIf="getCheckPermission(project, 'edit') || getCheckPermission(project, 'delete')">
                                                         <button dropdownToggle class="dropdown-toggle btn-action" type="button" id="button-basic-1" aria-controls="dropdown-basic-1"><i class="fa fa-ellipsis-v"></i></button>
                                                         <ul id="dropdown-basic-1" *dropdownMenu class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="button-basic-1">
+                                                            <li role="menuitem" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_delete']">
+                                                                <a (click)="getAllProjectAndTaskAttachment(project.id)" class="dropdown-item btn btn-download btn-raised" tooltip="{{'common.download_all_attachment' | translate}}"><i class="fa fa-download"></i></a>
+                                                            </li>
                                                             <li role="menuitem" *ngIf="getCheckPermission(project, 'edit')">
                                                                 <a [routerLink]="['/projects/edit', project.id]" class="dropdown-item btn btn-edit btn-raised" tooltip="{{'common.edit' | translate}}"><i class="fa fa-pencil-square-o"></i></a>
                                                             </li>
