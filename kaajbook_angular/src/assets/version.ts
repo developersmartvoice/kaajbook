@@ -7,23 +7,40 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.1",
+    currentVersion: "1.2.2",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.2 -",
+            version: "VERSION 1.2.3 -",
             releaseDate: "RELEASED ---",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>Download all attachment from project</li>
-              <li>Change in invoice formate.</li>
+              <li>Show Client Dashboard chart data</li>
+              <li>Uploadable invoice header image & two text box text</li>
+            </ul>
+          `,
+        },
+          {
+            released: true,
+            version: "VERSION 1.2.2 -",
+            releaseDate: "RELEASED 31-01-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>Download Project all attachment</li>
+              <li>Add invoice header image (hard coded)</li>
+              <li>Dashboard unassigned duplicate data fix</li>
+              <li>Reducing columns for tasks report to provide a summary view</li>
+              <li>Reducing columns from Defects reports for summarized reports and understandable export of the defects</li>
+              <li>Add sidebar button for version</li>
             </ul>
           `,
         },
         {
-            released: false,
+            released: true,
             version: "VERSION 1.2.1 -",
             releaseDate: "RELEASED 21-01-2024",
             description: `
