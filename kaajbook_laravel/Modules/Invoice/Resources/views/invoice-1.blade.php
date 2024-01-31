@@ -17,7 +17,7 @@
         position: relative;
         width: 100%;
         height: auto;
-        margin: 12% auto;
+        margin: 0 auto;
         color: #333333;
         background: #FFFFFF;
         font-size: 10px;
@@ -222,6 +222,28 @@
 <body>
     <header class="clearfix">
         <table cellpadding="0" cellspacing="0" class="billing">
+            <div>
+                @php
+                    $baseFileName = 'inv_header';
+                    $extensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg'];
+                    $imageUrl = null;
+            
+                    // Iterate through extensions to find the existing file
+                    foreach ($extensions as $extension) {
+                        $potentialImageUrl = public_path("uploads/invoice_logo/{$baseFileName}.{$extension}");
+                        if (file_exists($potentialImageUrl)) {
+                            $imageUrl = asset("uploads/invoice_logo/{$baseFileName}.{$extension}");
+                            break;
+                        }
+                    }
+                @endphp
+            
+                @if($imageUrl)
+                    <img src="{{ $imageUrl }}" alt="" style="width: 100%; height: 100px;" />
+                @else
+                    <div style="width: 100%; height: 100px;"></div> <!-- Empty space to reserve height -->
+                @endif
+            </div>                       
             <tr>
                 <td class="align-left logo">
                     @if(!is_null($invoiceSetting->invoice_logo) && file_exists(public_path('uploads/invoice_logo/'.$invoiceSetting->invoice_logo)))

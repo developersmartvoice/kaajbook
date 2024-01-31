@@ -593,6 +593,7 @@
 		"details": "Details",
 		"template": "template",
 		"download": "Download",
+		"download_all_attachment": "Download attachment",
 		"drag_file": "Drag a file or Browse",
 		"edit": "Edit",
 		"empty_message": {
@@ -633,7 +634,8 @@
 			"message3": "In case of Auth Token Expired.",
 			"message4": "Sorry, but the page you were looking for could not be found.",
 			"message5": "Something went's wrong!",
-			"message6": "You have successfully logged out."
+			"message6": "You have successfully logged out.",
+			"message7": "This project does not have any attachments."
 		},
 		"errors_keys": {
 			"key1": "Access is denied",
@@ -2912,6 +2914,7 @@
 					"due_after": "Due After (Days)",
 					"gst_number": "GST Number",
 					"invoice_logo": "Invoice Logo",
+					"invoice_header": "Invoice Header",
 					"invoice_prefix": "Invoice Prefix",
 					"show_gst_number": "Show GST Number on Invoice ?",
 					"terms_conditions": "Terms & Conditions"
