@@ -58,7 +58,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 			"submenu": []  // You can add submenus if needed
 		};
 		
- 		this.menuItems.push(versionMenuItem);
+		// Check if menuItems already has an item with id 17
+		const existingMenuItem = this.menuItems.find(item => item.id === 17);
+
+		// Push the new menu item only if it doesn't exist
+		if (!existingMenuItem) {
+			this.menuItems.push(versionMenuItem);
+		}
 	}
 
 	ngAfterViewInit() {
