@@ -81,7 +81,6 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 	}
 
 	renderChart() {
-		console.log(this.yearlyReport);
 		let pmData = [];
 		// Get the keys (years) of yearly_project
 		const yearlyProjectKeys = Object.keys(this.yearlyReport.current_month_project);

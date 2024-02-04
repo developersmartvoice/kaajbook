@@ -280,8 +280,6 @@ class PmHelperRepository
             $month = date('n', mktime(0, 0, 0, $i, 1));
             $result[$month] = [
                 "tasks" => 0,
-                // "defects" => 0,
-                // "incidents" => 0,
                 "projects" => 0, // Add project count for each month
                 "project_bill" => 0, 
                 "project_id" => [], 
@@ -293,18 +291,6 @@ class PmHelperRepository
             DB::raw('YEAR(task_start_date) year'),
             DB::raw('MONTH(task_start_date) month')
         );
-
-        // $defects = Defect::select(
-        //     DB::raw('count(id) as `count`'),
-        //     DB::raw('YEAR(start_date) year'),
-        //     DB::raw('MONTH(start_date) month')
-        // );
-
-        // $incidents = Incident::select(
-        //     DB::raw('count(id) as `count`'),
-        //     DB::raw('YEAR(start_date) year'),
-        //     DB::raw('MONTH(start_date) month')
-        // );
 
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
@@ -321,14 +307,13 @@ class PmHelperRepository
     
 
         if ($user->hasRole('admin') || $user->is_super_admin) {
-        } else {
+        }
+        elseif ($user->hasRole('client')){
+            $projects->where('client_id', $user->id); 
+        } 
+        else {
             $tasks->where('assign_to', $user->id);
-            // $defects->where('assign_member', $user->id);
-            // $incidents->where('assign_to', $user->id);
             $projects->where('user_id', $user->id); // Adjust this based on your project user assignment logic
-            $invoices->whereHas('project', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
         }
 
         // Tasks
@@ -338,22 +323,6 @@ class PmHelperRepository
         foreach ($tasks as $key => $value) {
             $result[$value->month]['tasks'] = $value->count;
         }
-
-        // // Defects
-        // $defects = $defects->whereYear('start_date', date('Y'))
-        //     ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
-        //     ->get();
-        // foreach ($defects as $key => $value) {
-        //     $result[$value->month]['defects'] = $value->count;
-        // }
-
-        // // Incidents
-        // $incidents = $incidents->whereYear('start_date', date('Y'))
-        //     ->groupBy(DB::raw('YEAR(start_date)'), DB::raw('MONTH(start_date)'))
-        //     ->get();
-        // foreach ($incidents as $key => $value) {
-        //     $result[$value->month]['incidents'] = $value->count;
-        // }
 
         // Projects
         $projects = $projects->whereYear('start_date', date('Y'))
@@ -403,7 +372,11 @@ class PmHelperRepository
 
         if ($user->hasRole('admin') || $user->is_super_admin) {
             // No additional conditions for admin
-        } else {
+        }
+        elseif ($user->hasRole('client')) {
+            $projects->where('client_id', $user->id);
+        }
+         else {
             // Add conditions for non-admin users
             $projects->where('user_id', $user->id);
         }
@@ -439,7 +412,11 @@ class PmHelperRepository
 
         if ($user->hasRole('admin') || $user->is_super_admin) {
             // No additional conditions for admin
-        } else {
+        }
+        elseif ($user->hasRole('client')) {
+            $projects->where('client_id', $user->id);
+        }
+        else {
             // Add conditions for non-admin users
             $projects->where('user_id', $user->id);
         }
@@ -490,12 +467,13 @@ class PmHelperRepository
 
         if ($user->hasRole('admin') || $user->is_super_admin) {
             // No additional conditions for admin
-        } else {
+        }
+        elseif ($user->hasRole('client')) {
+            $projects->where('client_id', $user->id);
+        } 
+        else {
             // Add conditions for non-admin users
             $projects->where('user_id', $user->id);
-            $invoices->whereHas('project', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
         }
 
         // Yearly projects
@@ -546,36 +524,27 @@ class PmHelperRepository
             'total_due_amount', // Add any other fields you need
         );
 
-        if (!($user->hasRole('admin') || $user->is_super_admin)) {
-            // Add conditions for non-admin users
-            $invoices->whereHas('project', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
-        }
+        // if ($user->hasRole('client')){
+        //     $invoices->where('client_id', $user->id);
+        // }
 
         $all_clients = [];
-
-        // Add condition to retrieve all users if admin or super admin
-        if ($user->hasRole('admin') || $user->is_super_admin) {
-            // You may customize this condition based on your user structure
+        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->is_super_admin) {
             $all_clients = User::select(
                 'id',
                 'username',
-                'email', // Add any other fields you need
-            )->where('is_client', 1) // Add condition for is_client = 1
+                'email', 
+            )->where('is_client', 1) 
 
                 ->get();
         }
 
         $all_users = [];
-
-        // Add condition to retrieve all users if admin or super admin
-        if ($user->hasRole('admin') || $user->is_super_admin) {
-            // You may customize this condition based on your user structure
+        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->is_super_admin) {
             $all_users = User::select(
                 'id',
                 'username',
-                'email', // Add any other fields you need
+                'email',
             )
                 ->get();
         }
