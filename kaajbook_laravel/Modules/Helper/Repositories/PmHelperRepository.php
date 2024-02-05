@@ -313,7 +313,14 @@ class PmHelperRepository
         } 
         else {
             $tasks->where('assign_to', $user->id);
-            $projects->where('user_id', $user->id); // Adjust this based on your project user assignment logic
+            // $projects->where('user_id', $user->id); // Adjust this based on your project user assignment logic
+            $projects->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere(function ($query) use ($user) {
+                          $query->whereRaw('FIND_IN_SET(?, assign_members)', [$user->id]);
+                      });
+            });
+            
         }
 
         // Tasks
@@ -378,7 +385,14 @@ class PmHelperRepository
         }
          else {
             // Add conditions for non-admin users
-            $projects->where('user_id', $user->id);
+            // $projects->where('user_id', $user->id);
+            $projects->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere(function ($query) use ($user) {
+                          $query->whereRaw('FIND_IN_SET(?, assign_members)', [$user->id]);
+                      });
+            });
+            
         }
 
         // Monthly projects
@@ -418,7 +432,14 @@ class PmHelperRepository
         }
         else {
             // Add conditions for non-admin users
-            $projects->where('user_id', $user->id);
+            // $projects->where('user_id', $user->id);
+            $projects->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere(function ($query) use ($user) {
+                          $query->whereRaw('FIND_IN_SET(?, assign_members)', [$user->id]);
+                      });
+            });
+            
         }
 
         // All projects
@@ -473,7 +494,14 @@ class PmHelperRepository
         } 
         else {
             // Add conditions for non-admin users
-            $projects->where('user_id', $user->id);
+            // $projects->where('user_id', $user->id);
+            $projects->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhere(function ($query) use ($user) {
+                          $query->whereRaw('FIND_IN_SET(?, assign_members)', [$user->id]);
+                      });
+            });
+            
         }
 
         // Yearly projects
@@ -529,7 +557,7 @@ class PmHelperRepository
         // }
 
         $all_clients = [];
-        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->is_super_admin) {
+        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->hasRole('staff') || $user->is_super_admin) {
             $all_clients = User::select(
                 'id',
                 'username',
@@ -540,7 +568,7 @@ class PmHelperRepository
         }
 
         $all_users = [];
-        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->is_super_admin) {
+        if ($user->hasRole('admin') || $user->hasRole('project_manager') || $user->hasRole('client') || $user->hasRole('staff') || $user->is_super_admin) {
             $all_users = User::select(
                 'id',
                 'username',
