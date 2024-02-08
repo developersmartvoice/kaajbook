@@ -7,18 +7,31 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.2",
+    currentVersion: "1.2.3",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.3 -",
+            version: "VERSION 1.2.4 -",
             releaseDate: "RELEASED ---",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>Show Client Dashboard chart data</li>
               <li>Uploadable invoice header image & two text box text</li>
+            </ul>
+          `,
+        },
+          {
+            released: true,
+            version: "VERSION 1.2.3 -",
+            releaseDate: "RELEASED 08-02-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>Get dashboard data for client and project manager</li>
+              <li>Add dashboard figure name</li>
+              <li>admin, pm, staff -> if assign to project, get this project dashboard data</li>
             </ul>
           `,
         },
