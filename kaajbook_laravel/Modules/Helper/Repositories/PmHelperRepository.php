@@ -362,6 +362,8 @@ class PmHelperRepository
 
         // Initialize only for the current month
         $currentMonth = now()->month;
+        $currentYear = now()->year;
+ 
         $monthlyProjects[$currentMonth] = [
             "project_id" => [],
             "project_status" => [],
@@ -396,7 +398,10 @@ class PmHelperRepository
         }
 
         // Monthly projects
-        $monthlyProjectsData = $projects->whereMonth('start_date', '=', $currentMonth)->get();
+        $monthlyProjectsData = $projects
+            ->whereYear('start_date', '=', $currentYear)
+            ->whereMonth('start_date', '=', $currentMonth)
+            ->get();
 
         foreach ($monthlyProjectsData as $value) {
             $monthlyProjects[$currentMonth]['project_id'] = explode(',', $value->project_id);

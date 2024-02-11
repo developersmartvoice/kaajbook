@@ -83,10 +83,10 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 	renderChart() {
 		let pmData = [];
 		// Get the keys (years) of yearly_project
-		const yearlyProjectKeys = Object.keys(this.yearlyReport.current_month_project);
+		const monthlyProjectKeys = Object.keys(this.yearlyReport.current_month_project);
 
 		// Get the last year dynamically
-		const thisYear = yearlyProjectKeys[yearlyProjectKeys.length - 1];
+		const thisMonth = monthlyProjectKeys[monthlyProjectKeys.length - 1];
 
 		// Check if there is no user with the ID "Unassign"
 		const unassignUserExists = this.yearlyReport.all_invoice_client_user.all_users.some(user => user.id === "Unassign");
@@ -101,10 +101,10 @@ export class PmDashboardChart6ClientMonthlyProjectComponent implements OnInit {
 			});
 		}
 
-		this.yearlyReport.current_month_project[thisYear].project_id.forEach((project_id, index) => {
+		this.yearlyReport.current_month_project[thisMonth].project_id.forEach((project_id, index) => {
 
-		let current_project_status = this.yearlyReport.current_month_project[thisYear].project_status[index];
-		let current_project_client = this.yearlyReport.current_month_project[thisYear].project_client[index];
+		let current_project_status = this.yearlyReport.current_month_project[thisMonth].project_status[index];
+		let current_project_client = this.yearlyReport.current_month_project[thisMonth].project_client[index];
 		
  		this.yearlyReport.all_invoice_client_user.all_users.forEach(user => {
 			if (user.id == current_project_client) {
