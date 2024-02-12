@@ -16,6 +16,7 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 	barChartLegend = true;
 	invoice_due = [];
 	invoice_bill = [];
+	invoice_pay = [];
 	incidents = [];
 	barChartData: any[] = [];
 	barChartOptions: any = {
@@ -59,6 +60,14 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 			pointHoverBackgroundColor: '#fff',
 			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
 		}, {
+			backgroundColor: '#0DB276',
+			borderColor: 'rgba(148,159,177,1)',
+			pointBackgroundColor: 'rgba(148,159,177,1)',
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+		},
+		{
 			backgroundColor: 'rgba(231, 76, 60, .7)',
 			borderColor: 'rgba(148,159,177,1)',
 			pointBackgroundColor: 'rgba(148,159,177,1)',
@@ -110,6 +119,7 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 		clientData.forEach(element => {
 			this.invoice_due.push(Number(element.total_due_amount.toFixed(2)));
 			this.invoice_bill.push(Number(element.total_amount.toFixed(2))); 
+			this.invoice_pay.push(Number((element.total_amount - element.total_due_amount).toFixed(2)));
 
 			this.yearlyReport.all_invoice_client_user.all_clients.forEach(client => {
 				if (client.id == element.client_id) {
@@ -122,6 +132,7 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 		
 		this.barChartData = [
 			{ data: this.invoice_bill, label: this.translate.instant('projects.title_bill') },
+			{ data: this.invoice_pay, label: this.translate.instant('projects.title_pay') },
 			{ data: this.invoice_due, label: this.translate.instant('projects.title_due') },
 			// { data: this.incidents, label: this.translate.instant('incidents.title') }
 		];
