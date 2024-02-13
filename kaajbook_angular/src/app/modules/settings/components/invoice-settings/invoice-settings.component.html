@@ -82,6 +82,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>{{'settings.invoice_settings.create.fields.invoice_header' | translate }}</label>
+                    <input type="hidden" formControlName="invoice_logo">
+                    <div class="dropzone dz-clickable d-flex justify-content-center" #header_logodropzone>
+                        <div class="dz-preview dz-image-preview" *ngIf="isLogoLoaded && setting.invoice_header">
+                            <div class="">
+                                <img src="{{apiUrl}}/uploads/invoice_logo/{{setting.invoice_header}}" width="100%" height="100"/>
+                            </div>
+                            <a class="btn btn-sm btn-block" (click)="removeDropzoneImageHeader()">{{ 'common.remove_file' | translate }}</a>
+                        </div>
+                        <div class="dz-default dz-message">
+                            <span *ngIf="!setting.invoice_header"><strong>{{ 'settings.invoice_settings.create.error_messages.message4' | translate }}</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12 text-right">

@@ -22,9 +22,11 @@ export class InvoiceSettingsComponent implements OnInit {
 	isFormSubmitted = false;
 	isFormLoaded = false;
 	isLogoLoaded = true;
+	isHeaderLogoLoaded = true;
 	setting: any;
 
 	@ViewChild('logodropzone', { static: false }) logodropzone: ElementRef;
+	@ViewChild('header_logodropzone', { static: false }) header_logodropzone: ElementRef;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -56,6 +58,7 @@ export class InvoiceSettingsComponent implements OnInit {
 			auto_remind: [this.setting.auto_remind],
 			auto_remind_after: [this.setting.auto_remind_after],
 			invoice_logo: [this.setting.invoice_logo],
+			invoice_header: [this.setting.invoice_header],
 			gst_number: [this.setting.gst_number],
 			show_gst_number: [this.setting.show_gst_number]
 		});
@@ -101,6 +104,44 @@ export class InvoiceSettingsComponent implements OnInit {
 					}
 				});
 			}
+		}),
+		new Dropzone(this.header_logodropzone.nativeElement, {
+			url: 'https://httpbin.org/post',
+			maxFiles: 1,
+			clickable: true,
+			acceptedFiles: 'image/*',
+			createImageThumbnails: true,
+			init: function() {
+				this.on('addedfile', function(file) {
+					const removeButton = Dropzone.createElement("<button class=\'btn btn-sm btn-block\'>" + that.translate.instant('common.remove_file') + "</button>");
+					const _this = this;
+					removeButton.addEventListener('click', function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						_this.removeFile(file);
+					});
+
+					file.previewElement.appendChild(removeButton);
+					if (file) {
+						let reader = new FileReader();
+						reader.onload = (e) => {
+							that.invoiceSettingsForm.patchValue({ invoice_header: reader.result });
+							this.isHeaderLogoLoaded = false;
+						}
+						reader.readAsDataURL(file);
+					}
+				});
+
+				this.on('removedfile', function(file) {
+					that.invoiceSettingsForm.patchValue({ invoice_header: null });
+				});
+
+				this.on('error', function(file, message: any) {
+					if (file) {
+						that.toastr.error(message);
+					}
+				});
+			}
 		})
 	}
 
@@ -108,6 +149,11 @@ export class InvoiceSettingsComponent implements OnInit {
 		this.isLogoLoaded = false;
 		this.setting.invoice_logo = null;
 		this.invoiceSettingsForm.patchValue({ invoice_logo: null });
+	}
+	removeDropzoneImageHeader() {
+		this.isHeaderLogoLoaded = false;
+		this.setting.invoice_header = null;
+		this.invoiceSettingsForm.patchValue({ invoice_header: null });
 	}
 
 	get invoiceSetting() { return this.invoiceSettingsForm.controls; }

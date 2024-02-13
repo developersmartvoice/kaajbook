@@ -40,6 +40,7 @@ class InvoiceSetting extends Model
         'invoice_prefix',
         'due_after',
         'invoice_logo',
+        'invoice_header',
         'template',
         'gst_number',
         'show_gst_number',

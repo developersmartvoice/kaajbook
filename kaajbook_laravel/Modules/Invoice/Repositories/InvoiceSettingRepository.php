@@ -68,9 +68,17 @@ class InvoiceSettingRepository
             $input['invoice_logo'] = $this->fileHelper->uploadImage('invoice_logo', $input['invoice_logo']);
         }
 
+        if (!empty($input['invoice_header'])) {
+            $input['invoice_header'] = $this->fileHelper->uploadImage('invoice_logo', $input['invoice_header']);
+        }
+
         // Delete old logo.
         if ($invoiceSetting->invoice_logo && $invoiceSetting->invoice_logo != $input['invoice_logo']) {
             $this->fileHelper->deleteFile('invoice_logo', $invoiceSetting->invoice_logo);
+        }
+
+        if ($invoiceSetting->invoice_header && $invoiceSetting->invoice_header != $input['invoice_header']) {
+            $this->fileHelper->deleteFile('invoice_logo', $invoiceSetting->invoice_header);
         }
 
         if ($invoiceSetting->fill($input)->save()) {
