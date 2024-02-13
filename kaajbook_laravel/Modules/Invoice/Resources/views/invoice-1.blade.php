@@ -284,11 +284,11 @@
         </table>
      <!-- Add square areas with textareas -->
     <div>
-        @if(!is_null($invoiceSetting->invoice_header_information_text))
+        @if(!is_null($invoice->invoice_header_information_text))
         <textarea id="textbox1" name="textbox1" class="custom-textarea">
-            <span>{{ $invoiceSetting->invoice_header_information_text }}</span>
+            {{ $invoice->invoice_header_information_text }}
         </textarea>
-        {{-- @else --}}
+        @endif
     </div>
 
     </header>
