@@ -59,6 +59,7 @@ class Invoice extends Model
         'total_due_amount',
         'reference',
         'note',
+        'invoice_header_information_text',
         'recurrence',
         'recurrence_occurrences',
         'recurrence_pattern',

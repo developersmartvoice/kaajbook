@@ -214,7 +214,7 @@
 
      .custom-textarea {
         width: 100%;
-        height: 20%;  
+        height: auto;  
       }
     </style>
 </head>
@@ -297,10 +297,13 @@
                 </tr>
             </thead>
         </table>
-     <!-- Add two square areas with textareas -->
+     <!-- Add square areas with textareas -->
     <div>
-         <textarea id="textbox1" name="textbox1" class="custom-textarea"></textarea>
-         <textarea id="textbox2" name="textbox2" class="custom-textarea"></textarea>
+        @if(!is_null($invoiceSetting->invoice_header_information_text))
+        <textarea id="textbox1" name="textbox1" class="custom-textarea">
+            <span>{{ $invoiceSetting->invoice_header_information_text }}</span>
+        </textarea>
+        {{-- @else --}}
     </div>
 
     </header>

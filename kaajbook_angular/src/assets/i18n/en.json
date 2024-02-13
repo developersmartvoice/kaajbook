@@ -2515,6 +2515,7 @@
 		"title": "Projects",
 		"title_bill": "Bill Amount",
 		"title_due": "Due Amount",
+		"title_pay": "Pay Amount",
 		"project_open": "Project Open",
 		"project_complete": "Project Complete",
 		"title_cost": "Cost",
@@ -2917,7 +2918,8 @@
 					"invoice_header": "Invoice Header",
 					"invoice_prefix": "Invoice Prefix",
 					"show_gst_number": "Show GST Number on Invoice ?",
-					"terms_conditions": "Terms & Conditions"
+					"terms_conditions": "Terms & Conditions",
+					"invoice_header_information_text": "Invoice Header Information Text"
 				},
 				"placeholders": {
 					"placeholder1": "Enter Invoice Prefix",
@@ -2925,7 +2927,8 @@
 					"placeholder3": "Enter Client Note",
 					"placeholder4": "Enter Terms & Conditions",
 					"placeholder5": "Enter Remind After Days",
-					"placeholder6": "Enter GST Number"
+					"placeholder6": "Enter GST Number",
+					"placeholder7": "Enter Invoice Information"
 				}
 			},
 			"title": "Invoice"

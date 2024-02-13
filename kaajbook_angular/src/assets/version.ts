@@ -31,7 +31,7 @@ const versionLog = {
             <ul>
               <li>Get dashboard data for client and project manager</li>
               <li>Add dashboard figure name</li>
-              <li>admin, pm, staff -> if assign to project, get this project dashboard data</li>
+              <li>admin, pm, staff, client -> if assign to a project, get this project dashboard data</li>
             </ul>
           `,
         },
