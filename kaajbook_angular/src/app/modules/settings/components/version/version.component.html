@@ -1,3 +1,5 @@
+<button class="btn btn-secondary" (click)="downloadAllVersionLogAsPDF()">Download Log</button>
+<div id="versionLogs">      
 <div *ngFor="let activity of versionLog.activities; index as i">
     <div [ngClass]="{'version-timeline-upcoming': activity.released === false }" class="version-timeline-complete">
         <div class="card overflow-hidden shadow-none p-2">
@@ -17,4 +19,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
