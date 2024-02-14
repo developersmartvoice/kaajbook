@@ -239,6 +239,15 @@
                 <td>
                     <b>{{ strtoupper(trans('messages.invoices.title')) }}</b><br>
                     <b># {{ $invoice->invoice_number }}</b>
+                     <!-- Add project name -->
+                     @if ($invoice->project_id)
+                        @php
+                            $project = Modules\Projects\Models\Project::find($invoice->project_id);
+                        @endphp
+                        @if ($project)
+                            <p>{{ trans('messages.invoices.project_name') }}: {{ $project->project_name }}</p>
+                        @endif
+                     @endif
                 </td>
             </tr>
             <tr>
@@ -285,7 +294,9 @@
      <!-- Add square areas with textareas -->
     <div>
         @if(!is_null($invoice->invoice_header_information_text))
+        <label for="textbox1">Invoice Information:</label>
         <textarea id="textbox1" name="textbox1" class="custom-textarea">{{ $invoice->invoice_header_information_text }}</textarea>
+        <div style="height: 5px;"></div>
         @endif
     </div>
 
