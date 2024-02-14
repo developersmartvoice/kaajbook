@@ -26,7 +26,7 @@ export class PmDashboardChart8YearlyProjectComponent implements OnInit {
 
 		scales: {
 			yAxes: [{
-			  type: 'logarithmic', // Set the y-axis scale to logarithmic
+			  type: 'linear', // Set the y-axis scale to logarithmic
 			  ticks: {
 				min: .9,
 				maxTicksLimit: 10, 
