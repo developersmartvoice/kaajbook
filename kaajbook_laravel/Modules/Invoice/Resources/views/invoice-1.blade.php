@@ -285,9 +285,7 @@
      <!-- Add square areas with textareas -->
     <div>
         @if(!is_null($invoice->invoice_header_information_text))
-        <textarea id="textbox1" name="textbox1" class="custom-textarea">
-            {{ $invoice->invoice_header_information_text }}
-        </textarea>
+        <textarea id="textbox1" name="textbox1" class="custom-textarea">{{ $invoice->invoice_header_information_text }}</textarea>
         @endif
     </div>
 
