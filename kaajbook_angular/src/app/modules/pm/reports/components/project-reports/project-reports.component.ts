@@ -40,6 +40,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 		type: 'pdf',
 		elementIdOrContent: 'projects_table',
 	};
+	isClient: boolean;
 
 	constructor(
 		public translate: TranslateService,
@@ -54,6 +55,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 	ngOnInit() {
 		this.getUserkeyBy();
 		this.loadProjectDatatable();
+		this.isClient = this.loginUser.is_client;
 	}
 
 	getUserkeyBy() {

@@ -21,7 +21,8 @@
                             <th>{{'projects.columns.assigned_To' | translate}}</th>
                             <th>{{'projects.columns.status' | translate}}</th>
                             <th>{{'projects.columns.bill_amount' | translate}}</th>
-                            <th>{{'projects.columns.budget' | translate}}</th>
+                            <th *ngIf="!isClient">{{'projects.columns.budget' | translate}}</th>
+                            <th *ngIf="isClient"></th>
                             <th>{{'projects.columns.client' | translate}}</th>
                         </tr>
                     </thead>
@@ -71,10 +72,11 @@
                                 </ng-container>
                                 <ng-template #elseBlock2>-</ng-template>
                             </td>
-                            <td>
+                            <td *ngIf="!isClient">
                                 <ng-container *ngIf="project.price_rate else elseBlock3;">{{project.price_rate}}</ng-container>
                                 <ng-template #elseBlock3>-</ng-template>
                             </td>
+                            <td *ngIf="isClient"></td>
                             <td class="people-lists">
                                 <ng-container *ngIf="project.client_id; else elseBlock5;">
                                     <a [routerLink]="['/users/profile', project.client_id]" class="btn btn-profile-info rounded-circle text-dark" tooltip="{{project.client_firstname}} {{project.client_lastname}}">
@@ -121,9 +123,10 @@
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.billing' | translate}}" name="billing" />
                             </th>
-                            <th>
+                            <th *ngIf="!isClient">
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.budget' | translate}}" name="budget" />
                             </th>
+                            <th *ngIf="isClient"></th>
                             <th>
                                 <input type="text" class="form-control" placeholder="{{'projects.columns.client' | translate}}" name="client" />
                             </th>
