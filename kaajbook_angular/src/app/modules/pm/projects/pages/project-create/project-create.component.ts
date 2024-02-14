@@ -148,7 +148,7 @@ export class ProjectCreateComponent implements OnInit {
                     Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/),
                 ],
             ],
-            status: [1, Validators.required],
+            status: [2, Validators.required],
             estimated_hours: ["", Validators.pattern(/^[0-9]+\:[0-5][0-9]$/)],
             assign_to: [null],
             assign_members: [null],
