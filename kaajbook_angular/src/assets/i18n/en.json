@@ -799,7 +799,7 @@
 		"yearly_cost": "Yearly Project Cost",
 		"client_yearly": "Yearly Client Wise Project",
 		"client_yearly_bill": "Yearly Client Wise Project Bill",
-		"client_tilldate_bill": "Till Data Client Wise Project Bill",
+		"client_tilldate_bill": "Till Date Client Project Bill",
 		"client_monthly_project": "Monthly Client Wise Project",
 		"client_yearly_project": "Yearly Client Wise Project",
 		"pm_yearly_project": "Yearly Staff Wise Project",

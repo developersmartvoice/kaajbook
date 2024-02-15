@@ -7,21 +7,43 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.3",
+    currentVersion: "1.2.4",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.4 -",
-            releaseDate: "RELEASED ---",
+            version: "VERSION 1.2.5 -",
+            releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>Uploadable invoice header image & two text box text</li>
+              <li>-</li>
+              <li>-</li>
             </ul>
           `,
         },
-          {
+        {
+            released: true,
+            version: "VERSION 1.2.4 -",
+            releaseDate: "RELEASED 15-02-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>By default project status In Progress</li>
+              <li>Add project name to invoice</li>
+              <li>Add uploadable invoice header image</li>
+              <li>Add invoice header info text field</li>
+              <li>Can update invoice header info text field</li>
+              <li>Hide project report -> 'budget' from client view</li>
+              <li>Add download option for download all version log as pdf</li>
+              <li>Add pay amount to dashboard client bill report(figure-7)</li>
+              <li>Remove invoice -> Items, Taxes permission from client</li>
+              <li>Client monthly project (figure-3) data fix & change dashboard figure heading</li>
+            </ul>
+          `,
+        },
+        {
             released: true,
             version: "VERSION 1.2.3 -",
             releaseDate: "RELEASED 08-02-2024",
@@ -35,7 +57,7 @@ const versionLog = {
             </ul>
           `,
         },
-          {
+        {
             released: true,
             version: "VERSION 1.2.2 -",
             releaseDate: "RELEASED 31-01-2024",
@@ -246,7 +268,7 @@ const versionLog = {
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>By default project status In Progress</li>
+              <li>By default task status In Progress</li>
               <li>Assign user to template task from project. Assigned 1st user</li>
             </ul>
           `,
