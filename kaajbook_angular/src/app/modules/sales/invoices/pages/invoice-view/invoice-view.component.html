@@ -34,8 +34,10 @@
 							</div>
 							<div class="col-md-6 col-12 text-right">
 								<h2 class="primary text-uppercase">{{'invoices.title4' | translate}}</h2>
-								<p class="pb-3"># {{invoice.invoice_number}}</p>
-							</div>
+								<p class="pb-3"># {{invoice.invoice_number}}
+									<br>Project: {{invoice.project?.project_name || 'N/A'}}
+								</p>
+ 							</div>
 						</div>
 						<div id="invoice-customer-details" class="row">
 							<div class="col-12 text-left">
