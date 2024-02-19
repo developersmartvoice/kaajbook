@@ -20,6 +20,7 @@
 										<thead>
 											<tr>
 												<th>{{'invoices.columns.invoice_number' | translate}} #</th>
+												<th>{{'invoices.columns.project_id' | translate}} #</th>
 												<th>{{'invoices.columns.customer' | translate}}</th>
 												<th>{{'invoices.columns.invoice_date' | translate}}</th>
 												<th>{{'invoices.columns.due_date' | translate}}</th>
@@ -36,6 +37,12 @@
 													</ng-container>
 													<ng-template #elseBlock1>{{invoice.invoice_number}}</ng-template>
 												</td>
+ 												<td>
+													<ng-container *ngIf="invoice.project_id != null else elseBlock2">
+														<a [routerLink]="['/projects/detail', invoice.project_id]" tooltip="{{'common.view' | translate}}">P{{ invoice.project_id.toString().padStart(5, '0') }}</a>
+													</ng-container>
+													<ng-template #elseBlock2>-</ng-template>
+ 												</td>
 												<td>{{invoice.client_firstname}} {{invoice.client_lastname}}</td>
 												<td>{{invoice.invoice_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
 												<td>{{invoice.due_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>

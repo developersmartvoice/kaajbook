@@ -64,32 +64,37 @@ export class InvoiceListComponent implements OnInit {
 			columns: [
 				{
 					'sortable': true,
-					'width': "16%",
+					'width': "14%",
 					'target': [0]
 				},
 				{
 					'sortable': true,
-					'width': "16%",
+					'width': "11%",
 					'target': [1]
 				},
 				{
 					'sortable': true,
-					'width': "16%",
+					'width': "14%",
+					'target': [1]
+				},
+				{
+					'sortable': true,
+					'width': "14%",
 					'target': [2]
 				},
 				{
 					'sortable': true,
-					'width': "16%",
+					'width': "14%",
 					'target': [3]
 				},
 				{
 					'sortable': true,
-					'width': "16%",
+					'width': "14%",
 					'target': [4]
 				},
 				{
 					'sortable': true,
-					'width': "15%",
+					'width': "14%",
 					'target': [5]
 				},
 				{

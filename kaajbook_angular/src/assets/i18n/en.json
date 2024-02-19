@@ -800,9 +800,9 @@
 		"client_yearly": "Yearly Client Wise Project",
 		"client_yearly_bill": "Yearly Client Wise Project Bill",
 		"client_tilldate_bill": "Till Date Client Project Bill",
-		"client_monthly_project": "Monthly Client Wise Project",
-		"client_yearly_project": "Yearly Client Wise Project",
-		"pm_yearly_project": "Yearly Staff Wise Project",
+		"client_monthly_project": "This Month Client Project",
+		"client_yearly_project": "This Year Client Project",
+		"pm_yearly_project": "This Year Staff Project",
 		"estimate": "Estimates",
 		"invoices": "Due Invoices",
 		"widgets": {
@@ -1460,6 +1460,7 @@
 			"due_date": "Due Date",
 			"invoice_date": "Date",
 			"invoice_number": "Invoice",
+			"project_id": "Project ID",
 			"status": "Status",
 			"total_amount": "Amount"
 		},
