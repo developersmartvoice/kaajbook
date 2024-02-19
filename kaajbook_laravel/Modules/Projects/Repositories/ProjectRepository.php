@@ -1159,17 +1159,17 @@ class ProjectRepository
         $columns = array(
             0 => $project_table . '.generated_id',
             1 => $project_table . '.project_name',
-            2 => $project_table . '.project_version',
-            3 => $project_table . '.start_date',
-            4 => $project_table . '.end_date',
-            5 => $project_table . '.actual_hours',
-            6 => $project_table . '.progress',
-            7 => DB::raw('concat(project_created.firstname," ",project_created.lastname)'),
-            8 => $project_table . '.assign_members',
-            9 => $project_table . '.status',
-            10 => $project_table . '.billing_type',
-            11 => $project_table . '.price_rate',
-            12 => DB::raw("concat($user_table.firstname,' ',$user_table.lastname)"),
+            // 2 => $project_table . '.project_version',
+            2 => $project_table . '.start_date',
+            3 => $project_table . '.end_date',
+            // 5 => $project_table . '.actual_hours',
+            4 => $project_table . '.progress',
+            5 => DB::raw('concat(project_created.firstname," ",project_created.lastname)'),
+            6 => $project_table . '.assign_members',
+            7 => $project_table . '.status',
+            8 => $project_table . '.billing_type',
+            9 => $project_table . '.price_rate',
+            10 => DB::raw("concat($user_table.firstname,' ',$user_table.lastname)"),
         );
 
         $input = $request->input();
