@@ -142,7 +142,13 @@ class PmHelperRepository
 
         $paidInvoicesQuery = clone $invoices;
         $data['paid_invoice'] = $paidInvoicesQuery->where('status', 'paid')->count();
-        $data['unpaid_invoice'] = $invoices->where('status', 'unpaid')->count();
+
+        $unpaidInvoicesQuery = clone $invoices;
+        $data['unpaid_invoice'] = $unpaidInvoicesQuery->where('status', 'unpaid')->count();
+
+        $totalInvoicesQuery = clone $invoices;
+        $data['total_invoice'] = $totalInvoicesQuery->count();
+
         // Current month due and received payments count.
         $data['due_payment'] = $invoices->whereDate('due_date', '>=', Carbon::now()->startOfMonth())
                 ->whereDate('due_date', '<', Carbon::now())
