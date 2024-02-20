@@ -22,21 +22,21 @@
                         <app-pm-dashboard-tasks [tasks]="dashboardLists1.tasks" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-tasks>
                     </div>
                 </ng-container>
-                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'defects_view']">
+                <!-- <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'defects_view']">
                     <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_defects_list">
                         <app-pm-dashboard-defects [defects]="dashboardLists1.defects" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-defects>
                     </div>
-                </ng-container>
+                </ng-container> -->
                 <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'incidents_view']">
                     <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_incidents_list">
                         <app-pm-dashboard-incidents [incidents]="dashboardLists1.incidents" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-incidents>
                     </div>
                 </ng-container>
-                <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'estimates_view']">
+                <!-- <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'estimates_view']">
                     <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_estimates_list">
                         <app-pm-dashboard-estimates [estimates]="dashboardLists1.estimates" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-estimates>
                     </div>
-                </ng-container>
+                </ng-container> -->
                 <ng-container *ngxPermissionsOnly="['admin', 'super_admin', 'invoices_view']">
                     <div class="col-xl-4 col-lg-12" *ngIf="dashboardSettings.is_invoices_list">
                         <app-pm-dashboard-invoices [invoices]="dashboardLists1.invoices" [loginUser]="loginUser" [apiUrl]="apiUrl"></app-pm-dashboard-invoices>
