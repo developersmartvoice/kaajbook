@@ -6,7 +6,7 @@
                 <div class="card-header pl-0 pr-0 border-bottom">
                     <h4 class="main-title mt-2"><span>{{'projects.title' | translate}}</span></h4>
                     <div class="card-buttons">
-                        <a class="btn btn-create create-template mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" [routerLink]="['/projects/template']" placement="top" tooltip="{{'projects.create.fields.create_project_template' | translate}}"><i class="fa fa-text-width" aria-hidden="true"></i></a>
+                        <a class="btn btn-create create-template mb-0" *ngxPermissionsOnly="['admin', 'super_admin']" [routerLink]="['/projects/template']" placement="top" tooltip="{{'projects.create.fields.create_project_template' | translate}}"><i class="fa fa-text-width" aria-hidden="true"></i></a>
                         <a *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" href="{{ apiUrl }}/csv/import_project.csv" download="import_project.csv" class="btn btn-create mb-0" placement="top" tooltip="{{'common.tooltip.project_csv_sample' | translate}}"><i class="fa fa-files-o"></i></a>
                         <button class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" (click)="openProjectImportModal()" placement="top" tooltip="{{'common.import' | translate}}"><i class="fa fa-upload"></i></button>
                         <a class="btn btn-create mb-0" *ngxPermissionsOnly="['admin', 'super_admin', 'projects_create']" [routerLink]="['/projects/create']" placement="top" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></a>

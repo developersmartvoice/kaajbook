@@ -6,7 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { ToastrService } from "ngx-toastr";
 import { ProjectTemplateEditComponent } from "../project-template-edit/project-template-edit.component";
 import Swal from "sweetalert2";
-
+import { NgxPermissionsService } from 'ngx-permissions';
 @Component({
     selector: "app-project-template-list",
     templateUrl: "./project-template-list.component.html",
@@ -23,16 +23,24 @@ export class ProjectTemplateListComponent implements OnInit {
 	};
     ProjectTemplateCreateComponent
     customTemplateList = [];
+    permissions: any;
     constructor(
         public translate: TranslateService,
         private modalService: BsModalService,
         private customTemplateService: CustomTemplateService,
         private toastr: ToastrService,
+        private ngxPermissionsService: NgxPermissionsService // Inject NgxPermissionsService
 
     ) {}
 
     ngOnInit() {
-        this.getCustomTemplateList();
+        this.ngxPermissionsService.permissions$.subscribe((permissions) => {
+            this.permissions = permissions;
+        });
+
+        if (this.permissions && (this.permissions.admin || this.permissions.super_admin)) {
+            this.getCustomTemplateList();
+        }
     }
 
 
