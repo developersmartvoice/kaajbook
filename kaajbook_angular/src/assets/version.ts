@@ -7,18 +7,38 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.4",
+    currentVersion: "1.2.5",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.5 -",
+            version: "VERSION 1.2.6 -",
             releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-              <li>-</li>
-              <li>-</li>
+             <li>-</li>
+            </ul>
+          `,
+        },
+        {
+            released: true,
+            version: "VERSION 1.2.5 -",
+            releaseDate: "RELEASED 29-02-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+              <li>Add invoice project name in invoice view/details</li>
+              <li>Add project ID to respective invoice in invoice list</li>
+              <li>Add the total invoice(n) amount in the Dashboard invoice widget</li>
+              <li>Dashboard hide -> Tasks status, Defects, Estimates & Re-arrange dashboard component chart order</li>
+              <li>Hide the project template from the client view</li>
+              <li>Remove Items and Taxs from client view</li>
+              <li>Project report -> search by creator & client fixed</li>
+              <li>Invoice edit -> Selected Project name & Customer name not showing Fixed</li>
+              <li>Project edit-> Selected Client name, assigned group, status not showing Fixed</li>
+              <li>Task edit -> Selected Assign to, Status & Priority not showing Fixed</li>
             </ul>
           `,
         },
