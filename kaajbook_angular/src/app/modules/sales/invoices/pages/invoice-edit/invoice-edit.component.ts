@@ -80,8 +80,8 @@ export class InvoiceEditComponent implements OnInit {
 	loadForm() {
 		this.editInvoiceForm = this.formBuilder.group({
 			id: [this.invoice.id],
-			project_id: [this.invoice.project_id],
-			client_id: [this.invoice.client_id, Validators.required],
+			project_id: [Number(this.invoice.project_id)],
+			client_id: [Number(this.invoice.client_id), Validators.required],
 			invoice_date: [new Date(this.invoice.invoice_date), Validators.required],
 			due_date: [new Date(this.invoice.due_date), Validators.required],
 			reference: [this.invoice.reference],
