@@ -40,7 +40,7 @@
 											<ng-select [searchable]="true"
 												[items]="clients"
 												[selectOnTab]="true"
-												bindLabel="firstname"
+												bindLabel="full_name"
 												bindValue="id"
 												labelForId="client_id"
 												formControlName="client_id"
@@ -74,7 +74,7 @@
 												[items]="teamsMembers"
 												[multiple]="true"
 												[selectOnTab]="true"
-												bindLabel="firstname"
+												bindLabel="full_name"
 												labelForId="teamsMembers"
 												formControlName="assign_members"
 												placeholder="{{'projects.create.placeholders.placeholder6' | translate }}">
