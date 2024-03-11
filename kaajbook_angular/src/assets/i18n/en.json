@@ -234,7 +234,7 @@
 				"message5": "File title can be max 255 characters long."
 			},
 			"fields": {
-				"attachment": "Attachment",
+				"attachment": "Attachment (file size >= 2MB is not recommended under 1MBps internet speed.)",
 				"description": "Description",
 				"file_title": "File Title"
 			},

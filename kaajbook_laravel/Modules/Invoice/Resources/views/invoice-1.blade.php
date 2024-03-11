@@ -310,7 +310,7 @@
                     <th class="w-5 qty noo">{{ trans('messages.invoices.quantity') }}</th>
                     <th class="w-15 noo">{{ trans('messages.invoices.unit_price') }}</th>
                     <th class="w-15 noo">Others</th>
-                    <th class="w-20 unit align-right">{{ trans('messages.invoices.total_item_amount') }}</th>
+                    <th class="w-20 noo align-right">{{ trans('messages.invoices.total_item_amount') }}</th>
                 </tr>
             </thead>
             <tbody>
