@@ -7,11 +7,11 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.5",
+    currentVersion: "1.2.6",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.6 -",
+            version: "VERSION 1.2.7 -",
             releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
@@ -21,6 +21,19 @@ const versionLog = {
             </ul>
           `,
         },
+        {
+          released: true,
+          version: "VERSION 1.2.6 -",
+          releaseDate: "RELEASED 19-03-2024",
+          description: `
+          <b>Status</b>: <span class="badge badge-success">Released</span><br>
+          <b>Feature</b>: 
+          <ul>
+            <li>Can create Porject Template with attached image</li>
+            <li>Add task logo on Project => Task</li>
+          </ul>
+        `,
+      },
         {
             released: true,
             version: "VERSION 1.2.5 -",
