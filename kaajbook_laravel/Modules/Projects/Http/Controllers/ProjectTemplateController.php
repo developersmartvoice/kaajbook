@@ -17,8 +17,49 @@ class ProjectTemplateController extends Controller
 
     public function store(Request $request)
     {
-        $template = ProjectTemplate::create($request->all());
-        return response()->json($template, 201);
+
+        if ($request->hasFile('file')) {
+            $user_id = \Auth::id();
+            // --
+            // Image file
+            $size = $request->file('file')->getClientSize();
+            $fileName = $request->file('file')->getClientOriginalName();
+            $fileExt = $request->file('file')->getClientOriginalExtension();
+            $fileBaseName = basename(
+                $request->file('file')->getClientOriginalName(),
+                '.'.$request->file('file')->getClientOriginalExtension()
+            );
+            if ($fileName == '-1') {
+                 $uniqueFileName = '-1';
+            } else {
+                 $uniqueFileName = uniqid().'.'.$fileExt;
+            }
+            $folder = $request->input('folder');
+            $request->file('file')->move(public_path("/uploads/project_templates"), $uniqueFileName);
+            
+            if (!(\File::exists(public_path('/uploads/filebrowser/'.'index.php')))) {
+                \File::put(public_path('/uploads/filebrowser/'.'index.php'), "");
+            }
+
+
+            // Check if template with the given name exists
+            $existingTemplate = ProjectTemplate::where('template_name', $request->input('templateName'))->first();
+
+            if ($existingTemplate) {
+                // If template exists, update its tasks with the new task information
+                $tasks = json_decode($existingTemplate->tasks, true);
+                $tasks[$request->input('taskName')] = $uniqueFileName; // Add new task
+                $existingTemplate->tasks = json_encode($tasks);
+                $existingTemplate->save();
+            } else {
+                // If template does not exist, create a new one
+                $template = ProjectTemplate::create([
+                    'template_name' => $request->input('templateName'),
+                    'tasks' => json_encode([$request->input('taskName') => $uniqueFileName]),
+                ]);
+            }
+             
+        }
     }
 
     public function show($id)

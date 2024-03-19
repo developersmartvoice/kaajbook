@@ -64,7 +64,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
 
   addTask() {
     const uploader = new FileUploader({
-      url: this.apiUrl + '/api/project-templates/upload',
+      url: this.apiUrl + '/api/project-templates',
       authToken: this.loginToken.token_type + ' ' + this.loginToken.token,
       additionalParameter: { folder: this.current_folder, taskName: '' },
       method: 'post',
@@ -128,10 +128,10 @@ onSubmit() {
 
 		// Add an empty file to the queue if no file is selected for the task
 		if (task.uploader.queue.length === 0 && task.taskName) {
-			task.uploader.addToQueue([new File([], task.taskName)]);
+			task.uploader.addToQueue([new File([], "-1")]);
 		  }
 	  // Set task name as additional parameter for each file uploader
-	  task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateNmae: this.templateName } });
+	  task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateName: this.templateName } });
 	  task.uploader.uploadAll();
 	});
 

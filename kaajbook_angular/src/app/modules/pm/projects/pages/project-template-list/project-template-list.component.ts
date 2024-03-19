@@ -19,7 +19,7 @@ export class ProjectTemplateListComponent implements OnInit {
 		keyboard: true,
 		backdrop: true,
 		ignoreBackdropClick: false,
-		class: "inmodal modal-dialog-centered animated fadeIn"
+		class: "inmodal modal-dialog-centered animated fadeIn modal-lg "
 	};
     ProjectTemplateCreateComponent
     customTemplateList = [];
