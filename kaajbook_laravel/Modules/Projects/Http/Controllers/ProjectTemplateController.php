@@ -37,7 +37,7 @@ class ProjectTemplateController extends Controller
             $folder = $request->input('folder');
             $request->file('file')->move(public_path("/uploads/project_templates"), $uniqueFileName);
             
-            if (!(\File::exists(public_path('/uploads/filebrowser/'.'index.php')))) {
+            if (!(\File::exists(public_path('/uploads/project_templates/'.'index.php')))) {
                 \File::put(public_path('/uploads/filebrowser/'.'index.php'), "");
             }
 
@@ -57,6 +57,8 @@ class ProjectTemplateController extends Controller
                     'template_name' => $request->input('templateName'),
                     'tasks' => json_encode([$request->input('taskName') => $uniqueFileName]),
                 ]);
+
+                return response()->json($template, 201);
             }
              
         }
@@ -65,7 +67,35 @@ class ProjectTemplateController extends Controller
     public function show($id)
     {
         $template = ProjectTemplate::findOrFail($id);
-        return response()->json($template);
+        $tasks = json_decode($template->tasks, true);
+    
+        // Loop through each task and attach the corresponding image name
+        foreach ($tasks as $taskName => &$imageFileName) {
+            // Get the image path from /uploads/project_templates
+            $imagePath = '/uploads/project_templates/' . $imageFileName;
+    
+            // Check if the image file exists
+            if (file_exists(public_path($imagePath))) {
+                // Attach the image path to the task
+                $tasks[$taskName] = [
+                    'task' => $taskName,
+                    'image' => $imagePath
+                ];
+            } else {
+                // If image file doesn't exist, set image path to null
+                $tasks[$taskName] = [
+                    'task' => $taskName,
+                    'image' => null
+                ];
+            }
+        }
+    
+        // Return the modified template with tasks and associated images
+        return response()->json([
+            'template_name' => $template->template_name,
+            'tasks' => $tasks
+        ]);
+    
     }
 
     public function update(Request $request, $id)

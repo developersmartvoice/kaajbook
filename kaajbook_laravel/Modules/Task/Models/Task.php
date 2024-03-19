@@ -56,6 +56,7 @@ class Task extends Model
         'task_end_date',
         'estimated_hours',
         'status',
+        'task_logo',
         'progress',
         'created_by',
         'description',
