@@ -134,6 +134,8 @@ onSubmit() {
 	  task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateName: this.templateName } });
 	  task.uploader.uploadAll();
 	});
+	    // Close the modal
+    this.bsCreateFileModalRef.hide();
 
   }
 }

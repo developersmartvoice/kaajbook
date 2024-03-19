@@ -27,7 +27,16 @@
 					<tbody>
 						<tr *ngFor="let task of project.tasks">
 							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.generated_id}}</a></td>
-							<td><a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.name}}</a></td>
+							<td>
+								<div class="d-flex align-items-center">
+									<div class="text-center mr-2">
+										<img src="{{apiUrl}}/uploads/project_templates/{{task.task_logo}}" class="img-sm rounded-circle" alt="Logo" *ngIf="task.task_logo !== '-1'" />
+									</div>
+									<div>
+										<a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.name}}</a>
+									</div>
+								</div>
+							</td>							
 							<!-- <td class="budges-status">
 								<ng-container *ngFor="let status of ('tasks.status' | translate)">
 									<span class="{{status.class}}" *ngIf="status.id == task.status">{{status.label}}</span>
