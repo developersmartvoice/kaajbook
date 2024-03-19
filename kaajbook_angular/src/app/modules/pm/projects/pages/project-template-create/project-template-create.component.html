@@ -1,32 +1,52 @@
 <div class="modal-header">
 	<h2 class="modal-title font-weight-normal"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;{{'projects.create.fields.create_project_template' | translate}}</h2>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()"><span aria-hidden="true">&times;</span></button>
-</div>
-<form [formGroup]="createCustomTemplateForm" (ngSubmit)="onSubmit()" class="bs4-forms">
-	<div class="modal-body">
-		<div class="form-body">
-			<div class="row">
-				<div class="col-md-12 form-group">
- 					<label for="form_id">{{'projects.create.fields.template_name' | translate}}</label>&nbsp;<span class="text-danger">*</span>
-					 <input type="text" placeholder="{{'projects.create.fields.template_name' | translate}}" class="form-control" id="templateName" formControlName="templateName"/>
-					 <div *ngIf="createCustomTemplateForm.get('templateName').hasError('required') && createCustomTemplateForm.get('templateName').touched" class="text-danger">
-						{{'settings.custom_fields.create.error_messages.message6' | translate}}
-					  </div>
-											
-				</div>
-				<div></div>
-				<div class="col-md-12">
-					<label for="field_type">{{'projects.create.fields.task_in_template' | translate}}</label>&nbsp;<span class="text-danger">*</span>
-					<textarea type="text" placeholder="{{'projects.create.placeholders.placeholder13' | translate}}" class="form-control" id="taskInTemplate" formControlName="taskInTemplate" rows="10"></textarea>
-					<div *ngIf="createCustomTemplateForm.get('taskInTemplate').hasError('required') && createCustomTemplateForm.get('taskInTemplate').touched" class="text-danger">
-						{{'settings.custom_fields.create.error_messages.message6' | translate}}
-					  </div>					  
-				</div>
-			</div>
+  </div>
+  <div class="modal-body">
+	<div class="row">
+	  <div class="form-group col-md-12">
+		<label for="templateName">{{'Template Name' | translate}}</label>
+		<input type="text" class="form-control" id="templateName" [(ngModel)]="templateName">
+	  </div>
+	</div>
+  
+<!-- HTML Template (project-template-create.component.html) -->
+<div class="modal-body">
+	<!-- Task inputs with file upload -->
+	<div *ngFor="let task of tasks; let i = index" class="row mt-3 align-items-end">
+	  <div class="col-md-6">
+		<div class="form-group">
+		  <label for="taskName{{i}}">{{'Task Name' | translate}}</label>
+		  <input type="text" class="form-control" id="taskName{{i}}" [(ngModel)]="task.taskName" placeholder="Task {{i+1}}" >
 		</div>
+	  </div>
+	  <div class="col-md-5">
+		<!-- File upload input -->
+		<label class="btn btn-raised btn-info round btn-file">
+		  <input type="file" ng2FileSelect [uploader]="task.uploader" class="d-none" (change)="onFileSelected($event, i)" />
+		  <span><i class="fa fa-upload"></i> {{'Upload' | translate}}</span>
+		</label>
+		<span style="color: rgb(83, 195, 230);">{{ task.fileName }}</span>
+	  </div>
+	  <div class="ml-auto">
+		<button class="btn btn-danger text-white" (click)="removeTask(i)">{{'X' | translate}}</button>
+	  </div>
 	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.close' | translate}}</button>
-		<button type="submit" class="btn btn-submit mb-0"><span>{{'common.create' | translate}}</span></button>
+  
+	<!-- Add Task button at the bottom -->
+	<div class="row mt-3">
+	  <div class="col-md-12">
+		<button class="btn btn-primary text-white" (click)="addTask()" >{{'Add Task' | translate}}</button>
+	  </div>
 	</div>
-</form>
+  </div>
+  
+  
+  </div>
+  <div class="modal-footer">
+	<button type="button" class="btn btn-cancel mb-0" data-dismiss="modal" (click)="onCancel()">{{'common.close' | translate}}</button>
+	<button type="submit" class="btn btn-submit mb-0" (click)="onSubmit()"><span>{{'common.create' | translate}}</span></button>
+  </div>
+  
+
+  

@@ -50,6 +50,7 @@ import { ProjectTimesheetEditModalComponent } from './components/project-timeshe
 import { ProjectTemplateListComponent } from './pages/project-template-list/project-template-list.component';
 import { ProjectTemplateCreateComponent } from './pages/project-template-create/project-template-create.component';
 import { ProjectTemplateEditComponent } from './pages/project-template-edit/project-template-edit.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
 	declarations: [
@@ -74,6 +75,7 @@ import { ProjectTemplateEditComponent } from './pages/project-template-edit/proj
 		ProjectTemplateEditComponent
 	],
 	imports: [
+		FileUploadModule,
 		CommonModule,
 		ProjectsRoutingModule,
 		FormsModule,
