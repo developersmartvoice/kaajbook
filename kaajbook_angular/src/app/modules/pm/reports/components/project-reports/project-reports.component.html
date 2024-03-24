@@ -67,13 +67,15 @@
                             <td>
                                 <ng-container *ngIf="project.total_amount; else elseBlock2;">
                                     <ng-container>
-                                        <span class="badge badge-secondary">{{project.total_amount}}</span>
+                                        <span class="badge badge-secondary">{{project.total_amount | number:'1.2-2' }}</span>
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #elseBlock2>-</ng-template>
                             </td>
                             <td *ngIf="!isClient">
-                                <ng-container *ngIf="project.price_rate else elseBlock3;">{{project.price_rate}}</ng-container>
+                                <ng-container *ngIf="project.price_rate else elseBlock3;">
+                                    <span class="badge badge-primary">{{project.price_rate | number:'1.2-2' }}</span>
+                                    </ng-container>
                                 <ng-template #elseBlock3>-</ng-template>
                             </td>
                             <td *ngIf="isClient"></td>
