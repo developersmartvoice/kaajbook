@@ -19,6 +19,7 @@ import { UserService } from '../../../core/services/user.service';
 
 import { smoothlyMenu } from '../../../core/helpers/app.helper';
 import { environment } from './../../../../environments/environment';
+import Swal from 'sweetalert2';
 
 declare var jQuery: any;
 
@@ -74,7 +75,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	getNotifications() {
-		this.notificationService.getNotifications(10).subscribe(data => {
+		this.notificationService.getNotifications(10000).subscribe(data => {
 			this.notifications = data;
 		}, error => {
 			this.interval.unsubscribe();
@@ -123,6 +124,26 @@ export class HeaderComponent implements OnInit {
 				this.router.navigate([notification.route, 'detail', notification.route_related_id]);
 			}
 		});
+	}
+
+	deleteAllNotifications() {
+
+		Swal.fire({
+			title: this.translate.instant('common.swal.title'),
+			text: this.translate.instant('common.swal.text'),
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: this.translate.instant('common.swal.confirmButtonText'),
+			cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
+		}).then((result) => {
+			if (result.value) {
+				this.notificationService.deleteAll().subscribe(data => {
+					this.toastr.success(this.translate.instant('header.delete'), this.translate.instant('header.notifications'));
+					this.getNotifications();
+				});
+			}
+		});
+
 	}
 
 	clearNotification(event: MouseEvent, notification) {

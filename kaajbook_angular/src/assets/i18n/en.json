@@ -1230,6 +1230,8 @@
 		"logout": "Logout",
 		"mails": "mails",
 		"notifications": "Notifications",
+		"clear_all": "Clear All",
+		"delete":"Deleted successfully.",
 		"clear": "Clear",
 		"profile": "Profile",
 		"search": {

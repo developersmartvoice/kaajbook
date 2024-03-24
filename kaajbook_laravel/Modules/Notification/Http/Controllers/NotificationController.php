@@ -67,4 +67,16 @@ class NotificationController extends Controller
             return response()->json('error', 401);
         }
     }
+
+
+    public function destroyAll()
+    {
+        if ($this->notificationRepo->deleteAll()) {
+            return response()->json('success');
+        } else {
+            return response()->json('error', 401);
+        }
+    }
+
+    
 }

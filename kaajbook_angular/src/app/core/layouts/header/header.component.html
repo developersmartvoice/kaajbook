@@ -58,7 +58,13 @@
 							</div>
 						</a>
 						<ul *dropdownMenu class="dropdown-menu dropdown-menu-right notification-dropdown animated bounceInDown" role="menu">
-							<li><div class="drop-title">{{ 'header.notifications' | translate }}<span class="badge badge-pill badge-info ml-1">{{notifications.length}}</span></div></li>
+ 							<li>
+								<div class="drop-title d-flex justify-content-between align-items-center">
+								  {{ 'header.notifications' | translate }}
+								  <span class="badge badge-pill badge-info ml-1">{{notifications.length}}</span>
+								  <a (click)="deleteAllNotifications()" class="btn btn-delete btn-raised" tooltip="{{'header.clear_all' | translate}}"><i class="fa fa-trash-o"></i></a>
+								</div>
+							</li>
 							<li>
 								<div class="message-center" [perfectScrollbar]="scrollConfig">
 									<ng-container *ngIf="notifications?.length != 0; else elseBlock">

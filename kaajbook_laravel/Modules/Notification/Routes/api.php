@@ -14,4 +14,5 @@
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('get-notifications', 'NotificationController@getNotifications');
     Route::post('notifications/delete', 'NotificationController@destroy')->name('notifications.destroy');
+    Route::post('notifications/delete-all', 'NotificationController@destroyAll')->name('notifications.destroyAll');
 });

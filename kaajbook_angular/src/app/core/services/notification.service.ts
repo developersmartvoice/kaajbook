@@ -18,4 +18,8 @@ export class NotificationService {
 	delete(id: number) {
 		return this.http.post(`${this.apiUrl}/api/notifications/delete`, { id: id });
 	}
+
+  deleteAll() {
+    return this.http.post(`${this.apiUrl}/api/notifications/delete-all`, {});
+  }
 }

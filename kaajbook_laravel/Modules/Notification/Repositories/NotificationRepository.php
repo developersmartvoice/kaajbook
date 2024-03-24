@@ -53,4 +53,18 @@ class NotificationRepository
         Notification::where('id', $request->get('id'))->delete();
         return true;
     }
+
+
+    /**
+     * Remove all specified resource from storage.
+     *
+     * @param Request $request [Request for delete all notification]
+     *
+     * @return Boolen
+     */
+    public function deleteAll()
+    {
+        Notification::where('user_id', auth()->user()->id)->delete();
+        return true;
+    }
 }
