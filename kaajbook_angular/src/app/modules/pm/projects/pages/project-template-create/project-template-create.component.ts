@@ -94,6 +94,9 @@ export class ProjectTemplateCreateComponent implements OnInit {
 
   removeTask(index: number) {
     this.tasks.splice(index, 1);
+    if(this.tasks.length === 0){
+      this.toastr.error("At least one task is required.", this.translate.instant('projects.create.fields.project_template'));
+    }
   }
 
   public fileOverBase(e: any): void {
@@ -122,8 +125,13 @@ export class ProjectTemplateCreateComponent implements OnInit {
   onFileSelected(event: any, taskIndex: number) {
     const fileName = event.target.files[0].name;
     if(event.target.files[0].type.match('image*')){
+      if(event.target.files[0].size > 1048576){
+        this.toastr.error("File size is too large. Required <1 MB", this.translate.instant('projects.create.fields.project_template'));
+      }
+      else{
       this.tasks[taskIndex].fileName = fileName.substring(0, 20); // Truncate filename to 20 characters
     }
+  }
   }
 
 onSubmit() {
@@ -140,7 +148,14 @@ onSubmit() {
 	  task.uploader.uploadAll();
 	});
 	    // Close the modal
-    this.bsCreateFileModalRef.hide();
+
+    if(this.templateName == null || this.templateName == ""){
+       this.toastr.error("Template Name is required.", this.translate.instant('projects.create.fields.project_template'));
+    }
+    else
+    {
+      this.bsCreateFileModalRef.hide();
+    }
 
   }
 }
