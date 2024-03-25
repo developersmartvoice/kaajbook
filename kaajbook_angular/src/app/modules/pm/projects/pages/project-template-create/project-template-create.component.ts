@@ -79,9 +79,12 @@ export class ProjectTemplateCreateComponent implements OnInit {
 
     uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       const obj = JSON.parse(response);
-      if (obj.success) {
+       if (obj.template_name) {
         this.attachmentsArr.push(obj.id);
-        this.toastr.success(this.translate.instant('file_browser.messages.upload_file'), this.translate.instant('file_browser.title'));
+        this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('projects.create.fields.project_template'));
+      }
+      else if (obj.error) {
+        this.toastr.error(obj.error, this.translate.instant('projects.create.fields.project_template'));
       }
     };
 

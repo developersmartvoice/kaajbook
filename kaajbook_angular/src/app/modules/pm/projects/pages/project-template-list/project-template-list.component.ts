@@ -52,7 +52,6 @@ export class ProjectTemplateListComponent implements OnInit {
             (data) => {
                 this.customTemplateList = data;
                 this.customTemplateList.reverse();
-                console.log(data);
              },
             (error) => {
                 console.log(error);
@@ -86,8 +85,7 @@ export class ProjectTemplateListComponent implements OnInit {
 
       // Method to parse the string and return the length
       getTasksLength(tasksString: string): number {
-        console.log(tasksString);
-        try {
+         try {
             const tasksObject = JSON.parse(tasksString) || {};
             return Object.keys(tasksObject).length;
         } catch (error) {

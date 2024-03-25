@@ -5,6 +5,7 @@ namespace Modules\Projects\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Projects\Models\ProjectTemplate;
+use DateTime;
 
 
 class ProjectTemplateController extends Controller
@@ -32,7 +33,7 @@ class ProjectTemplateController extends Controller
             if ($fileName == '-1') {
                  $uniqueFileName = '-1';
             } else {
-                 $uniqueFileName = uniqid().'.'.$fileExt;
+                 $uniqueFileName = $request->input('templateName').'_'.uniqid().'.'.$fileExt;
             }
             $folder = $request->input('folder');
             $request->file('file')->move(public_path("/uploads/project_templates"), $uniqueFileName);
@@ -45,12 +46,23 @@ class ProjectTemplateController extends Controller
             // Check if template with the given name exists
             $existingTemplate = ProjectTemplate::where('template_name', $request->input('templateName'))->first();
 
-            if ($existingTemplate) {
-                // If template exists, update its tasks with the new task information
-                $tasks = json_decode($existingTemplate->tasks, true);
-                $tasks[$request->input('taskName')] = $uniqueFileName; // Add new task
-                $existingTemplate->tasks = json_encode($tasks);
-                $existingTemplate->save();
+             if ($existingTemplate) {
+                $creationTime = new DateTime($existingTemplate->created_at);
+                $currentTime = new DateTime();
+                $interval = $currentTime->diff($creationTime);
+                $intervalFlag = $interval->s <= 5 && $interval->i == 0 && $interval->h == 0 && $interval->d == 0;
+ 
+
+                if($intervalFlag) {
+                    $tasks = json_decode($existingTemplate->tasks, true);
+                    $tasks[$request->input('taskName')] = $uniqueFileName; // Add new task
+                    $existingTemplate->tasks = json_encode($tasks);
+                    $existingTemplate->save();
+                }
+                else{
+                    return response()->json(['error' => 'Template with the same name already exists.'], 400);
+                }
+
             } else {
                 // If template does not exist, create a new one
                 $template = ProjectTemplate::create([
