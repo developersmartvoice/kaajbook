@@ -23,7 +23,7 @@
 	  <div class="col-md-5">
 		<!-- File upload input -->
 		<label class="btn btn-raised btn-info round btn-file">
-		  <input type="file" ng2FileSelect [uploader]="task.uploader" class="d-none" (change)="onFileSelected($event, i)" />
+		  <input type="file" ng2FileSelect [uploader]="task.uploader" class="d-none" (change)="onFileSelected($event, i)" accept="image/*" />
 		  <span><i class="fa fa-upload"></i> {{'Upload' | translate}}</span>
 		</label>
 		<span style="color: rgb(83, 195, 230);">{{ task.fileName }}</span>

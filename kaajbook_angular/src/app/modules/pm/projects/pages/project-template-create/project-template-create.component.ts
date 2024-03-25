@@ -118,7 +118,9 @@ export class ProjectTemplateCreateComponent implements OnInit {
   // Update task's fileName property when a file is selected
   onFileSelected(event: any, taskIndex: number) {
     const fileName = event.target.files[0].name;
-    this.tasks[taskIndex].fileName = fileName.substring(0, 20); // Truncate filename to 20 characters
+    if(event.target.files[0].type.match('image*')){
+      this.tasks[taskIndex].fileName = fileName.substring(0, 20); // Truncate filename to 20 characters
+    }
   }
 
 onSubmit() {
