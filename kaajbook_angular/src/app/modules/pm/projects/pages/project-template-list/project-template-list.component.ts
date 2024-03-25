@@ -7,12 +7,15 @@ import { ToastrService } from "ngx-toastr";
 import { ProjectTemplateEditComponent } from "../project-template-edit/project-template-edit.component";
 import Swal from "sweetalert2";
 import { NgxPermissionsService } from 'ngx-permissions';
+import { environment } from "src/environments/environment";
 @Component({
     selector: "app-project-template-list",
     templateUrl: "./project-template-list.component.html",
     styleUrls: ["./project-template-list.component.scss"],
 })
 export class ProjectTemplateListComponent implements OnInit {
+    private apiUrl = environment.apiUrl;
+
     public modalRef: BsModalRef;
     modalConfigs = {
 		animated: true,
@@ -82,15 +85,25 @@ export class ProjectTemplateListComponent implements OnInit {
 	}
 
       // Method to parse the string and return the length
-        getTasksLength(tasksString: string): number {
-            try {
-            const tasksArray = JSON.parse(tasksString) || [];
-            return tasksArray.length;
-            } catch (error) {
+      getTasksLength(tasksString: string): number {
+        console.log(tasksString);
+        try {
+            const tasksObject = JSON.parse(tasksString) || {};
+            return Object.keys(tasksObject).length;
+        } catch (error) {
             console.error('Error parsing tasks:', error);
             return 0;
-            }
         }
+    }
+    getTaskImages(tasksString: string): string[] {
+        try {
+            const tasksObject = JSON.parse(tasksString) || {};
+            return Object.values(tasksObject);
+        } catch (error) {
+            console.error('Error parsing tasks:', error);
+            return [];
+        }
+    }
 
     openCustomFieldCreateModal() {
 		this.modalRef = this.modalService.show(ProjectTemplateCreateComponent, this.modalConfigs);
