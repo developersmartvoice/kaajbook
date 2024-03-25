@@ -22,10 +22,10 @@
               <td><span [ngClass]="{'text-primary': true}">{{customTemplate.template_name}}</span></td>
               <td class="people-lists">
                 <span [ngClass]="{'text-primary': true, 'mr-2': true}">{{getTasksLength(customTemplate.tasks)}}</span>
-                <a tooltip="{{i+1}}" class="btn rounded-circle text-dark" placement="top" *ngFor="let imageName of getTaskImages(customTemplate.tasks); index as i; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven, 'popover-item': i!=0}">
+                <a class="btn rounded-circle text-dark" placement="top" *ngFor="let imageName of getTaskImages(customTemplate.tasks); index as i; odd as isOdd; even as isEven" [ngClass]="{'btn-profile-info popover-item': isOdd, 'btn-profile-danger': isEven, 'popover-item': i!=0}">
                   <img *ngIf="imageName  && imageName != '-1'; else defaultImage" src="{{apiUrl}}/uploads/project_templates/{{imageName}}" class="img-sm rounded-circle" alt="logo" />
                   <ng-template #defaultImage>
-                    <i class="fa fa-picture-o"></i>
+                    <i class="fa fa-picture-o"></i> 
                   </ng-template>
                 </a> 
               </td>

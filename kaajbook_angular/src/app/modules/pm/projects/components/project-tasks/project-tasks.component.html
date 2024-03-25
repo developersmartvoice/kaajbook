@@ -30,7 +30,10 @@
 							<td>
 								<div class="d-flex align-items-center">
 									<div class="text-center mr-2">
-										<img src="{{apiUrl}}/uploads/project_templates/{{task.task_logo}}" class="img-sm rounded-circle" alt="Logo" *ngIf="task.task_logo !== '-1'" />
+										<img src="{{apiUrl}}/uploads/project_templates/{{task.task_logo}}" class="img-sm rounded-circle" alt="Logo" *ngIf="task.task_logo  && task.task_logo != '-1'; else defaultImage" />
+										<ng-template #defaultImage>
+											<i class="fa fa-picture-o"></i> 
+										</ng-template>
 									</div>
 									<div>
 										<a [routerLink]="['/tasks/detail', task.id]" tooltip="{{'common.view' | translate}}">{{task.name}}</a>
