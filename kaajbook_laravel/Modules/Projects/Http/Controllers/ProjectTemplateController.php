@@ -119,9 +119,25 @@ class ProjectTemplateController extends Controller
 
     public function destroy($id)
     {
-        $template = ProjectTemplate::findOrFail($id);
-        $template->delete();
-        return response()->json(null, 204);
+         $template = ProjectTemplate::find($id);
+
+         if ($template) {
+            $tasks = json_decode($template->tasks, true);
+            $imageNames = array_values($tasks);
+            
+            foreach ($imageNames as $imageName) {
+                if(\File::exists(public_path('/uploads/project_templates/'.$imageName))){
+                    \File::delete(public_path('/uploads/project_templates/'.$imageName));
+                }
+            }
+    
+            // Delete the template
+            $template->delete();
+            return response()->json(['message' => 'Template deleted successfully.'], 200);
+        } 
+        else {
+            return response()->json(['message' => 'Template not found.'], 404);
+        }
     }
 
     //get template by id
