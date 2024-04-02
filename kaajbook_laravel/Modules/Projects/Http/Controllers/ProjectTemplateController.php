@@ -38,10 +38,6 @@ class ProjectTemplateController extends Controller
             $folder = $request->input('folder');
             $request->file('file')->move(public_path("/uploads/project_templates"), $uniqueFileName);
             
-            if (!(\File::exists(public_path('/uploads/project_templates/'.'index.php')))) {
-                \File::put(public_path('/uploads/filebrowser/'.'index.php'), "");
-            }
-
 
             // Check if template with the given name exists
             $existingTemplate = ProjectTemplate::where('template_name', $request->input('templateName'))->first();

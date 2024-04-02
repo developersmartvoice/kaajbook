@@ -84,17 +84,17 @@ export class ProjectTemplateEditComponent implements OnInit {
 
 
 		// update template
-    this.customTemplateService.updateTemplate(this.customTemplate.id, formData)
-      .subscribe(
-        data => {					
-          this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_update'), this.translate.instant('settings.custom_fields.title3'));
-          this.event.emit({ data: true });
-          this.onCancel();
-          // this.router.navigate(["projects/template"]);
-        },
-        error => {
-          console.log("template update error : "+error);
-        });	
+    // this.customTemplateService.updateTemplate(this.customTemplate.id, formData)
+    //   .subscribe(
+    //     data => {					
+    //       this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_update'), this.translate.instant('settings.custom_fields.title3'));
+    //       this.event.emit({ data: true });
+    //       this.onCancel();
+    //       // this.router.navigate(["projects/template"]);
+    //     },
+    //     error => {
+    //       console.log("template update error : "+error);
+    //     });	
 
   }
 
