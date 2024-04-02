@@ -1,6 +1,7 @@
 <!-- Card header -->
 <div class="card-header pl-0 pr-0 border-bottom">
 	<h4 class="main-title "><span>{{'tasks.title' | translate }}</span></h4>
+	<p class="task-title ml-lg-2">{{project.project_name}}</p>
 	<div class="card-buttons">
 		<a [routerLink]="['/tasks/create']" *ngxPermissionsOnly="['admin', 'super_admin', 'tasks_create']" class="btn btn-create mb-0" tooltip="{{'common.create' | translate}}"><i class="fa fa-plus"></i></a>
 	</div>
