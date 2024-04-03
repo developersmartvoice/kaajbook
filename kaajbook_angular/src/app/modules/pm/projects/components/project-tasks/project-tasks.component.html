@@ -21,6 +21,7 @@
 							<!-- <th>{{'tasks.columns.start_date' | translate }}</th>
 							<th>{{'tasks.columns.end_date' | translate }}</th> -->
 							<th>{{'tasks.columns.assigned' | translate }}</th>
+							<th>{{'tasks.columns.duration' | translate}}</th>
 							<th>{{'tasks.columns.priority' | translate }}</th>
 							<th>{{'tasks.columns.actions' | translate}}</th>
 						</tr>
@@ -94,6 +95,10 @@
                                     </a>
                                 </ng-template>
                             </td>
+							<td class="duration">
+								<p class="m-0">{{'tasks.columns.start' | translate}}: <strong>{{ task.task_start_date | dateTimeFormatFilter: this.loginUser.settings.date_format}}</strong></p>
+								<p class="m-0">{{'tasks.columns.end' | translate}}: <strong>{{ task.task_end_date | dateTimeFormatFilter: this.loginUser.settings.date_format}}</strong></p>
+							</td>
 							<td class="budges-status">
                                 <ng-container *ngFor="let priority of ('tasks.priorities' | translate)">
                                     <div class="budges-status">
