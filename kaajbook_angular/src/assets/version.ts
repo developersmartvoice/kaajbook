@@ -7,11 +7,11 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.6",
+    currentVersion: "1.2.7",
     activities: [
         {
             released: false,
-            version: "VERSION 1.2.7 -",
+            version: "VERSION 1.2.8 -",
             releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
@@ -21,6 +21,22 @@ const versionLog = {
             </ul>
           `,
         },
+        {
+          released: true,
+          version: "VERSION 1.2.7 -",
+          releaseDate: "RELEASED 3-04-2024",
+          description: `
+          <b>Status</b>: <span class="badge badge-success">Released</span><br>
+          <b>Feature</b>: 
+          <ul>
+            <li>Can remove all notification at once</li>
+            <li>Report -> budget precision 2 decimal</li>
+            <li>Show all tasks image alongside total task in template list</li>
+            <li>Add image file size limit to 1MB and require template name</li>
+            <li>Add project name and start/end date on Project->task</li>
+          </ul>
+        `,
+      },
         {
           released: true,
           version: "VERSION 1.2.6 -",

@@ -10,4 +10,7 @@ environment = {
 	// use this apiUrl for live sub domain "test.kaajbook.com"
 	// apiUrl: 'http://test.kaajbook.com/kaajbook_laravel/public'
 
+	// use this apiUrl for live sub domain "smartlab.kaajbook.com"
+	// apiUrl: 'http://smartlab.kaajbook.com/kaajbook_laravel/public'
+
 };
