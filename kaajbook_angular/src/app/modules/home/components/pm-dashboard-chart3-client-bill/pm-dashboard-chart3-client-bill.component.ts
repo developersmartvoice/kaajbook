@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-pm-dashboard-chart3-client-bill',
@@ -137,4 +138,37 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 			// { data: this.incidents, label: this.translate.instant('incidents.title') }
 		];
 	}
+
+	exportToExcel() {
+		// Prepare the data for export
+		const exportData = [];
+	  
+		// Add the header row with labels
+		const headerRow = ['Label'];
+		this.barChartLabels.forEach(label => {
+		  headerRow.push(label);
+		});
+		exportData.push(headerRow);
+	  
+		// Add data rows for each dataset
+		this.barChartData.forEach(dataset => {
+			const dataRow = [dataset.label];
+			dataset.data.forEach(value => {
+				dataRow.push(value);
+			});
+			exportData.push(dataRow);
+		});
+
+		// Convert the data to a worksheet
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(exportData);
+
+		// Create a workbook and append the worksheet
+		const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+	  
+		// Save the workbook as an Excel file
+		XLSX.writeFile(wb, 'TILL_DATE_CLIENT_PROJECT_BILL.xlsx');
+	  }
+	  
+	  
 }
