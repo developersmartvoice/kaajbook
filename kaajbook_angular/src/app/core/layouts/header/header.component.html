@@ -56,6 +56,7 @@
 								<span class="heartbit"></span>
 								<span class="point"></span>
 							</div>
+							<span  *ngIf="notifications?.length != 0" class="badge badge-pill badge-info">{{notifications.length}}</span>
 						</a>
 						<ul *dropdownMenu class="dropdown-menu dropdown-menu-right notification-dropdown animated bounceInDown" role="menu">
  							<li>
