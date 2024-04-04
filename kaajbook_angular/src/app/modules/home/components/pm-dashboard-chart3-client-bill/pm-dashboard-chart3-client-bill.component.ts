@@ -167,7 +167,9 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 		XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 	  
 		// Save the workbook as an Excel file
-		XLSX.writeFile(wb, 'TILL_DATE_CLIENT_PROJECT_BILL.xlsx');
+		const currentDate = new Date();
+		const fileName = 'CLIENT_PROJECT_BILL_' + currentDate.toDateString() + '.xlsx';
+		XLSX.writeFile(wb, fileName);
 	  }
 	  
 	  
