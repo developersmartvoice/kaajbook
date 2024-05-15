@@ -144,7 +144,8 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 		const exportData = [];
 	  
 		// Add the header row with labels
-		const headerRow = ['Label'];
+		const downloadDateTime = new Date().toLocaleString();
+		const headerRow = [downloadDateTime];
 		this.barChartLabels.forEach(label => {
 		  headerRow.push(label);
 		});

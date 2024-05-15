@@ -3,6 +3,7 @@
 namespace Modules\Invoice\Repositories;
 
 use Auth;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Modules\Estimate\Models\Estimate;
 use Modules\Helper\Helpers\EmailsHelper;
@@ -205,6 +206,37 @@ class InvoiceRepository
             // Sent invoice to customer.
             $invoiceData = Invoice::with('client', 'items.taxes', 'payments')->find($invoice->id);
             $this->emailsHelper->sendInvoiceEmail($invoiceData);
+
+            ////////////////////////////////////////////////
+            $currency = Setting::Currency()->first();
+            $inv_url = config('app.front_url').'/#/invoices/detail/'.$invoice->id;
+
+            $client = new Client();
+            $url = 'https://labapi.smlbulksms.com/smsapiv3';
+            $apiKey = '58773bd2a25ed60b982a04335b77307c';
+            $sender = '8809617649928';
+            $msisdn = $invoiceData->client->mobile;
+            $message = 'Dear '.$invoiceData->client->full_name. '
+We have created an invoice "'.$invoiceData->invoice_number.'" for you in the amount of '.$currency->symbol.' '. $invoiceData->total_amount.'. 
+You can view the invoice on the following link: '. $inv_url.
+' Best Regards,
+The kaajbook Team.';
+    
+            try {   
+                $response = $client->get($url, [
+                    'query' => [
+                        'apikey' => $apiKey,
+                        'sender' => $sender,
+                        'msisdn' => $msisdn,
+                        'smstext' => $message,
+                    ],
+                ]);
+    
+                return response()->json(['status' => 'success', 'sms_response' => $response->getBody()->getContents()]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+            ////////////////////////////////////////////////
 
             // Add Notification.
             $admins = UserRepository::getAdminUsers();
