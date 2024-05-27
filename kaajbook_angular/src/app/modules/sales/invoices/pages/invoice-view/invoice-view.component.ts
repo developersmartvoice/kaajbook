@@ -207,4 +207,13 @@ export class InvoiceViewComponent implements OnInit {
 		this.getById(this.invoice.id);
 	}
 
+	payNow() {
+
+		// redirect to new page
+		let url = this.apiUrl + '/example2'
+		window.open(url, '_blank');
+		 
+
+	}
+
 }

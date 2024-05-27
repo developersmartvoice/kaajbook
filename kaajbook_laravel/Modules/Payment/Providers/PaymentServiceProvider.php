@@ -51,6 +51,15 @@ class PaymentServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'payment'
         );
+
+
+    // Register and publish the sslcommerz configuration
+    $this->mergeConfigFrom(
+        __DIR__.'/../Config/sslcommerz.php', 'sslcommerz'
+    );
+    $this->publishes([
+        __DIR__.'/../Config/sslcommerz.php' => config_path('sslcommerz.php'),
+    ], 'config');
     }
 
     /**
