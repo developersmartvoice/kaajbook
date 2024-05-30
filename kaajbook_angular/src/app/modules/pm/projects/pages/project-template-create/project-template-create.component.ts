@@ -82,6 +82,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
        if (obj.template_name) {
         this.attachmentsArr.push(obj.id);
         this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('projects.create.fields.project_template'));
+        this.bsCreateFileModalRef.hide(); // Only hide the modal on success
       }
       else if (obj.error) {
         this.toastr.error(obj.error, this.translate.instant('projects.create.fields.project_template'));
@@ -151,10 +152,11 @@ onSubmit() {
 
     if(this.templateName == null || this.templateName == ""){
        this.toastr.error("Template Name is required.", this.translate.instant('projects.create.fields.project_template'));
+       return;
     }
     else
     {
-      this.bsCreateFileModalRef.hide();
+      //  this.bsCreateFileModalRef.hide();
     }
 
   }

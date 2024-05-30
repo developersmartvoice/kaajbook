@@ -21,7 +21,7 @@ export class ProjectTemplateListComponent implements OnInit {
 		animated: true,
 		keyboard: true,
 		backdrop: true,
-		ignoreBackdropClick: false,
+		ignoreBackdropClick: true,
 		class: "inmodal modal-dialog-centered animated fadeIn modal-lg "
 	};
     ProjectTemplateCreateComponent
