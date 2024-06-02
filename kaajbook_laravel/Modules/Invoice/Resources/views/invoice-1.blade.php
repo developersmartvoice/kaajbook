@@ -48,8 +48,8 @@
     }
 
     table .no {
-        color: #FFFFFF;
-        background: #009688;
+        color: #000000;
+        background: #0096873b;
         text-align: center;
     }
 
@@ -238,7 +238,7 @@
                 </td>
                 <td>
                     <b>{{ strtoupper(trans('messages.invoices.title')) }}</b><br>
-                    <b># {{ $invoice->invoice_number }}</b>
+                    <b># {{ $invoice->invoice_number }}</b><br>
                      <!-- Add project name -->
                      @if ($invoice->project_id)
                         @php
@@ -270,10 +270,10 @@
                     <div class="mb-20">
                         <p><b>{{ $setting->company_name }}</b></p>
                         <p class="cpy-info">
-                            {!! nl2br($setting->company_address) !!}
-                            <br>{{ $setting->company_phone }}
+                            <p>{!! nl2br($setting->company_address) !!}</p>
+                            <p>{{ $setting->company_phone }}</p>
                             @if($invoiceSetting->show_gst_number)
-                            <br><!-- {{ strtoupper(trans('messages.invoices.gst_number')) }}: --> {{ strtoupper($invoiceSetting->gst_number) }}
+                            <p><!-- {{ strtoupper(trans('messages.invoices.gst_number')) }}: --> {{ strtoupper($invoiceSetting->gst_number) }}</p>
                             @endif
                         </p>
                     </div>
