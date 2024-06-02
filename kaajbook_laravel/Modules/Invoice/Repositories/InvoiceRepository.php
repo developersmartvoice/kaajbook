@@ -210,17 +210,23 @@ class InvoiceRepository
             ////////////////////////////////////////////////
             $currency = Setting::Currency()->first();
             $inv_url = config('app.front_url').'/#/invoices/detail/'.$invoice->id;
+            $previousDueAmount_this_client = Invoice::where('client_id', $invoiceData->client_id)
+            ->sum('total_due_amount');
+            $previousDueAmount_this_client = $previousDueAmount_this_client - $invoiceData->total_due_amount;
 
             $client = new Client();
             $url = 'https://labapi.smlbulksms.com/smsapiv3';
             $apiKey = '58773bd2a25ed60b982a04335b77307c';
             $sender = '8809617649928';
             $msisdn = $invoiceData->client->mobile;
-            $message = 'Dear '.$invoiceData->client->full_name. '
-We have created an invoice "'.$invoiceData->invoice_number.'" for you in the amount of '.$currency->symbol.' '. $invoiceData->total_amount.'. 
-You can view the invoice on the following link: '. $inv_url.
-' Best Regards,
-The kaajbook Team.';
+//             $message = 'Dear '.$invoiceData->client->full_name. '
+// We have created an invoice "'.$invoiceData->invoice_number.'" for you in the amount of '.$currency->symbol.' '. $invoiceData->total_amount.'. 
+// You can view the invoice on the following link: '. $inv_url.
+// ' Best Regards,
+// The kaajbook Team.';
+            $message = 'New Job bill : '.$currency->symbol.' '. $invoiceData->total_amount.'
+Previous due : '.$currency->symbol.' '.$previousDueAmount_this_client.'
+Click Link : '.$inv_url;
     
             try {   
                 $response = $client->get($url, [
