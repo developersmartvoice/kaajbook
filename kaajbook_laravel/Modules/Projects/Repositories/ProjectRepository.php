@@ -1199,23 +1199,56 @@ class ProjectRepository
             ->join($user_table . ' as project_created', 'project_created.id', '=', $project_table . '.user_id')
             ->leftjoin($user_table, $user_table . '.id', '=', $project_table . '.client_id');
 
-        $matchThese = [];
-        foreach ((array) $columns_search as $key => $value) {
-            if (!empty($value['search']['value'])) {
-                array_push(
-                    $matchThese,
-                    [$columns[$key], 'LIKE', "%{$value['search']['value']}%"]
-                );
+            $matchThese = [];
+            $start_date_query = [];
+            $end_date_query = [];
+            $start_date_query_ranged = [];
+            $end_date_query_ranged = [];
+        
+            foreach ((array) $columns_search as $key => $value) {
+                if (!empty($value['search']['value'])) {
+
+                    if ($columns[$key] == $project_table . '.start_date') {
+                         array_push($start_date_query_ranged,[$columns[$key], '>=', "{$value['search']['value']}"]);
+                         array_push($start_date_query,[$columns[$key], 'LIKE', "%{$value['search']['value']}%"]);
+                    } 
+                    elseif ($columns[$key] == $project_table . '.end_date') {
+                        array_push($end_date_query_ranged,[$columns[$key], '<=', "{$value['search']['value']}"]);
+                        array_push($end_date_query,[$columns[$key], 'LIKE', "%{$value['search']['value']}%"]);
+                    } 
+                    else {
+                        array_push(
+                            $matchThese,
+                            [$columns[$key], 'LIKE', "%{$value['search']['value']}%"]
+                        );
+                    }
+                }
             }
-        }
+        
+            // Check if start_date and end_date queries are present
+            $start_date_present = !empty($start_date_query);
+            $end_date_present = !empty($end_date_query);
+                       
+        
+            $totalData = $projects->count();
+            $totalFiltered = $totalData;
+        
+            // Check if start_date and end_date queries are present then apply ranged queries, else apply normal queries
+            if($start_date_present && $end_date_present){
+                $projects = $projects->where($start_date_query_ranged);
+                $projects = $projects->where($end_date_query_ranged);
+                $projects = $projects->where($matchThese);
 
-        $totalData = $projects->count();
-        $totalFiltered = $totalData;
+                $totalFiltered = $projects->count();
+            }
+            elseif (!empty($matchThese)) {
+                $projects = $projects->where($matchThese);
+                $projects = $projects->where($start_date_query);
+                $projects = $projects->where($end_date_query);
 
-        if (!empty($matchThese)) {
-            $projects = $projects->where($matchThese);
-            $totalFiltered = $projects->count();
-        }
+                $totalFiltered = $projects->count();
+            }
+        
 
         $data = $projects->offset($start)
             ->limit($limit)
