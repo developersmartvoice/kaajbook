@@ -1241,7 +1241,7 @@ class ProjectRepository
 
                 $totalFiltered = $projects->count();
             }
-            elseif (!empty($matchThese)) {
+            elseif (!empty($matchThese || $start_date_query || $end_date_query)) {
                 $projects = $projects->where($matchThese);
                 $projects = $projects->where($start_date_query);
                 $projects = $projects->where($end_date_query);
