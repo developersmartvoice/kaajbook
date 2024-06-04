@@ -71,6 +71,10 @@ export class PaymentMethodListComponent implements OnInit {
 			serverSide: true,
 			processing: true,
 			dom: '<"html5buttons"B>ltfrtip',
+			lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
 			columns: [
 				{
 					'sortable': true,

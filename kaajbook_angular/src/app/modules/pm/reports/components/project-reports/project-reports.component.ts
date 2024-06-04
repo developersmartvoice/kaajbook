@@ -73,6 +73,10 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 			searching: true,
 			processing: true,
 			responsive: true,
+			lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
 			dom: '<"html5buttons"B>ltfrtip',
 			order: [0],
 			columns: [
@@ -182,6 +186,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 				.subscribe(resp => {
 						this.projects = resp.data;
 						this.isPageLoaded = true
+						console.log(this.projects);
 
 						callback({
 							recordsTotal: resp.recordsTotal,

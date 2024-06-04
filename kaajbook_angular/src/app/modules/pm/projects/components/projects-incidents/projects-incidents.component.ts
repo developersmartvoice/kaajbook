@@ -28,6 +28,10 @@ export class ProjectsIncidentsComponent implements OnInit {
 			pageLength: that.loginUser.settings.tables_pagination_limit,
 			responsive: false,
 			autoWidth: false,
+			lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
 			order: [0],
 			buttons: [{
 				extend: 'csv',

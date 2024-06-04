@@ -62,6 +62,10 @@ export class DefectReportsComponent implements OnInit {
 			searching: true,
 			processing: true,
 			dom: '<"html5buttons"B>ltfrtip',
+			lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
 			order: [0],
 			columns: [
 				{

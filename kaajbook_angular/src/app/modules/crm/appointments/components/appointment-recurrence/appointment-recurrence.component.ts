@@ -47,6 +47,10 @@ export class AppointmentRecurrenceComponent implements OnInit {
             responsive: false,
             autoWidth: false,
             order: [0, 'asc'],
+            lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
             language: {
                 "sEmptyTable": this.translate.instant('common.datatable.sEmptyTable'),
                 "sInfo": this.translate.instant('common.datatable.sInfo'),

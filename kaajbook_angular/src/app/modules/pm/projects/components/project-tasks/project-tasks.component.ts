@@ -63,6 +63,10 @@ export class ProjectTasksComponent implements OnInit {
 		this.dtOptions = {
 			pagingType: 'full_numbers',
 			pageLength: that.loginUser.settings.tables_pagination_limit,
+			lengthMenu: [
+				[10, 25, 50, 100, 99999999], // Values used for the actual data limit
+				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
+			],
 			dom: '<"html5buttons"B>lTfgtip',
 			paging: true,
 			responsive: false,
