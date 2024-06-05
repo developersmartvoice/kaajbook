@@ -430,7 +430,7 @@
         @endif
         @if(!$paymentMethods->isEmpty())
             <h4>{{ trans('messages.invoices.offline_payment') }} : </h4>
-            <table border="0" cellspacing="0" cellpadding="0">
+            <table class="custom-border" cellspacing="0" cellpadding="0">
                 <tbody>
                     <tr>
                         @foreach($paymentMethods as $method)
