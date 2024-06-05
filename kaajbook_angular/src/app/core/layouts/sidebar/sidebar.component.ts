@@ -52,8 +52,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 			"subscription": 1,
 			"status": 1,
 			"class": "",  // Additional CSS classes if needed
-			"badge": "new",
-			"badgeClass": "badge badge-pill badge-warning mt-1",
+			// "badge": "new",
+			// "badgeClass": "badge badge-pill badge-warning mt-1",
 			"isExternalLink": false,
 			"submenu": []  // You can add submenus if needed
 		};
