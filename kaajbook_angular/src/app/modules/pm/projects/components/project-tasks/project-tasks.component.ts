@@ -68,6 +68,7 @@ export class ProjectTasksComponent implements OnInit {
 				[10, 25, 50, 100, "Show all"] // Labels shown in the UI
 			],
 			dom: '<"html5buttons"B>lTfgtip',
+			stateSave: true,
 			paging: true,
 			responsive: false,
 			autoWidth: false,
