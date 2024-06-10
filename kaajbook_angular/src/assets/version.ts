@@ -7,17 +7,37 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.7",
+    currentVersion: "1.2.8",
     activities: [
-        {
+          {
             released: false,
-            version: "VERSION 1.2.8 -",
+            version: "VERSION 1.2.9 -",
             releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
-             <li>-</li>
+            <li>-</li>
+            </ul>
+          `,
+        },
+        {
+            released: false,
+            version: "VERSION 1.2.8 -",
+            releaseDate: "RELEASED  10-06-2024",
+            description: `
+            <b>Status</b>: <span class="badge badge-success">Released</span><br>
+            <b>Feature</b>: 
+            <ul>
+             <li>Invoice box color change, change allignment, replace 'discount' with less</li>
+             <li>Project-report: ranged search by start - end Date</li>
+             <li>Project-report: Download all search results at once (select show all)</li>
+             <li>SMS Notification: Send SMS to client on invoice generation 
+              (New Job bill: --, Previous Due: all pre inv, Click Like: --)</li>
+             <li>Landing page: Stop change on navigation</li>
+             <li>Data show limit/page: add 'show all' item in each page</li>
+             <li>Add notification length on top</li>
+             <li>download dashboard "PROJECT BILL" chart data as xlsx</li>
             </ul>
           `,
         },
