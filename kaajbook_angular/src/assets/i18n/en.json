@@ -1481,7 +1481,7 @@
 			"fields": {
 				"adjustment": "Adjustment",
 				"customer": "Customer",
-				"discount": "Discount",
+				"discount": "Less",
 				"discount_type": "Discount Type",
 				"due_date": "Due Date",
 				"invoice_date": "Invoice Date",

@@ -29,7 +29,7 @@ return [
         "adjustment" => "Adjustment",
         "amount" => "Amount",
         "date" => "Date",
-        "discount" => "Discount",
+        "discount" => "Less",
         "due" => "Due",
         "due_date" => "Due Date",
         "gst_number" => "GST IN",
