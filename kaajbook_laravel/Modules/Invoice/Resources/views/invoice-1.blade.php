@@ -49,13 +49,13 @@
 
     table .no {
         color: #000000;
-        background: #0096873b;
+        background: #FFFFFF;
         text-align: center;
     }
 
     .noo {
         /* color: #FFFFFF; */
-        background: #BFC9CA;
+        background: #FAFAFA;
      }
     table.custom-border td {
             border: .5px solid #B2BABB; /* Set the border to 1 pixel width and red color (#ff0000) */
@@ -66,7 +66,7 @@
     }
 
     table .unit {
-        background: #EBF5FB;
+        background: #FFFFFF;
     }
 
     table td.qty {
@@ -215,7 +215,14 @@
      .custom-textarea {
         width: 100%;
         height: auto;  
+        font-size: 12px;
       }
+    .invoice-info{
+        padding-left: 10px;
+    }
+    .box-line-height{
+        line-height: .7; /* Adjusted line height */
+     }
     </style>
 </head>
 
@@ -294,7 +301,7 @@
      <!-- Add square areas with textareas -->
     <div>
         @if(!is_null($invoice->invoice_header_information_text))
-        <label for="textbox1">Invoice Information:</label>
+        <label for="textbox1"  class="invoice-info">Invoice Information:</label>
         <textarea id="textbox1" name="textbox1" class="custom-textarea">{{ $invoice->invoice_header_information_text }}</textarea>
         <div style="height: 5px;"></div>
         @endif
@@ -302,7 +309,7 @@
 
     </header>
     <main>
-        <table class="custom-border" cellspacing="0" cellpadding="0">
+        <table class="custom-border box-line-height" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
                     <th class="w-5 noo">#</th>
