@@ -217,7 +217,7 @@ class InvoiceRepository
             $client = new Client();
             $url = 'https://labapi.smlbulksms.com/smsapiv3';
             $apiKey = '58773bd2a25ed60b982a04335b77307c';
-            $sender = '8809617649928';
+            $sender = '8809617649945';
             $msisdn = $invoiceData->client->mobile;
 //             $message = 'Dear '.$invoiceData->client->full_name. '
 // We have created an invoice "'.$invoiceData->invoice_number.'" for you in the amount of '.$currency->symbol.' '. $invoiceData->total_amount.'. 
