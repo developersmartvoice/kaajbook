@@ -160,8 +160,11 @@ export class PmDashboardChart3ClientBillComponent implements OnInit {
 			exportData.push(dataRow);
 		});
 
+		// Transpose the data
+		const transposeData = exportData[0].map((_, colIndex) => exportData.map(row => row[colIndex]));
+
 		// Convert the data to a worksheet
-		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(exportData);
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(transposeData);
 
 		// Create a workbook and append the worksheet
 		const wb: XLSX.WorkBook = XLSX.utils.book_new();
