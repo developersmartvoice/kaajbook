@@ -288,6 +288,7 @@ class PmHelperRepository
                 "tasks" => 0,
                 "projects" => 0, // Add project count for each month
                 "project_bill" => 0, 
+                "project_budget" => [], 
                 "project_id" => [], 
             ];
         }
@@ -303,6 +304,7 @@ class PmHelperRepository
             DB::raw('YEAR(start_date) year'),
             DB::raw('MONTH(start_date) month'),
             DB::raw('GROUP_CONCAT(id) as project_id'),
+            DB::raw('GROUP_CONCAT(price_rate) as project_budget')
         );
 
         $invoices = Invoice::select(
@@ -344,6 +346,7 @@ class PmHelperRepository
         foreach ($projects as $key => $value) {
             $result[$value->month]['projects'] = $value->count;
             $result[$value->month]['project_id'] = explode(',', $value->project_id);
+            $result[$value->month]['project_budget'] = explode(',', $value->project_budget);
         }
 
          // Project Bill

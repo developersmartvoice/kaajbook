@@ -2523,6 +2523,8 @@
 		"project_open": "Project Open",
 		"project_complete": "Project Complete",
 		"title_cost": "Cost",
+		"title_budget": "Budget",
+		"title_cost_difference": "Diff",
 		"title_invoice": "Invoice",
 		"title1": "Create Project",
 		"title2": "Update Project",
