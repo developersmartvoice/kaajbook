@@ -77,19 +77,6 @@ export class ProjectTemplateCreateComponent implements OnInit {
       item.withCredentials = false;
     };
 
-    uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      const obj = JSON.parse(response);
-       if (obj.template_name) {
-        this.attachmentsArr.push(obj.id);
-        this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('projects.create.fields.project_template'));
-        this.bsCreateFileModalRef.hide(); // Only hide the modal on success
-      }
-      else if (obj.error) {
-        this.toastr.error(obj.error, this.translate.instant('projects.create.fields.project_template'));
-        this.bsCreateFileModalRef.hide(); // hide the modal on error
-      }
-    };
-
     const newTask = { taskName: '', uploader: uploader };
     this.tasks.push(newTask);
   }
@@ -156,11 +143,29 @@ export class ProjectTemplateCreateComponent implements OnInit {
                 // Set task name as additional parameter for each file uploader
                 task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateName: this.templateName } });
 
+                let uploadCompleted = false; // Flag to track upload completion
+
                 // Upload the file
                 task.uploader.uploadAll();
+                
+                task.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {        
+                  // Handle response from server and set uploadCompleted flag
+                  uploadCompleted = item.isSuccess;
 
-                // Wait for 500 mili-seconds before proceeding to the next upload
-                await new Promise(resolve => setTimeout(resolve, 200));
+                  if (uploadCompleted) {
+                   this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('projects.create.fields.project_template'));
+                   this.bsCreateFileModalRef.hide(); // Only hide the modal on success
+                 }
+                 else{
+                   this.toastr.error(JSON.parse(response).error, this.translate.instant('projects.create.fields.project_template'));
+                   this.bsCreateFileModalRef.hide(); // hide the modal on error
+                 }
+                };
+
+              // Wait until upload completes before proceeding
+              while (!uploadCompleted) {
+                await new Promise(resolve => setTimeout(resolve, 10)); // Short delay to avoid busy waiting
+              }
             }
         };
 
