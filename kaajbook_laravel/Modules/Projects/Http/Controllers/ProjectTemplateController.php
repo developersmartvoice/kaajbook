@@ -46,7 +46,7 @@ class ProjectTemplateController extends Controller
                 $creationTime = new DateTime($existingTemplate->created_at);
                 $currentTime = new DateTime();
                 $interval = $currentTime->diff($creationTime);
-                $intervalFlag = $interval->s <= 5 && $interval->i == 0 && $interval->h == 0 && $interval->d == 0;
+                $intervalFlag = $interval->s <= 10 && $interval->i == 0 && $interval->h == 0 && $interval->d == 0;
  
 
                 if($intervalFlag) {
@@ -56,7 +56,7 @@ class ProjectTemplateController extends Controller
                     $existingTemplate->save();
                 }
                 else{
-                    return response()->json(['error' => 'Template with the same name already exists.'], 400);
+                    return response()->json(['error' => 'Template with the same name already exists.'], 400);        
                 }
 
             } else {

@@ -86,6 +86,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
       }
       else if (obj.error) {
         this.toastr.error(obj.error, this.translate.instant('projects.create.fields.project_template'));
+        this.bsCreateFileModalRef.hide(); // hide the modal on error
       }
     };
 
@@ -126,8 +127,9 @@ export class ProjectTemplateCreateComponent implements OnInit {
   onFileSelected(event: any, taskIndex: number) {
     const fileName = event.target.files[0].name;
     if(event.target.files[0].type.match('image*')){
-      if(event.target.files[0].size > 1048576){
-        this.toastr.error("File size is too large. Required <1 MB", this.translate.instant('projects.create.fields.project_template'));
+      if(event.target.files[0].size > 512000){
+        this.toastr.error("File size is too large. Required < 500 kB", this.translate.instant('projects.create.fields.project_template'));
+        this.tasks[taskIndex].uploader.clearQueue();
       }
       else{
       this.tasks[taskIndex].fileName = fileName.substring(0, 20); // Truncate filename to 20 characters
@@ -135,20 +137,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
   }
   }
 
-onSubmit() {
-	
-	// Trigger file uploads for all tasks
-	this.tasks.forEach(task => {
-
-		// Add an empty file to the queue if no file is selected for the task
-		if (task.uploader.queue.length === 0 && task.taskName) {
-			task.uploader.addToQueue([new File([], "-1")]);
-		  }
-	  // Set task name as additional parameter for each file uploader
-	  task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateName: this.templateName } });
-	  task.uploader.uploadAll();
-	});
-	    // Close the modal
+  onSubmit() {
 
     if(this.templateName == null || this.templateName == ""){
        this.toastr.error("Template Name is required.", this.translate.instant('projects.create.fields.project_template'));
@@ -156,8 +145,26 @@ onSubmit() {
     }
     else
     {
-      //  this.bsCreateFileModalRef.hide();
-    }
+        // Trigger file uploads for all tasks with delay
+        const uploadTasks = async () => {
+            for (let task of this.tasks) {
+                // Add an empty file to the queue if no file is selected for the task
+                if (task.uploader.queue.length === 0 && task.taskName) {
+                    task.uploader.addToQueue([new File([], "-1")]);
+                }
+                // Set task name as additional parameter for each file uploader
+                task.uploader.setOptions({ additionalParameter: { taskName: task.taskName, templateName: this.templateName } });
 
-  }
+                // Upload the file
+                task.uploader.uploadAll();
+
+                // Wait for 500 mili-seconds before proceeding to the next upload
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        };
+
+        uploadTasks();
+    }
+}
+
 }
