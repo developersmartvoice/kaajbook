@@ -130,6 +130,7 @@ export class ProjectTemplateCreateComponent implements OnInit {
       if(event.target.files[0].size > 512000){
         this.toastr.error("File size is too large. Required < 500 kB", this.translate.instant('projects.create.fields.project_template'));
         this.tasks[taskIndex].uploader.clearQueue();
+        this.tasks[taskIndex].fileName = ''; // Clear the fileName property
       }
       else{
       this.tasks[taskIndex].fileName = fileName.substring(0, 20); // Truncate filename to 20 characters
