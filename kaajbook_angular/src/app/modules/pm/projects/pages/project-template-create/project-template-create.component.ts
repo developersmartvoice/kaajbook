@@ -168,6 +168,8 @@ export class ProjectTemplateCreateComponent implements OnInit {
                    this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('Done ✅'),{
                       timeOut: 5000
                    });
+                  // Emit event to notify the parent component
+                  this.event.emit(true);
                  }
                 };
 

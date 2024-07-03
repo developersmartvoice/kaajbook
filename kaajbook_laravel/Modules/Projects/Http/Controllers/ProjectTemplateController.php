@@ -46,7 +46,7 @@ class ProjectTemplateController extends Controller
                 $creationTime = new DateTime($existingTemplate->created_at);
                 $currentTime = new DateTime();
                 $interval = $currentTime->diff($creationTime);
-                $intervalFlag = $interval->s <= 10 && $interval->i == 0 && $interval->h == 0 && $interval->d == 0;
+                $intervalFlag = $interval->s <= 30 && $interval->i == 0 && $interval->h == 0 && $interval->d == 0;
  
 
                 if($intervalFlag) {
