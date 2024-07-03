@@ -135,6 +135,9 @@ export class ProjectTemplateCreateComponent implements OnInit {
     {
         // Trigger file uploads for all tasks with delay
         const uploadTasks = async () => {
+          // toast for loading/processing
+          this.toastr.info(this.translate.instant(`Keep Patient`), this.translate.instant(`Work in Progress`));
+          
             for (let i = 0; i < this.tasks.length; i++) {
                 const task = this.tasks[i];
                 // Add an empty file to the queue if no file is selected for the task
