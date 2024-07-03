@@ -135,7 +135,8 @@ export class ProjectTemplateCreateComponent implements OnInit {
     {
         // Trigger file uploads for all tasks with delay
         const uploadTasks = async () => {
-            for (let task of this.tasks) {
+            for (let i = 0; i < this.tasks.length; i++) {
+                const task = this.tasks[i];
                 // Add an empty file to the queue if no file is selected for the task
                 if (task.uploader.queue.length === 0 && task.taskName) {
                     task.uploader.addToQueue([new File([], "-1")]);
@@ -152,13 +153,21 @@ export class ProjectTemplateCreateComponent implements OnInit {
                   // Handle response from server and set uploadCompleted flag
                   uploadCompleted = item.isSuccess;
 
-                  if (uploadCompleted) {
-                   this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('projects.create.fields.project_template'));
-                   this.bsCreateFileModalRef.hide(); // Only hide the modal on success
+                  if (uploadCompleted) {  
+                     this.toastr.success(this.translate.instant(`${task.taskName}`),  this.translate.instant(`Custome Template Task ${(i+1)}/${this.tasks.length}`),{
+                      timeOut: 1500
+                     });
+                     this.bsCreateFileModalRef.hide(); // Only hide the modal on success
                  }
                  else{
                    this.toastr.error(JSON.parse(response).error, this.translate.instant('projects.create.fields.project_template'));
                    this.bsCreateFileModalRef.hide(); // hide the modal on error
+                 }
+                 const isLastTask = i === this.tasks.length - 1;
+                 if(isLastTask){
+                   this.toastr.success(this.translate.instant('projects.create.fields.create_project_template_success'), this.translate.instant('Done ✅'),{
+                      timeOut: 5000
+                   });
                  }
                 };
 
