@@ -7,11 +7,11 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.8",
+    currentVersion: "1.2.9",
     activities: [
           {
             released: false,
-            version: "VERSION 1.2.9 -",
+            version: "VERSION 1.3.0 -",
             releaseDate: "RELEASED  -_-",
             description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
@@ -22,7 +22,24 @@ const versionLog = {
           `,
         },
         {
-            released: false,
+          released: true,
+          version: "VERSION 1.2.9 -",
+          releaseDate: "RELEASED  07-07-2024",
+          description: `
+          <b>Status</b>: <span class="badge badge-success">Released</span><br>
+          <b>Feature</b>: 
+          <ul>
+          <li>Dashboard: add monthly project budget, cost & different (Figure 2)</li>
+          <li>Dashboard: transpose PROJECT BILL chart data</li>
+          <li>project template: stability, sequential upload, file size fixed, processing toast message</li>
+          <li>project template: refresh the page after create</li>
+          <li>Invoice payment: remove demo payment gateway redirection</li>
+          <li>Invoice change: inv info font, table line width and alignment</li>
+          </ul>
+        `,
+        },
+        {
+            released: true,
             version: "VERSION 1.2.8 -",
             releaseDate: "RELEASED  10-06-2024",
             description: `
