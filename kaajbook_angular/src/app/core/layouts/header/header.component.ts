@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
 	private apiUrl = environment.apiUrl;
 	public scrollConfig: PerfectScrollbarConfigInterface = {};
 	loginUser: any;
-	notifications: any;
+	notifications: any[] = [];
 	// mails: any;
 	latestVersion: any;
 	translations: any;
@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	getNotifications() {
-		this.notificationService.getNotifications(10000).subscribe(data => {
+		this.notificationService.getNotifications(10000).subscribe((data: any[]) => {
 			this.notifications = data;
 		}, error => {
 			this.interval.unsubscribe();
