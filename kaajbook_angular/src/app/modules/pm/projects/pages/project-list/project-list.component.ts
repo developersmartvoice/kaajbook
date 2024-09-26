@@ -399,7 +399,7 @@ export class ProjectListComponent implements OnInit {
 	  
 		forkJoin(downloadObservables).subscribe((blobs: Blob[]) => {
 		  for (let i = 0; i < blobs.length; i++) {
-			const fileName = attachments[i].file_name;
+			const fileName = attachments[i].file_name + '.' + attachments[i].file_extension;
 			zip.file(fileName, blobs[i], { binary: true });
 		  }
 	  
