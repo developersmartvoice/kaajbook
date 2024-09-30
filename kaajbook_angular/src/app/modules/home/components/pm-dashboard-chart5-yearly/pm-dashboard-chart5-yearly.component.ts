@@ -16,6 +16,8 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 	barChartLegend = true;
 	project = [];
 	project_bill = [];
+	project_budget = [];
+	project_budget_cost_difference = [];
 	incidents = [];
 	barChartDataProject: any[] = [];
 	barChartDataProjectBill: any[] = [];
@@ -69,6 +71,22 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 		pointBorderColor: '#fff',
 		pointHoverBackgroundColor: '#fff',
 		pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+	},
+	{
+		backgroundColor: 'rgba(52, 152, 219, .8)',
+		  borderColor: 'rgba(148,159,177,1)',
+		  pointBackgroundColor: 'rgba(148,159,177,1)',
+		  pointBorderColor: '#fff',
+		  pointHoverBackgroundColor: '#fff',
+		  pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+	  },
+	  {
+		backgroundColor: 'rgba(231, 76, 60, .7)',
+		borderColor: 'rgba(148,159,177,1)',
+		pointBackgroundColor: 'rgba(148,159,177,1)',
+		pointBorderColor: '#fff',
+		pointHoverBackgroundColor: '#fff',
+		pointHoverBorderColor: 'rgba(148,159,177,0.8)'
 	}
 ];
 
@@ -86,6 +104,7 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 	renderChart() {
 		for (let iRow in this.yearlyReport.yearly_project) {
 			let projectCostForCurrentProject = 0;  // Initialize the project cost for the current project_id
+			let projectBudgetForCurrentProject = 0;  // Initialize the project budget for the current project_id
 	
 			this.yearlyReport.yearly_project[iRow].project_id.forEach(project_id => {
 				this.yearlyReport.all_invoice_client_user.all_invoices.forEach(invoice => {
@@ -95,8 +114,14 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 				});
 			});
 	
+			this.yearlyReport.yearly_project[iRow].project_budget.forEach(budget => {
+				projectBudgetForCurrentProject += Number(budget); // Accumulate project budget
+			});
+
 			this.project.push(this.yearlyReport.yearly_project[iRow].project_id.length);
 			this.project_bill.push(Number(projectCostForCurrentProject.toFixed(2))); // Push accumulated project cost for the current project_id
+			this.project_budget.push(Number(projectBudgetForCurrentProject.toFixed(2))); // Push accumulated project budget for the current project_id
+			this.project_budget_cost_difference.push(Number((projectCostForCurrentProject - projectBudgetForCurrentProject).toFixed(2))); // Push accumulated project cost - project budget for the current project_id
 		}
 		this.barChartDataProject = [
 			{ data: this.project, label: this.translate.instant('projects.title') },
@@ -105,6 +130,8 @@ export class PmDashboardChart5YearlyComponent implements OnInit {
 		this.barChartDataProjectBill = [
 			// { data: this.project, label: this.translate.instant('projects.title') },
 			{ data: this.project_bill, label: this.translate.instant('projects.title_cost') },
+			{ data: this.project_budget, label: this.translate.instant('projects.title_budget') },
+			{ data: this.project_budget_cost_difference, label: this.translate.instant('projects.title_cost_difference') }
 		];
 	}	
 

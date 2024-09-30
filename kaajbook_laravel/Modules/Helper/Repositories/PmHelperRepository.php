@@ -478,6 +478,7 @@ class PmHelperRepository
                 "projects" => 0,
                 "project_bill" => 0,
                 "project_id" => [], // Add the new field
+                "project_budget" => [],
                 "project_status" => [],
                 "project_user" => [],
                 "project_client" => [],
@@ -489,6 +490,7 @@ class PmHelperRepository
         $projects = Project::select(
             DB::raw('count(id) as `count`'),
             DB::raw('GROUP_CONCAT(id) as project_id'), // Concatenate project IDs
+            DB::raw('GROUP_CONCAT(price_rate) as project_budget'), // Concatenate project budgets
             DB::raw('YEAR(start_date) year'),
             DB::raw('GROUP_CONCAT(status) as project_status'),
             DB::raw('GROUP_CONCAT(SUBSTRING_INDEX(assign_members, ",", 1)) as project_user'),
@@ -529,6 +531,7 @@ class PmHelperRepository
         foreach ($yearlyProjectsData as $key => $value) {
             $yearlyProjects[$value->year]['projects'] = $value->count;
             $yearlyProjects[$value->year]['project_id'] = explode(',', $value->project_id);
+            $yearlyProjects[$value->year]['project_budget'] = explode(',', $value->project_budget);
             $yearlyProjects[$value->year]['project_status'] = explode(',', $value->project_status);
             $yearlyProjects[$value->year]['project_user'] = explode(',', $value->project_user);
             $yearlyProjects[$value->year]['project_client'] = explode(',', $value->project_client);
