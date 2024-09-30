@@ -123,7 +123,8 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 				},
 				{
 					'sortable': true,
-					'target': [10]
+					'target': [10],
+					'width': "15%",
 				},
 				// {
 				// 	'sortable': true,

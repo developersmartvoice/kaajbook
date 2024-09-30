@@ -85,6 +85,7 @@
                                         <img *ngIf="project.client_avatar" src="{{apiUrl}}/uploads/profile/{{project.client_avatar}}" class="img-sm rounded-circle" alt="Profile" />
                                         <img *ngIf="!project.client_avatar" src="../assets/img/profile_small.jpg" class="img-sm rounded-circle" alt="Profile" />
                                     </a>
+                                    <span> {{project.client_firstname}} {{project.client_lastname}}</span>
                                 </ng-container>
                                 <ng-template #elseBlock5>-</ng-template>
                             </td>
