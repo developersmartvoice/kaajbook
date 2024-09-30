@@ -1464,7 +1464,8 @@
 			"invoice_number": "Invoice",
 			"project_id": "Project ID",
 			"status": "Status",
-			"total_amount": "Amount"
+			"total_amount": "Amount",
+			"total_pay_amount": "Pay Amount"
 		},
 		"create": {
 			"error_messages": {

@@ -25,6 +25,7 @@
 												<th>{{'invoices.columns.invoice_date' | translate}}</th>
 												<th>{{'invoices.columns.due_date' | translate}}</th>
 												<th>{{'invoices.columns.total_amount' | translate}}</th>
+												<th>{{'invoices.columns.total_pay_amount' | translate}}</th>
 												<th>{{'invoices.columns.status' | translate}}</th>
 												<th>{{'common.actions' | translate}}</th>
 											</tr>
@@ -47,6 +48,7 @@
 												<td>{{invoice.invoice_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
 												<td>{{invoice.due_date | dateTimeFormatFilter: loginUser.settings.date_format}}</td>
 												<td>{{loginUser.currency.symbol}}{{invoice.total_amount | number : '1.2-2'}}</td>
+												<td>{{loginUser.currency.symbol}}{{invoice.total_amount - invoice.total_due_amount | number : '1.2-2'}}</td>
 												<td class="budges-status">
 													<ng-container *ngFor="let status of ('invoices.status' | translate)">
 														<span class="{{status.class}}" *ngIf="status.id == invoice.status">{{status.label}}</span>
