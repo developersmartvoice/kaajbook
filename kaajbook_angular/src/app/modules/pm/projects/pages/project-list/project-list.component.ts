@@ -82,8 +82,8 @@ export class ProjectListComponent implements OnInit {
 	) {
 		this.authenticationService.loginUser.subscribe(x => this.loginUser = x);
 		this.ngxPermissionsService.permissions$.subscribe((permissions) => {
-            this.permissions = permissions;
-        });
+			this.permissions = permissions;
+		});
 	}
 
 	ngOnInit() {
@@ -153,7 +153,7 @@ export class ProjectListComponent implements OnInit {
 				},
 				{
 					'sortable': true,
-					'width': "17%",
+					'width': "5%",
 					'target': [7]
 				},
 				{
@@ -188,25 +188,25 @@ export class ProjectListComponent implements OnInit {
 				}
 			],
 			language: {
-				"sEmptyTable":  this.translate.instant('common.datatable.sEmptyTable'),
-				"sInfo":           this.translate.instant('common.datatable.sInfo'),
-				"sInfoEmpty":      this.translate.instant('common.datatable.sInfoEmpty'),
+				"sEmptyTable": this.translate.instant('common.datatable.sEmptyTable'),
+				"sInfo": this.translate.instant('common.datatable.sInfo'),
+				"sInfoEmpty": this.translate.instant('common.datatable.sInfoEmpty'),
 				"sSearch": "",
-				"sInfoPostFix":    this.translate.instant('common.datatable.sInfoPostFix'),
-				"sInfoThousands":  this.translate.instant('common.datatable.sInfoThousands'),
-				"sLengthMenu":     this.translate.instant('common.datatable.sLengthMenu'),
+				"sInfoPostFix": this.translate.instant('common.datatable.sInfoPostFix'),
+				"sInfoThousands": this.translate.instant('common.datatable.sInfoThousands'),
+				"sLengthMenu": this.translate.instant('common.datatable.sLengthMenu'),
 				"sLoadingRecords": this.translate.instant('common.datatable.sLoadingRecords'),
-				"sProcessing":     this.translate.instant('common.datatable.sProcessing'),
-				"sZeroRecords":    this.translate.instant('common.datatable.sZeroRecords'),
+				"sProcessing": this.translate.instant('common.datatable.sProcessing'),
+				"sZeroRecords": this.translate.instant('common.datatable.sZeroRecords'),
 				"sSearchPlaceholder": this.translate.instant('common.datatable.sSearchPlaceholder'),
 				"oPaginate": {
-					"sFirst":    this.translate.instant('common.datatable.oPaginate.sFirst'),
-					"sLast":     this.translate.instant('common.datatable.oPaginate.sLast'),
-					"sNext":     this.translate.instant('common.datatable.oPaginate.sNext'),
+					"sFirst": this.translate.instant('common.datatable.oPaginate.sFirst'),
+					"sLast": this.translate.instant('common.datatable.oPaginate.sLast'),
+					"sNext": this.translate.instant('common.datatable.oPaginate.sNext'),
 					"sPrevious": this.translate.instant('common.datatable.oPaginate.sPrevious')
 				},
 				"oAria": {
-					"sSortAscending":  this.translate.instant('common.datatable.oAria.sSortAscending'),
+					"sSortAscending": this.translate.instant('common.datatable.oAria.sSortAscending'),
 					"sSortDescending": this.translate.instant('common.datatable.oAria.sSortDescending')
 				}
 			},
@@ -223,6 +223,7 @@ export class ProjectListComponent implements OnInit {
 				this.http
 					.post<DatatablesResponse>(this.apiUrl + '/api/all-projects', dataTablesParameters, {})
 					.subscribe(resp => {
+						// console.log("This is to see data from projec list: ", resp.data);
 						this.isPageLoaded = true
 						this.projects = resp.data;
 						this.countStatus = resp;
@@ -240,13 +241,13 @@ export class ProjectListComponent implements OnInit {
 	}
 
 	getCheckPermission(project, action) {
-		if( ( action == 'edit' && this.permissions.projects_edit ) || ( action == 'delete' && this.permissions.projects_delete) ) {
+		if ((action == 'edit' && this.permissions.projects_edit) || (action == 'delete' && this.permissions.projects_delete)) {
 			let role = this.ngxRolesService.getRole('admin');
 			if ((role && role.name == 'admin') || this.loginUser.is_super_admin) {
 				return true;
 			}
 
-			if(project.pivot[action]) {
+			if (project.pivot[action]) {
 				return true;
 			}
 		}
@@ -271,7 +272,7 @@ export class ProjectListComponent implements OnInit {
 			setTimeout(() => {
 				this.dtTrigger.next();
 
-				if(this.projects.length > 0) {
+				if (this.projects.length > 0) {
 					$('.tfoot_dt').addClass('d-none');
 				} else {
 					$('.tfoot_dt').removeClass('d-none');
@@ -282,7 +283,7 @@ export class ProjectListComponent implements OnInit {
 
 	exportFiles(type) {
 		this.exportAsConfig.type = type;
-		this.exportAsService.save(this.exportAsConfig, this.translate.instant('projects.title')).subscribe(() => {});
+		this.exportAsService.save(this.exportAsConfig, this.translate.instant('projects.title')).subscribe(() => { });
 	}
 
 	deleteProject(id) {
@@ -295,7 +296,7 @@ export class ProjectListComponent implements OnInit {
 			cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
 		}).then((result) => {
 			if (result.value) {
-				this.projectService.delete(id, { 'ProjectLogos' : this.logos } ).subscribe(data => {
+				this.projectService.delete(id, { 'ProjectLogos': this.logos }).subscribe(data => {
 					this.toastr.success(this.translate.instant('projects.messages.delete'), this.translate.instant('projects.title'));
 					this.rerender();
 				});
@@ -338,80 +339,80 @@ export class ProjectListComponent implements OnInit {
 					this.rerender();
 				});
 	}
-	
+
 	getAllProjectAndTaskAttachment(project_id) {
 		let projectAndTaskAttachments: any[] = [];
 		let projectsAllTaskId: any;
-	  
-		this.projectService.getById(project_id).subscribe(
-		  (projectData: any) => {
-			projectsAllTaskId = projectData.tasks.map(task => task.id);
-			this.isPageLoaded = true;
-	  
-			// Create an array of observables for each task attachment request
-			const taskAttachmentRequests = projectsAllTaskId.map(taskId =>
-			  this.taskAttachmentService.getAllAttachmentById(taskId)
-			);
-	  
-			// Use forkJoin to make parallel requests for all task attachments
-			forkJoin(taskAttachmentRequests).subscribe(
-			  (attachmentsArray: any[]) => {
-				// Flatten the array of arrays
-				const taskAttachments = attachmentsArray.reduce((acc, curr) => acc.concat(curr), []);
-	  
-				// Merge project and task attachments using concat
-				projectAndTaskAttachments = projectData.attachments.concat(taskAttachments);
-	  
-				// console.log('Merged Attachments:', projectAndTaskAttachments);
-				this.zipAndDownloadAllAttachment(projectAndTaskAttachments, projectData.project_name);
-			  },
-			  error => {
-				console.error('Error fetching task attachments:', error);
-			  }
-			);
-		  },
-		  error => {
-			console.error('Error fetching project data:', error);
-		  }
-		);
-	  }
-	  
 
-	  zipAndDownloadAllAttachment(attachments, project_name) {
-		if (attachments.length === 0)
-		return this.toastr.error(
-			this.translate.instant("common.error_messages.message7"),
-			this.translate.instant("common.errors_keys.key5")
+		this.projectService.getById(project_id).subscribe(
+			(projectData: any) => {
+				projectsAllTaskId = projectData.tasks.map(task => task.id);
+				this.isPageLoaded = true;
+
+				// Create an array of observables for each task attachment request
+				const taskAttachmentRequests = projectsAllTaskId.map(taskId =>
+					this.taskAttachmentService.getAllAttachmentById(taskId)
+				);
+
+				// Use forkJoin to make parallel requests for all task attachments
+				forkJoin(taskAttachmentRequests).subscribe(
+					(attachmentsArray: any[]) => {
+						// Flatten the array of arrays
+						const taskAttachments = attachmentsArray.reduce((acc, curr) => acc.concat(curr), []);
+
+						// Merge project and task attachments using concat
+						projectAndTaskAttachments = projectData.attachments.concat(taskAttachments);
+
+						// console.log('Merged Attachments:', projectAndTaskAttachments);
+						this.zipAndDownloadAllAttachment(projectAndTaskAttachments, projectData.project_name);
+					},
+					error => {
+						console.error('Error fetching task attachments:', error);
+					}
+				);
+			},
+			error => {
+				console.error('Error fetching project data:', error);
+			}
 		);
-		
+	}
+
+
+	zipAndDownloadAllAttachment(attachments, project_name) {
+		if (attachments.length === 0)
+			return this.toastr.error(
+				this.translate.instant("common.error_messages.message7"),
+				this.translate.instant("common.errors_keys.key5")
+			);
+
 		// console.log(attachments);
 		const zip = new JSZip();
 		const downloadObservables = [];
-	  
+
 		for (const attachment of attachments) {
-		  const isTaskAttachment = attachment.hasOwnProperty('task_id');
-		  const attachmentTypeFolder = isTaskAttachment ? 'task_attachment' : 'project_attachment';
-	  
-		  const downloadURL = this.apiUrl + `/uploads/${attachmentTypeFolder}/${attachment.file_hash}`;
-		//   console.log(downloadURL);
-		  downloadObservables.push(this.http.get(downloadURL, { responseType: 'blob' }));
+			const isTaskAttachment = attachment.hasOwnProperty('task_id');
+			const attachmentTypeFolder = isTaskAttachment ? 'task_attachment' : 'project_attachment';
+
+			const downloadURL = this.apiUrl + `/uploads/${attachmentTypeFolder}/${attachment.file_hash}`;
+			//   console.log(downloadURL);
+			downloadObservables.push(this.http.get(downloadURL, { responseType: 'blob' }));
 		}
-	  
+
 		forkJoin(downloadObservables).subscribe((blobs: Blob[]) => {
-		  for (let i = 0; i < blobs.length; i++) {
-			const fileName = attachments[i].file_name + '.' + attachments[i].file_extension;
-			zip.file(fileName, blobs[i], { binary: true });
-		  }
-	  
-		  zip.generateAsync({ type: 'blob' }).then(content => {
-			const url = window.URL.createObjectURL(content);
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', `${project_name}_attachments.zip`);
-			document.body.appendChild(link);
-			link.click();
-			link.remove();
-		  });
+			for (let i = 0; i < blobs.length; i++) {
+				const fileName = attachments[i].file_name + '.' + attachments[i].file_extension;
+				zip.file(fileName, blobs[i], { binary: true });
+			}
+
+			zip.generateAsync({ type: 'blob' }).then(content => {
+				const url = window.URL.createObjectURL(content);
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', `${project_name}_attachments.zip`);
+				document.body.appendChild(link);
+				link.click();
+				link.remove();
+			});
 		});
 	}
 

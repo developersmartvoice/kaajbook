@@ -18,12 +18,12 @@ export class ProjectTemplateListComponent implements OnInit {
 
     public modalRef: BsModalRef;
     modalConfigs = {
-		animated: true,
-		keyboard: true,
-		backdrop: true,
-		ignoreBackdropClick: true,
-		class: "inmodal modal-dialog-centered animated fadeIn modal-lg "
-	};
+        animated: true,
+        keyboard: true,
+        backdrop: true,
+        ignoreBackdropClick: true,
+        class: "inmodal modal-dialog-centered animated fadeIn modal-lg "
+    };
     ProjectTemplateCreateComponent
     customTemplateList = [];
     permissions: any;
@@ -34,7 +34,7 @@ export class ProjectTemplateListComponent implements OnInit {
         private toastr: ToastrService,
         private ngxPermissionsService: NgxPermissionsService // Inject NgxPermissionsService
 
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.ngxPermissionsService.permissions$.subscribe((permissions) => {
@@ -50,42 +50,43 @@ export class ProjectTemplateListComponent implements OnInit {
     getCustomTemplateList() {
         this.customTemplateService.getAllTemplates().subscribe(
             (data) => {
+                // console.log("This is to see all templates from create template: ", data);
                 this.customTemplateList = data;
                 this.customTemplateList.reverse();
-             },
+            },
             (error) => {
-                console.log(error);
+                // console.log(error);
             }
         );
     }
 
-    
+
     removeCustomTemplate(id) {
-		Swal.fire({
-			title: this.translate.instant('common.swal.title'),
-			text: this.translate.instant('common.swal.text5'),
-			type: 'warning',
-			showCancelButton: true,
-			confirmButtonText: this.translate.instant('common.swal.confirmButtonText'),
-			cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
-		}).then((result) => {
-			if (result.value) {
-				this.customTemplateService.deleteTemplate(id).subscribe(
+        Swal.fire({
+            title: this.translate.instant('common.swal.title'),
+            text: this.translate.instant('common.swal.text5'),
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: this.translate.instant('common.swal.confirmButtonText'),
+            cancelButtonText: this.translate.instant('common.swal.cancelButtonText')
+        }).then((result) => {
+            if (result.value) {
+                this.customTemplateService.deleteTemplate(id).subscribe(
                     (data) => {
                         this.toastr.success(this.translate.instant('settings.custom_fields.messages.template_delete'), this.translate.instant('settings.custom_fields.title3'));
-                         this.getCustomTemplateList();
+                        this.getCustomTemplateList();
                     },
                     (error) => {
-                        console.log(error);
+                        // console.log(error);
                     }
                 );
-			}
-		});
-	}
+            }
+        });
+    }
 
-      // Method to parse the string and return the length
-      getTasksLength(tasksString: string): number {
-         try {
+    // Method to parse the string and return the length
+    getTasksLength(tasksString: string): number {
+        try {
             const tasksObject = JSON.parse(tasksString) || {};
             return Object.keys(tasksObject).length;
         } catch (error) {
@@ -104,32 +105,32 @@ export class ProjectTemplateListComponent implements OnInit {
     }
 
     openCustomFieldCreateModal() {
-		this.modalRef = this.modalService.show(ProjectTemplateCreateComponent, this.modalConfigs);
-		// this.modalRef.content.event.subscribe(data => {
-		// 	this.rerender();
-		// });
+        this.modalRef = this.modalService.show(ProjectTemplateCreateComponent, this.modalConfigs);
+        // this.modalRef.content.event.subscribe(data => {
+        // 	this.rerender();
+        // });
 
         this.modalRef.content.event.subscribe(data => {
             // Handle the event if needed
             // console.log(data);
             this.getCustomTemplateList(); // Refresh the list after an update if needed
-          });
-	}
+        });
+    }
 
     openCustomTemplateEditModal(customTemplate) {
         this.modalRef = this.modalService.show(ProjectTemplateEditComponent, this.modalConfigs);
-        
+
         // Pass data to the modal component using componentInstance
         this.modalRef.content.customTemplate = customTemplate;
-      
-        this.modalRef.content.event.subscribe(data => {
-          // Handle the event if needed
-        //   console.log(data);
-          this.getCustomTemplateList(); // Refresh the list after an update if needed
-        });
-      }
 
-      
-      
-      
+        this.modalRef.content.event.subscribe(data => {
+            // Handle the event if needed
+            //   console.log(data);
+            this.getCustomTemplateList(); // Refresh the list after an update if needed
+        });
+    }
+
+
+
+
 }

@@ -56,12 +56,12 @@ export class TaskListComponent implements OnInit {
 		ignoreBackdropClick: false,
 		class: "inmodal modal-dialog-centered animated fadeIn"
 	};
-	taskDetails: any ;
-	commentCounts: any[]=[{id:null }];
-	attachmentCounts: any[]=[{id:null }];
-	activityCounts: any[]=[{id:null }];
-	taskProjectName: any[]=[{project_id:null }];
- 
+	taskDetails: any;
+	commentCounts: any[] = [{ id: null }];
+	attachmentCounts: any[] = [{ id: null }];
+	activityCounts: any[] = [{ id: null }];
+	taskProjectName: any[] = [{ project_id: null }];
+
 	constructor(
 		public translate: TranslateService,
 		public ngxRolesService: NgxRolesService,
@@ -77,8 +77,8 @@ export class TaskListComponent implements OnInit {
 	) {
 		this.authenticationService.loginUser.subscribe(x => this.loginUser = x);
 		this.ngxPermissionsService.permissions$.subscribe((permissions) => {
-            this.permissions = permissions;
-        });
+			this.permissions = permissions;
+		});
 	}
 
 	ngOnInit() {
@@ -117,7 +117,7 @@ export class TaskListComponent implements OnInit {
 				},
 				{
 					'sortable': true,
- 					'target': [2],
+					'target': [2],
 				},
 				{
 					'sortable': true,
@@ -175,25 +175,25 @@ export class TaskListComponent implements OnInit {
 				}
 			],
 			language: {
-				"sEmptyTable":  this.translate.instant('common.datatable.sEmptyTable'),
-				"sInfo":           this.translate.instant('common.datatable.sInfo'),
-				"sInfoEmpty":      this.translate.instant('common.datatable.sInfoEmpty'),
+				"sEmptyTable": this.translate.instant('common.datatable.sEmptyTable'),
+				"sInfo": this.translate.instant('common.datatable.sInfo'),
+				"sInfoEmpty": this.translate.instant('common.datatable.sInfoEmpty'),
 				"sSearch": "",
-				"sInfoPostFix":    this.translate.instant('common.datatable.sInfoPostFix'),
-				"sInfoThousands":  this.translate.instant('common.datatable.sInfoThousands'),
-				"sLengthMenu":     this.translate.instant('common.datatable.sLengthMenu'),
+				"sInfoPostFix": this.translate.instant('common.datatable.sInfoPostFix'),
+				"sInfoThousands": this.translate.instant('common.datatable.sInfoThousands'),
+				"sLengthMenu": this.translate.instant('common.datatable.sLengthMenu'),
 				"sLoadingRecords": this.translate.instant('common.datatable.sLoadingRecords'),
-				"sProcessing":     this.translate.instant('common.datatable.sProcessing'),
-				"sZeroRecords":    this.translate.instant('common.datatable.sZeroRecords'),
+				"sProcessing": this.translate.instant('common.datatable.sProcessing'),
+				"sZeroRecords": this.translate.instant('common.datatable.sZeroRecords'),
 				"sSearchPlaceholder": this.translate.instant('common.datatable.sSearchPlaceholder'),
 				"oPaginate": {
-					"sFirst":    this.translate.instant('common.datatable.oPaginate.sFirst'),
-					"sLast":     this.translate.instant('common.datatable.oPaginate.sLast'),
-					"sNext":     this.translate.instant('common.datatable.oPaginate.sNext'),
+					"sFirst": this.translate.instant('common.datatable.oPaginate.sFirst'),
+					"sLast": this.translate.instant('common.datatable.oPaginate.sLast'),
+					"sNext": this.translate.instant('common.datatable.oPaginate.sNext'),
 					"sPrevious": this.translate.instant('common.datatable.oPaginate.sPrevious')
 				},
 				"oAria": {
-					"sSortAscending":  this.translate.instant('common.datatable.oAria.sSortAscending'),
+					"sSortAscending": this.translate.instant('common.datatable.oAria.sSortAscending'),
 					"sSortDescending": this.translate.instant('common.datatable.oAria.sSortDescending')
 				}
 			},
@@ -211,6 +211,7 @@ export class TaskListComponent implements OnInit {
 				this.http
 					.post<DatatablesResponse>(this.apiUrl + '/api/all-tasks', dataTablesParameters, {})
 					.subscribe(resp => {
+						// console.log("This is to see all tasks: ", resp);
 						this.isPageLoaded = true
 						this.tasks = resp.data;
 						this.countStatus = resp;
@@ -252,7 +253,7 @@ export class TaskListComponent implements OnInit {
 			setTimeout(() => {
 				this.dtTrigger.next();
 
-				if(this.tasks.length > 0) {
+				if (this.tasks.length > 0) {
 					$('.tfoot_dt').addClass('d-none');
 				} else {
 					$('.tfoot_dt').removeClass('d-none');
@@ -267,13 +268,13 @@ export class TaskListComponent implements OnInit {
 	}
 
 	getCheckPermission(task, action) {
-		if( ( action == 'edit' && this.permissions.tasks_edit ) || ( action == 'delete' && this.permissions.tasks_delete) ) {
+		if ((action == 'edit' && this.permissions.tasks_edit) || (action == 'delete' && this.permissions.tasks_delete)) {
 			let role = this.ngxRolesService.getRole('admin');
 			if ((role && role.name == 'admin') || this.loginUser.is_super_admin) {
 				return true;
-			} else if(task.assign_to == this.loginUser.id || task.created_by == this.loginUser.id) {
+			} else if (task.assign_to == this.loginUser.id || task.created_by == this.loginUser.id) {
 				return true;
-			} 
+			}
 		}
 		return false;
 	}
@@ -297,7 +298,7 @@ export class TaskListComponent implements OnInit {
 	}
 
 	getTaskStatus(status) {
-		return 'tasks.status' + status; 
+		return 'tasks.status' + status;
 	}
 
 	getTranslateStatus(statusKey) {
@@ -344,7 +345,7 @@ export class TaskListComponent implements OnInit {
 
 
 	// to get total comment/activity/attachment length
-	getTaskCommentLengthById(id, project_id) {	 
+	getTaskCommentLengthById(id, project_id) {
 		this.taskService.getById(id)
 			.subscribe(
 				data => {
@@ -353,7 +354,7 @@ export class TaskListComponent implements OnInit {
 					this.activityCounts[id] = this.taskDetails.activities.length;
 					this.attachmentCounts[id] = this.taskDetails.attachments.length;
 					this.taskProjectName[project_id] = this.taskDetails.project1.project_name;
- 				});
+				});
 	}
 
 }

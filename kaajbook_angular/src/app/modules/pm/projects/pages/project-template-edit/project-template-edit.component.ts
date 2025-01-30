@@ -31,7 +31,7 @@ export class ProjectTemplateEditComponent implements OnInit {
     private toastr: ToastrService,
     private customTemplateService: CustomTemplateService,
     private helperService: HelperService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.onClose = new Subject();
@@ -42,7 +42,7 @@ export class ProjectTemplateEditComponent implements OnInit {
       taskInTemplate: ['', Validators.required]
     });
   }
- 
+
   ngAfterViewChecked() {
     // Update the form values based on the received data
     if (this.customTemplate && !this.receivedTemplateData) {
@@ -57,33 +57,33 @@ export class ProjectTemplateEditComponent implements OnInit {
         // taskInTemplate: tasksArray.join('.\n')
         taskInTemplate: `${tasksArray.join('.\n')}.`
       });
-      
+
     }
   }
-  
-  
+
+
 
   onSubmit() {
-   // Mark all controls as touched
-		  this.updateCustomTemplateForm.markAllAsTouched();
+    // Mark all controls as touched
+    this.updateCustomTemplateForm.markAllAsTouched();
 
-		if (this.updateCustomTemplateForm.invalid) {
-			console.log('Form is invalid');
-			return;
-		  }
+    if (this.updateCustomTemplateForm.invalid) {
+      // console.log('Form is invalid');
+      return;
+    }
 
-		  const formData = {
-			template_name: this.updateCustomTemplateForm.get('templateName').value,
-			tasks: JSON.stringify(
-			  this.updateCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
-			)
-		  };	  
-		
-		  // console.log('Submitted data:', formData);
-		
+    const formData = {
+      template_name: this.updateCustomTemplateForm.get('templateName').value,
+      tasks: JSON.stringify(
+        this.updateCustomTemplateForm.get('taskInTemplate').value.split('.').map(task => task.trim()).filter(task => task !== '')
+      )
+    };
+
+    // console.log('Submitted data:', formData);
 
 
-		// update template
+
+    // update template
     // this.customTemplateService.updateTemplate(this.customTemplate.id, formData)
     //   .subscribe(
     //     data => {					

@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    
+
     // use this apiUrl for local environment
     // apiUrl: 'http://127.0.0.1:8000'
 

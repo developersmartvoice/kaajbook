@@ -121,7 +121,7 @@ export class ProjectCreateComponent implements OnInit {
 
             },
             (error) => {
-                console.log(error);
+                // console.log(error);
             }
         );
     }
@@ -205,8 +205,8 @@ export class ProjectCreateComponent implements OnInit {
                 this.on("addedfile", function (file) {
                     const removeButton = Dropzone.createElement(
                         "<button class='btn btn-sm btn-block'>" +
-                            that.translate.instant("common.remove_file") +
-                            "</button>"
+                        that.translate.instant("common.remove_file") +
+                        "</button>"
                     );
                     const _this = this;
                     removeButton.addEventListener("click", function (e) {
@@ -341,7 +341,7 @@ export class ProjectCreateComponent implements OnInit {
         let selectedTemplate =
             this.createProjectForm.value.projectTemplateType_id;
 
-            console.log(selectedTemplate);
+        // console.log(selectedTemplate);
         // assigning first project member as task assign member
         let task_assign_members = this.createProjectForm.value.assign_members;
         if (task_assign_members != null && task_assign_members.length > 1) {

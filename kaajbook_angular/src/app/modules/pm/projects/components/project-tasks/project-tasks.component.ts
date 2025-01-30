@@ -27,39 +27,41 @@ export class ProjectTasksComponent implements OnInit {
 	dtTrigger: Subject<any> = new Subject();
 	dtOptions: any = {};
 
-	taskDetails: any ;
-	commentCounts: any[]=[{id:null }];
-	attachmentCounts: any[]=[{id:null }];
-	activityCounts: any[]=[{id:null }];
-	taskProjectName: any[]=[{project_id:null }];
+	taskDetails: any;
+	commentCounts: any[] = [{ id: null }];
+	attachmentCounts: any[] = [{ id: null }];
+	activityCounts: any[] = [{ id: null }];
+	taskProjectName: any[] = [{ project_id: null }];
 	permissions: any;
 	taskstatusKeyValue = task_status_key_value;
-	
+
 	constructor(
 		public translate: TranslateService,
 		private taskService: TaskService,
 		private authenticationService: AuthenticationService,
 		private ngxPermissionsService: NgxPermissionsService,
 		private toastr: ToastrService,
-		public ngxRolesService: NgxRolesService) 
-		{
-			this.authenticationService.loginUser.subscribe(x => this.loginUser = x);
-			this.ngxPermissionsService.permissions$.subscribe((permissions) => {
-            this.permissions = permissions;
-        });
-		}
+		public ngxRolesService: NgxRolesService) {
+		this.authenticationService.loginUser.subscribe(x => this.loginUser = x);
+		this.ngxPermissionsService.permissions$.subscribe((permissions) => {
+			this.permissions = permissions;
+		});
+	}
 
 	ngOnInit() {
 		this.loadDatatable();
-		
+
 		// to get total comment/activity/attachment length
+		console.log("This is to see the tasks length from project-task components: ", this.project.tasks.length);
 		this.project.tasks.forEach((task) => {
+			// console.log("This is to see the tasks from project-task components: ", task);
 			this.getTaskCommentLengthById(task.id, task.project_id);
 		});
 	}
 
 	loadDatatable() {
 		let that = this;
+		// console.log("What is in that: ", that);
 		this.dtOptions = {
 			pagingType: 'full_numbers',
 			pageLength: that.loginUser.settings.tables_pagination_limit,
@@ -87,25 +89,25 @@ export class ProjectTasksComponent implements OnInit {
 				className: "btn btn-datatable-gredient",
 			}],
 			language: {
-				"sEmptyTable":  this.translate.instant('common.datatable.sEmptyTable'),
-				"sInfo":           this.translate.instant('common.datatable.sInfo'),
-				"sInfoEmpty":      this.translate.instant('common.datatable.sInfoEmpty'),
+				"sEmptyTable": this.translate.instant('common.datatable.sEmptyTable'),
+				"sInfo": this.translate.instant('common.datatable.sInfo'),
+				"sInfoEmpty": this.translate.instant('common.datatable.sInfoEmpty'),
 				"sSearch": "",
-				"sInfoPostFix":    this.translate.instant('common.datatable.sInfoPostFix'),
-				"sInfoThousands":  this.translate.instant('common.datatable.sInfoThousands'),
-				"sLengthMenu":     this.translate.instant('common.datatable.sLengthMenu'),
+				"sInfoPostFix": this.translate.instant('common.datatable.sInfoPostFix'),
+				"sInfoThousands": this.translate.instant('common.datatable.sInfoThousands'),
+				"sLengthMenu": this.translate.instant('common.datatable.sLengthMenu'),
 				"sLoadingRecords": this.translate.instant('common.datatable.sLoadingRecords'),
-				"sProcessing":     this.translate.instant('common.datatable.sProcessing'),
-				"sZeroRecords":    this.translate.instant('common.datatable.sZeroRecords'),
+				"sProcessing": this.translate.instant('common.datatable.sProcessing'),
+				"sZeroRecords": this.translate.instant('common.datatable.sZeroRecords'),
 				"sSearchPlaceholder": this.translate.instant('common.datatable.sSearchPlaceholder'),
 				"oPaginate": {
-					"sFirst":    this.translate.instant('common.datatable.oPaginate.sFirst'),
-					"sLast":     this.translate.instant('common.datatable.oPaginate.sLast'),
-					"sNext":     this.translate.instant('common.datatable.oPaginate.sNext'),
+					"sFirst": this.translate.instant('common.datatable.oPaginate.sFirst'),
+					"sLast": this.translate.instant('common.datatable.oPaginate.sLast'),
+					"sNext": this.translate.instant('common.datatable.oPaginate.sNext'),
 					"sPrevious": this.translate.instant('common.datatable.oPaginate.sPrevious')
 				},
 				"oAria": {
-					"sSortAscending":  this.translate.instant('common.datatable.oAria.sSortAscending'),
+					"sSortAscending": this.translate.instant('common.datatable.oAria.sSortAscending'),
 					"sSortDescending": this.translate.instant('common.datatable.oAria.sSortDescending')
 				}
 			},
@@ -131,27 +133,28 @@ export class ProjectTasksComponent implements OnInit {
 	}
 
 	// to get total comment/activity/attachment length
-	getTaskCommentLengthById(id, project_id) {	 
+	getTaskCommentLengthById(id, project_id) {
 		this.taskService.getById(id)
 			.subscribe(
 				data => {
+					// console.log("This is to see the task details: ", data);
 					this.taskDetails = data;
 					this.commentCounts[id] = this.taskDetails.comments.length;
 					this.activityCounts[id] = this.taskDetails.activities.length;
 					this.attachmentCounts[id] = this.taskDetails.attachments.length;
 					this.taskProjectName[project_id] = this.taskDetails.project1.project_name;
- 				});
+				});
 	}
 
 
 	getCheckPermission(task, action) {
-		if( ( action == 'edit' && this.permissions.tasks_edit ) || ( action == 'delete' && this.permissions.tasks_delete) ) {
+		if ((action == 'edit' && this.permissions.tasks_edit) || (action == 'delete' && this.permissions.tasks_delete)) {
 			let role = this.ngxRolesService.getRole('admin');
 			if ((role && role.name == 'admin') || this.loginUser.is_super_admin) {
 				return true;
-			} else if(task.assign_to == this.loginUser.id || task.created_by == this.loginUser.id) {
+			} else if (task.assign_to == this.loginUser.id || task.created_by == this.loginUser.id) {
 				return true;
-			} 
+			}
 		}
 		return false;
 	}
@@ -161,7 +164,7 @@ export class ProjectTasksComponent implements OnInit {
 	}
 
 	getTaskStatus(status) {
-		return 'tasks.status' + status; 
+		return 'tasks.status' + status;
 	}
 
 	changeTaskStatus(taskID: any, status: any) {
@@ -181,9 +184,8 @@ export class ProjectTasksComponent implements OnInit {
 		this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
 			dtInstance.destroy();
 			setTimeout(() => {
-				this.dtTrigger.next();
-
-				if(this.project.tasks.length > 0) {
+				this.dtTrigger.next();// this will trigger the dtTrigger to rerender
+				if (this.project.tasks.length > 0) {
 					$('.tfoot_dt').addClass('d-none');
 				} else {
 					$('.tfoot_dt').removeClass('d-none');

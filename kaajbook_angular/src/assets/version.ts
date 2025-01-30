@@ -7,25 +7,43 @@
 // class="badge badge-dark"
 
 const versionLog = {
-    currentVersion: "1.2.9",
-    activities: [
-          {
-            released: false,
-            version: "VERSION 1.3.0 -",
-            releaseDate: "RELEASED  -_-",
-            description: `
+  currentVersion: "1.3.0",
+  activities: [
+    {
+      released: false,
+      version: "VERSION 1.3.1 -",
+      releaseDate: "RELEASED  -_-",
+      description: `
             <b>Status</b>: <span class="badge badge-light">Coming Soon</span><br>
             <b>Feature</b>: 
             <ul>
             <li>-</li>
             </ul>
           `,
-        },
-        {
-          released: true,
-          version: "VERSION 1.2.9 -",
-          releaseDate: "RELEASED  07-07-2024",
-          description: `
+    },
+    {
+      released: false,
+      version: "VERSION 1.3.0 -",
+      releaseDate: "RELEASED  16-01-2025",
+      description: `
+          <b>Status</b>: <span class="badge badge-success">Released</span><br>
+          <b>Feature</b>: 
+          <ul>
+          <li>Reports Page: The Progress column has been removed</li>
+          <li>Reports Page: The Assigned to column has been removed</li>
+          <li>Reports Page: In the Client column, avatars have been removed, and only the client name is shown</li>
+          <li>Reports Page: The Start Date and End Date filter pattern is now YYYY-MM-DD</li>
+          <li>Reports Page: Tooltips have been added to all input fields</li>
+          <li>Reports Page: The Paid Amount column has been added after the Budget column</li>
+          <li>Projects Page -> Task Tab -> The task list is loaded but not displayed for all tasks. It requires reloading one more time to display all tasks</li>
+          </ul>
+          `,
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.9 -",
+      releaseDate: "RELEASED  07-07-2024",
+      description: `
           <b>Status</b>: <span class="badge badge-success">Released</span><br>
           <b>Feature</b>: 
           <ul>
@@ -37,12 +55,12 @@ const versionLog = {
           <li>Invoice change: inv info font, table line width and alignment</li>
           </ul>
         `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.8 -",
-            releaseDate: "RELEASED  10-06-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.8 -",
+      releaseDate: "RELEASED  10-06-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -57,12 +75,12 @@ const versionLog = {
              <li>download dashboard "PROJECT BILL" chart data as xlsx</li>
             </ul>
           `,
-        },
-        {
-          released: true,
-          version: "VERSION 1.2.7 -",
-          releaseDate: "RELEASED 3-04-2024",
-          description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.7 -",
+      releaseDate: "RELEASED 3-04-2024",
+      description: `
           <b>Status</b>: <span class="badge badge-success">Released</span><br>
           <b>Feature</b>: 
           <ul>
@@ -73,12 +91,12 @@ const versionLog = {
             <li>Add project name and start/end date on Project->task</li>
           </ul>
         `,
-      },
-        {
-          released: true,
-          version: "VERSION 1.2.6 -",
-          releaseDate: "RELEASED 19-03-2024",
-          description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.6 -",
+      releaseDate: "RELEASED 19-03-2024",
+      description: `
           <b>Status</b>: <span class="badge badge-success">Released</span><br>
           <b>Feature</b>: 
           <ul>
@@ -86,12 +104,12 @@ const versionLog = {
             <li>Add task logo on Project => Task</li>
           </ul>
         `,
-      },
-        {
-            released: true,
-            version: "VERSION 1.2.5 -",
-            releaseDate: "RELEASED 29-02-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.5 -",
+      releaseDate: "RELEASED 29-02-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -107,12 +125,12 @@ const versionLog = {
               <li>Task edit -> Selected Assign to, Status & Priority not showing Fixed</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.4 -",
-            releaseDate: "RELEASED 15-02-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.4 -",
+      releaseDate: "RELEASED 15-02-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -128,12 +146,12 @@ const versionLog = {
               <li>Client monthly project (figure-3) data fix & change dashboard figure heading</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.3 -",
-            releaseDate: "RELEASED 08-02-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.3 -",
+      releaseDate: "RELEASED 08-02-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -142,12 +160,12 @@ const versionLog = {
               <li>admin, pm, staff, client -> if assign to a project, get this project dashboard data</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.2 -",
-            releaseDate: "RELEASED 31-01-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.2 -",
+      releaseDate: "RELEASED 31-01-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -159,12 +177,12 @@ const versionLog = {
               <li>Add sidebar button for version</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.1 -",
-            releaseDate: "RELEASED 21-01-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.1 -",
+      releaseDate: "RELEASED 21-01-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -176,12 +194,12 @@ const versionLog = {
               <li>Yearly project open,complete chart based on project assigned user</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.2.0 -",
-            releaseDate: "RELEASED 04-01-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.2.0 -",
+      releaseDate: "RELEASED 04-01-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -190,12 +208,12 @@ const versionLog = {
               <li>Project graph show last 5 year data</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.9 -",
-            releaseDate: "RELEASED 04-01-2024",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.9 -",
+      releaseDate: "RELEASED 04-01-2024",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -205,12 +223,12 @@ const versionLog = {
               <li>Dashboard data show based on project start data </li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.8 -",
-            releaseDate: "RELEASED 26-12-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.8 -",
+      releaseDate: "RELEASED 26-12-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -222,24 +240,24 @@ const versionLog = {
               <li>Added 3 charts for month, year, client project report</li>
             </ul>
             `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.7 -",
-            releaseDate: "RELEASED 06-12-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.7 -",
+      releaseDate: "RELEASED 06-12-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
             <li>Minor chang on custome template</li>
             </ul>
             `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.6 -",
-            releaseDate: "RELEASED 06-12-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.6 -",
+      releaseDate: "RELEASED 06-12-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -257,12 +275,12 @@ const versionLog = {
               <li>Fixed taks & project number</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.5 -",
-            releaseDate: "RELEASED 11-10-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.5 -",
+      releaseDate: "RELEASED 11-10-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -272,12 +290,12 @@ const versionLog = {
               <li>Add new template</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.4 -",
-            releaseDate: "RELEASED 27-09-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.4 -",
+      releaseDate: "RELEASED 27-09-2023",
+      description: `
           <b>Status</b>: <span class="badge badge-success">Released</span><br>
           <b>Feature</b>: 
           <ul>
@@ -287,12 +305,12 @@ const versionLog = {
             <li>Change invoice pdf alignment</li>
           </ul>
         `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.3 -",
-            releaseDate: "RELEASED 18-09-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.3 -",
+      releaseDate: "RELEASED 18-09-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -300,12 +318,12 @@ const versionLog = {
               <li>New two template added</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.2 -",
-            releaseDate: "RELEASED 13-09-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.2 -",
+      releaseDate: "RELEASED 13-09-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -316,24 +334,24 @@ const versionLog = {
               <li>Add payment, invoice widget to project manager dashboard</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.1 -",
-            releaseDate: "RELEASED 03-09-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.1 -",
+      releaseDate: "RELEASED 03-09-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
               <li>Change side menu bar "sales" name as "Billing"</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.1.0 -",
-            releaseDate: "RELEASED 31-08-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.1.0 -",
+      releaseDate: "RELEASED 31-08-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -345,12 +363,12 @@ const versionLog = {
               <li>For invoice payment button show in client module</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.9 -",
-            releaseDate: "RELEASED 21-08-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.9 -",
+      releaseDate: "RELEASED 21-08-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -358,12 +376,12 @@ const versionLog = {
               <li>Assign user to template task from project. Assigned 1st user</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.8 -",
-            releaseDate: "RELEASED 17-08-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.8 -",
+      releaseDate: "RELEASED 17-08-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -371,24 +389,24 @@ const versionLog = {
               <li>Change project description</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.7 -",
-            releaseDate: "RELEASED 10-08-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.7 -",
+      releaseDate: "RELEASED 10-08-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
               <li>Remove start, end date & project name from task edit section</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.6 -",
-            releaseDate: "RELEASED 08-08-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.6 -",
+      releaseDate: "RELEASED 08-08-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -398,12 +416,12 @@ const versionLog = {
               <li>Hide defects, incident from Project, dashboard, dashboard widget</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.5 -",
-            releaseDate: "RELEASED 13-07-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.5 -",
+      releaseDate: "RELEASED 13-07-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -412,24 +430,24 @@ const versionLog = {
               <li>Reduce invoice logo size</li>
             </ul>
           `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.4 -",
-            releaseDate: "RELEASED 10-07-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.4 -",
+      releaseDate: "RELEASED 10-07-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br> 
             <b>Feature</b>:
             <ul>
               <li>Task section order chang and remove hour.</li>
             </ul>
         `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.3 -",
-            releaseDate: "RELEASED 11-06-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.3 -",
+      releaseDate: "RELEASED 11-06-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br> 
             <b>Feature</b>:
             <ul>
@@ -438,12 +456,12 @@ const versionLog = {
               <li>Making Task & Project Details => ID, Task & Project Clickable.</li>
             </ul>
       `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.2 -",
-            releaseDate: "RELEASED 28-05-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.2 -",
+      releaseDate: "RELEASED 28-05-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br> 
             <b>Feature</b>:
             <ul>
@@ -451,12 +469,12 @@ const versionLog = {
               <li>Change 'task status' position in task -> list view </li>
              </ul>
     `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.1 -",
-            releaseDate: "RELEASED 17-05-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.1 -",
+      releaseDate: "RELEASED 17-05-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
@@ -465,20 +483,20 @@ const versionLog = {
               <li>Change background color</li>
             </ul>
   `,
-        },
-        {
-            released: true,
-            version: "VERSION 1.0.0 -",
-            releaseDate: "RELEASED 14-05-2023",
-            description: `
+    },
+    {
+      released: true,
+      version: "VERSION 1.0.0 -",
+      releaseDate: "RELEASED 14-05-2023",
+      description: `
             <b>Status</b>: <span class="badge badge-success">Released</span><br>
             <b>Feature</b>: 
             <ul>
               <li>First Release</li>
             </ul>
         `,
-        },
-    ],
+    },
+  ],
 };
 
 export default versionLog;

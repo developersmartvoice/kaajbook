@@ -46,7 +46,7 @@ export class InvoiceEditComponent implements OnInit {
 		sub_total: 0,
 		total_taxes: 0,
 		discount: 0.00,
-		adjustment: 0.00,
+		adjustment: 0,
 		total: 0
 	}
 	datepickerConfig = datepickerConfig;
@@ -156,8 +156,8 @@ export class InvoiceEditComponent implements OnInit {
 			data => {
 				this.taxes = data;
 
-				for(let iRow in this.taxes) {
-					if(this.taxesNameValues[this.taxes[iRow].id] == undefined) {
+				for (let iRow in this.taxes) {
+					if (this.taxesNameValues[this.taxes[iRow].id] == undefined) {
 						this.taxesNameValues[this.taxes[iRow].id] = [];
 					}
 
@@ -180,9 +180,9 @@ export class InvoiceEditComponent implements OnInit {
 	}
 
 	setSelectedItems(items) {
-		for(let iRow in items) {
+		for (let iRow in items) {
 			let taxes = [];
-			for(let jRow in items[iRow].taxes) {
+			for (let jRow in items[iRow].taxes) {
 				taxes.push(items[iRow].taxes[jRow].id)
 			}
 
@@ -191,14 +191,19 @@ export class InvoiceEditComponent implements OnInit {
 		}
 
 		this.invoices.discount = this.invoice.discount;
-		this.invoices.adjustment = this.invoice.adjustment;
-
+		if (this.invoices.adjustment == 0.00) {
+			this.invoices.adjustment = 0;
+		}
+		else {
+			this.invoices.adjustment = this.invoice.adjustment;
+		}
+		// console.log('ad0', this.invoices.adjustment);
 		this.getItemTaxes();
 	}
 
 	changeItem(event) {
 		let taxes = [];
-		for(let iRow in event.taxes) {
+		for (let iRow in event.taxes) {
 			taxes.push(event.taxes[iRow].id)
 		}
 
@@ -211,7 +216,7 @@ export class InvoiceEditComponent implements OnInit {
 	}
 
 	resetChildForm() {
-		this.itemControl.patchValue({ item_name: null});
+		this.itemControl.patchValue({ item_name: null });
 		this.itemControl.patchValue({ item_description: null });
 		this.itemControl.patchValue({ quantity: null });
 		this.itemControl.patchValue({ unit_price: null });
@@ -220,29 +225,30 @@ export class InvoiceEditComponent implements OnInit {
 	}
 
 	changeDiscountType(event) {
-		if(event.id == 'not_discount') {
+		if (event.id == 'not_discount') {
 			this.invoices.discount = 0;
 		}
-		
+
 		this.getItemTaxes();
 	}
 
 	changeDiscountAdjustment(event, type) {
-		if(type == 'discount') {
-			if(this.editInvoiceForm.value.discount_type == "not_discount") {
+		if (type == 'discount') {
+			if (this.editInvoiceForm.value.discount_type == "not_discount") {
 				this.toastr.error(this.translate.instant('invoices.create.error_messages.message7'), this.translate.instant('invoices.title'));
 				return;
 			}
 			this.invoices.discount = parseFloat(event.target.value);
 		} else {
 			this.invoices.adjustment = parseFloat(event.target.value);
+			// console.log('ad1', this.invoices.adjustment);
 		}
 
-		if(isNaN(this.invoices.discount)) {
+		if (isNaN(this.invoices.discount)) {
 			this.invoices.discount = 0;
 		}
 
-		if(isNaN(this.invoices.adjustment)) {
+		if (isNaN(this.invoices.adjustment)) {
 			this.invoices.adjustment = 0;
 		}
 
@@ -253,7 +259,7 @@ export class InvoiceEditComponent implements OnInit {
 		event.preventDefault();
 		let item = this.editInvoiceForm.value.item;
 
-		if(item.item_name == null || item.quantity == null || item.unit_price == null) {
+		if (item.item_name == null || item.quantity == null || item.unit_price == null) {
 			this.toastr.error(this.translate.instant('invoices.create.error_messages.message6'), this.translate.instant('invoices.title'));
 			return false;
 		}
@@ -262,6 +268,7 @@ export class InvoiceEditComponent implements OnInit {
 		this.resetChildForm();
 		this.invoices.discount = this.editInvoiceForm.value.discount;
 		this.invoices.adjustment = this.editInvoiceForm.value.adjustment;
+		// console.log('Ad2', this.invoices.adjustment);
 		this.getItemTaxes();
 	}
 
@@ -271,7 +278,7 @@ export class InvoiceEditComponent implements OnInit {
 	}
 
 	deleteItem(index) {
-		this.itemsArray.splice(index,1);
+		this.itemsArray.splice(index, 1);
 		this.getItemTaxes();
 	}
 
@@ -285,18 +292,18 @@ export class InvoiceEditComponent implements OnInit {
 
 		// --
 		// Count item taxes
-		for(let iRow in this.itemsArray) {
+		for (let iRow in this.itemsArray) {
 			totalItemAmount = this.itemsArray[iRow].quantity * this.itemsArray[iRow].unit_price;
 
-			for(let jRow in this.itemsArray[iRow].taxes) {
+			for (let jRow in this.itemsArray[iRow].taxes) {
 				let totalTaxes = 0;
-				if(this.itemTaxes[this.itemsArray[iRow].taxes[jRow]] == undefined) {
+				if (this.itemTaxes[this.itemsArray[iRow].taxes[jRow]] == undefined) {
 					this.itemTaxes[this.itemsArray[iRow].taxes[jRow]] = 0;
 				}
 
 				totalTaxes = (totalItemAmount * this.taxesNameValues[this.itemsArray[iRow].taxes[jRow]].tax_rate) / 100;
 				this.invoices.total_taxes += totalTaxes;
-				
+
 				this.itemTaxes[this.itemsArray[iRow].taxes[jRow]] = this.itemTaxes[this.itemsArray[iRow].taxes[jRow]] + totalTaxes;
 
 			}
@@ -305,16 +312,30 @@ export class InvoiceEditComponent implements OnInit {
 			// Count sub total
 			this.invoices.sub_total += totalItemAmount;
 		}
-		
+
+		// Log Subtotal and Taxes
+		// console.log('Sub Total:', this.invoices.sub_total);
+		// console.log('Total Taxes:', this.invoices.total_taxes);
+
 		// --
 		// Count total
-		if(this.editInvoiceForm.value.discount_type == "percent") {
-			this.total_discount = ((this.invoices.sub_total + this.invoices.total_taxes) * this.invoices.discount ) / 100;
+		if (this.editInvoiceForm.value.discount_type == "percent") {
+			this.total_discount = ((this.invoices.sub_total + this.invoices.total_taxes) * this.invoices.discount) / 100;
 		} else {
 			this.total_discount = this.invoices.discount;
 		}
 
+		// Log Discount Type and Value
+		// console.log('Discount Type:', this.editInvoiceForm.value.discount_type);
+		// console.log('Discount Value:', this.invoices.discount);
+		// console.log('Total Discount:', this.total_discount);
+		// console.log('Adjustment:', this.invoices.adjustment);
+
 		this.invoices.total = (this.invoices.sub_total + this.invoices.total_taxes - this.total_discount) + this.invoices.adjustment;
+
+		// Log Adjustment and Final Total
+		// console.log('Adjustment:', this.invoices.adjustment);
+		// console.log('Final Total:', this.invoices.total, this.invoices.sub_total, this.invoices.total_taxes, this.total_discount, this.invoices.adjustment);
 	}
 
 	changeRecurrence($event = []) {
@@ -341,7 +362,7 @@ export class InvoiceEditComponent implements OnInit {
 			return;
 		}
 
-		if(this.itemsArray.length == 0) {
+		if (this.itemsArray.length == 0) {
 			this.toastr.error(this.translate.instant('invoices.create.error_messages.message5'), this.translate.instant('invoices.title'));
 			return;
 		}
@@ -354,7 +375,7 @@ export class InvoiceEditComponent implements OnInit {
 			"due_date": this.editInvoiceForm.value.due_date,
 			"status": this.editInvoiceForm.value.status,
 			"reference": this.editInvoiceForm.value.reference,
-			"invoice_header_information_text": this.editInvoiceForm.value.invoice_header_information_text, 
+			"invoice_header_information_text": this.editInvoiceForm.value.invoice_header_information_text,
 			"adjustment": this.invoices.adjustment,
 			"discount_type": this.editInvoiceForm.value.discount_type,
 			"discount": this.invoices.discount,

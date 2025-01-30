@@ -10,10 +10,10 @@ export class CustomTemplateService {
 
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { } 
+  constructor(private http: HttpClient) { }
 
-   // Fetch all project templates
-   getAllTemplates(): Observable<any> {
+  // Fetch all project templates
+  getAllTemplates(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/project-templates`);
   }
 
@@ -34,7 +34,7 @@ export class CustomTemplateService {
 
   // Delete a project template by ID
   deleteTemplate(templateId: number): Observable<any> {
-    console.log(templateId);
+    // console.log(templateId);
     return this.http.delete<any>(`${this.apiUrl}/api/project-templates/${templateId}`);
   }
 }

@@ -26,9 +26,9 @@ import 'datatables.net-bs4';
 	styleUrls: ['./project-reports.component.scss']
 })
 
-export class ProjectReportsComponent implements OnInit,AfterViewInit  {
+export class ProjectReportsComponent implements OnInit, AfterViewInit {
 	private apiUrl = environment.apiUrl;
-	@ViewChild(DataTableDirective, {static: true})
+	@ViewChild(DataTableDirective, { static: true })
 	dtElement: DataTableDirective;
 	dtTrigger: Subject<any> = new Subject();
 	isPageLoaded = false;
@@ -83,7 +83,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 			columns: [
 				{
 					'sortable': true,
-					'target': [0]				
+					'target': [0]
 				},
 				{
 					'sortable': true,
@@ -97,18 +97,18 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 					'sortable': true,
 					'target': [3]
 				},
-				{
-					'sortable': true,
-					'target': [4]
-				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [4]
+				// },
 				{
 					'sortable': true,
 					'target': [5]
 				},
-				{
-					'sortable': true,
-					'target': [6]
-				},
+				// {
+				// 	'sortable': true,
+				// 	'target': [6]
+				// },
 				{
 					'sortable': true,
 					'target': [7]
@@ -116,6 +116,10 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 				{
 					'sortable': true,
 					'target': [8]
+				},
+				{
+					'sortable': true,
+					'target': [9]
 				},
 				{
 					'sortable': true,
@@ -160,35 +164,36 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 				}
 			],
 			language: {
-				"sEmptyTable":  this.translate.instant('common.datatable.sEmptyTable'),
-				"sInfo":           this.translate.instant('common.datatable.sInfo'),
-				"sInfoEmpty":      this.translate.instant('common.datatable.sInfoEmpty'),
+				"sEmptyTable": this.translate.instant('common.datatable.sEmptyTable'),
+				"sInfo": this.translate.instant('common.datatable.sInfo'),
+				"sInfoEmpty": this.translate.instant('common.datatable.sInfoEmpty'),
 				"sSearch": "",
-				"sInfoPostFix":    this.translate.instant('common.datatable.sInfoPostFix'),
-				"sInfoThousands":  this.translate.instant('common.datatable.sInfoThousands'),
-				"sLengthMenu":     this.translate.instant('common.datatable.sLengthMenu'),
+				"sInfoPostFix": this.translate.instant('common.datatable.sInfoPostFix'),
+				"sInfoThousands": this.translate.instant('common.datatable.sInfoThousands'),
+				"sLengthMenu": this.translate.instant('common.datatable.sLengthMenu'),
 				"sLoadingRecords": this.translate.instant('common.datatable.sLoadingRecords'),
-				"sProcessing":     this.translate.instant('common.datatable.sProcessing'),
-				"sZeroRecords":    this.translate.instant('common.datatable.sZeroRecords'),
+				"sProcessing": this.translate.instant('common.datatable.sProcessing'),
+				"sZeroRecords": this.translate.instant('common.datatable.sZeroRecords'),
 				"sSearchPlaceholder": this.translate.instant('common.datatable.sSearchPlaceholder'),
 				"oPaginate": {
-					"sFirst":    this.translate.instant('common.datatable.oPaginate.sFirst'),
-					"sLast":     this.translate.instant('common.datatable.oPaginate.sLast'),
-					"sNext":     this.translate.instant('common.datatable.oPaginate.sNext'),
+					"sFirst": this.translate.instant('common.datatable.oPaginate.sFirst'),
+					"sLast": this.translate.instant('common.datatable.oPaginate.sLast'),
+					"sNext": this.translate.instant('common.datatable.oPaginate.sNext'),
 					"sPrevious": this.translate.instant('common.datatable.oPaginate.sPrevious')
 				},
 				"oAria": {
-					"sSortAscending":  this.translate.instant('common.datatable.oAria.sSortAscending'),
+					"sSortAscending": this.translate.instant('common.datatable.oAria.sSortAscending'),
 					"sSortDescending": this.translate.instant('common.datatable.oAria.sSortDescending')
 				}
 			},
 			ajax: (dataTablesParameters: any, callback) => {
 				this.http
-				.post<DatatablesResponse>(this.apiUrl + '/api/projects/project-report', dataTablesParameters , {})
-				.subscribe(resp => {
+					.post<DatatablesResponse>(this.apiUrl + '/api/projects/project-report', dataTablesParameters, {})
+					.subscribe(resp => {
+						// console.log("The projects whole response:  ", resp);
 						this.projects = resp.data;
 						this.isPageLoaded = true
-						console.log(this.projects);
+						// console.log("The projects:  ", this.projects);
 
 						callback({
 							recordsTotal: resp.recordsTotal,
@@ -203,7 +208,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 
 	exportFiles(type) {
 		this.exportAsConfig.type = type;
-		this.exportAsService.save(this.exportAsConfig, this.translate.instant('reports.headings.project_report')).subscribe(() => {});
+		this.exportAsService.save(this.exportAsConfig, this.translate.instant('reports.headings.project_report')).subscribe(() => { });
 	}
 
 	ngOnDestroy(): void {
@@ -216,7 +221,7 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 			setTimeout(() => {
 				this.dtTrigger.next();
 
-				if(this.projects.length > 0) {
+				if (this.projects.length > 0) {
 					$('.tfoot_dt').addClass('d-none');
 				} else {
 					$('.tfoot_dt').removeClass('d-none');
@@ -231,6 +236,8 @@ export class ProjectReportsComponent implements OnInit,AfterViewInit  {
 			dtInstance.columns().every(function () {
 				const that = this;
 				$('input', this.footer()).on('keyup change', function () {
+					// console.log("The typed:  " + this['value']);
+					// console.log("The search:  " + that.search());
 					if (that.search() !== this['value']) {
 						that.search(this['value']).draw();
 					}

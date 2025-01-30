@@ -33,12 +33,12 @@ export class ProjectDetailComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 	getCheckPermission(params) {
 		this.projectService.getProjectPermission(params.get('id')).subscribe(res => {
 			this.permissions['edit_delete_permission'] = res;
-			if(this.permissions.edit_delete_permission.view) {
+			if (this.permissions.edit_delete_permission.view) {
 				this.getById(params.get('id'));
 			} else {
 				this.router.navigate(['projects']);
@@ -64,6 +64,7 @@ export class ProjectDetailComponent implements OnInit {
 		this.projectService.getById(projectId)
 			.subscribe(
 				data => {
+					// console.log("This is to see the data from project details: ", data);
 					this.project = data;
 					this.isPageLoaded = true;
 				}
